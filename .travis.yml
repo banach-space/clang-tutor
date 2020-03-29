@@ -1,0 +1,37 @@
+language: cpp
+dist: bionic
+
+# Install LLVM
+addons:
+  apt:
+    update: true
+    sources:
+      - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+        key_url: 'http://apt.llvm.org/llvm-snapshot.gpg.key'
+    packages:
+      - llvm-10
+      - llvm-10-dev
+      - llvm-10-tools
+      - clang-10
+
+env:
+  - CONFIGURATION=Debug
+  - CONFIGURATION=Release
+
+compiler:
+  - clang
+  - gcc
+
+# AFAIK, there's no other way of obtaining LLVM's lit other than via `pip
+# install`
+install:
+  - pip install --user lit
+
+script:
+  # Build the top project and run tests
+  - cd ../../
+  - mkdir build
+  - cd build
+  - cmake -DCT_LLVM_INSTALL_DIR=/usr/lib/llvm-10/ -DCMAKE_BUILD_TYPE=$CONFIGURATION ../
+  - make -j4
+  - lit test/
