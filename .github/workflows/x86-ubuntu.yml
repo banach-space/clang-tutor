@@ -1,0 +1,23 @@
+name: x86-Ubuntu
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Dependencies
+        run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main"
+          sudo apt-get update
+          sudo apt-get install -y llvm-10 llvm-10-dev clang-10 libclang-common-10-dev libclang-10-dev llvm-10-tools
+          sudo pip install lit
+      - name: Build clang-tutor + run tests
+        run: |
+          cd $GITHUB_WORKSPACE
+          mkdir build && cd build
+          cmake -DCT_LLVM_INSTALL_DIR="/usr/lib/llvm-10/" ../
+          make -j2
+          lit test/

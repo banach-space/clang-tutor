@@ -1,0 +1,22 @@
+name: x86-Darwin
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install Dependencies
+        run: |
+          brew update
+          brew install llvm
+          brew upgrade llvm
+          pip install lit
+      - name: Build clang-tutor + run tests
+        run: |
+          cd $GITHUB_WORKSPACE
+          mkdir build && cd build
+          cmake -DCT_LLVM_INSTALL_DIR="/usr/local/opt/llvm/"  ../
+          make -j2
+          lit test/
