@@ -47,6 +47,18 @@ $ lit <build_dir>/test
 ```
 Voilà! You should see all tests passing.
 
+## References
+Below is a list of clang resources available outside the official online
+documentation that I have found very helpful. Where possible, the items are
+sorted by date.
+
+* **Examples in Clang**
+  * Refactoring tool template:
+    [clang-tools-extra/tool-template](https://github.com/llvm/llvm-project/tree/release/10.x/clang-tools-extra/tool-template)
+* **Clang Tool Development**
+  * _"How to build a C++ processing tool using the Clang libraries"_, Peter Smith, Linaro Connect 2018,
+  [video](https://www.youtube.com/watch?reload=9&v=8QvLVEaxzC8), [slides](https://s3.amazonaws.com/connect.linaro.org/yvr18/presentations/yvr18-223.pdf)
+
 License
 ========
 This is free and unencumbered software released into the public domain.
