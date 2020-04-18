@@ -74,4 +74,4 @@ public:
 // Registration
 //-----------------------------------------------------------------------------
 static FrontendPluginRegistry::Add<FindNamedClassAction>
-    X(/*Name=*/"hello-world", /*Description:=*/"The HelloWorld plugin");
+    X(/*Name=*/"hello-world", /*Description=*/"The HelloWorld plugin");

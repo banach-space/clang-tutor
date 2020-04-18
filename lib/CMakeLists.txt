@@ -2,10 +2,14 @@
 # ======================================================
 set(CLANG_TUTOR_PLUGINS
     LACommenter
+    CodeStyleChecker
     )
 
 set(LACommenter_SOURCES
   LACommenter.cpp)
+
+set(CodeStyleChecker_SOURCES
+  CodeStyleChecker.cpp)
 
 # CONFIGURE THE PLUGIN LIBRARIES
 # ==============================

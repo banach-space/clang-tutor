@@ -103,6 +103,9 @@ Overview of The Plugins
      of base classes for each class declared the input module
    * [**LACommenter**](#lacommenter) - add comments for literal arguments in
      functions calls
+   * [**CodeStyleChecker**](#codestylechecker) - checks whether function,
+     variable and class names adhere to LLVM's coding style guide (issues a
+     warning otherwise)
 
 Once you've [built](#build-instructions) this project, you can experiment with
 every plugin separately. All plugins take C and C++ files as input.  All
@@ -150,6 +153,12 @@ $LLVM_DIR/bin/clang -cc1 -load lib/libLACommenter.dylib -plugin LAC test/LACLong
 ```bash
 bin/lacommenter test/LACLong.cpp
 ```
+
+## CodeStyleChecker
+This plugin checks whether class, function and variable names adhere to LLVM's
+[style
+guide](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly).
+If not, a warning is generated.
 
 References
 ==========
