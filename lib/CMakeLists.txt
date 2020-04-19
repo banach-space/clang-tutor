@@ -1,14 +1,11 @@
 # THE LIST OF PLUGINS AND THE CORRESPONDING SOURCE FILES
 # ======================================================
 set(CLANG_TUTOR_PLUGINS
-    HelloWorld
     LACommenter
     )
 
 set(LACommenter_SOURCES
   LACommenter.cpp)
-set(HelloWorld_SOURCES
-  HelloWorld.cpp)
 
 # CONFIGURE THE PLUGIN LIBRARIES
 # ==============================
@@ -28,16 +25,13 @@ foreach( plugin ${CLANG_TUTOR_PLUGINS} )
     )
 
     target_link_libraries(${plugin} ${YOUR_CMAKE_VARIABLE})
-    message("${YOUR_CMAKE_VARIABLE}")
     # target_link_libraries(
     #   ${plugin}
     #   clangASTMatchers
     #   )
     get_target_property(OUT clangASTMatchers INTERFACE_LINK_LIBRARIES)
-    message("Here: ${OUT}")
 
     get_target_property(OUT clangASTMatchers INTERFACE_LINK_LIBRARIES)
-    message("Here: ${OUT}")
 
     # On Darwin (unlike on Linux), undefined symbols in shared objects are not
     # allowed at the end of the link-edit. The plugins defined here:
@@ -56,5 +50,4 @@ foreach( plugin ${CLANG_TUTOR_PLUGINS} )
       "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>"
       )
     get_target_property(OUT ${plugin} LINK_INTERFACE_LIBRARIES)
-    message("${OUT}")
 endforeach()

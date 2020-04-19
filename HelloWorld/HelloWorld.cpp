@@ -36,7 +36,7 @@ bool HelloWorld::VisitCXXRecordDecl(CXXRecordDecl *Declaration) {
                  << "(clang-tutor)  location: "
                  << FullLocation.getSpellingLineNumber() << ":"
                  << "  " << FullLocation.getSpellingColumnNumber() << "\n"
-                 << "(clang-tutor)  number of virtual bases classes "
+                 << "(clang-tutor)  number of bases classes "
                  << Declaration->getNumBases() << "\n";
   return true;
 }

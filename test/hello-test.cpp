@@ -14,13 +14,13 @@ class Derived2 : public Base1, public Base2 {
 
 // CHECK: (clang-tutor) Hello from: Base1
 // CHECK: (clang-tutor)  location: 3:  1
-// CHECK: (clang-tutor)  number of virtual bases classes 0
+// CHECK: (clang-tutor)  number of bases classes 0
 // CHECK: (clang-tutor) Hello from: Base2
 // CHECK: (clang-tutor)  location: 6:  1
-// CHECK: (clang-tutor)  number of virtual bases classes 0
+// CHECK: (clang-tutor)  number of bases classes 0
 // CHECK: (clang-tutor) Hello from: Derived1
 // CHECK: (clang-tutor)  location: 9:  1
-// CHECK: (clang-tutor)  number of virtual bases classes 1
+// CHECK: (clang-tutor)  number of bases classes 1
 // CHECK: (clang-tutor) Hello from: Derived2
 // CHECK: (clang-tutor)  location: 12:  1
-// CHECK: (clang-tutor)  number of virtual bases classes 2
+// CHECK: (clang-tutor)  number of bases classes 2

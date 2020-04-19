@@ -4,7 +4,7 @@ project(clang-tutor)
 #===============================================================================
 # 1. VERIFY CLANG INSTALLATION DIR
 #===============================================================================
-# Set this to a valid LLVM installation dir
+# Set this to a valid Clang installation dir
 set(CT_LLVM_INSTALL_DIR "" CACHE PATH "LLVM installation directory")
 
 # A bit of a sanity checking
@@ -84,3 +84,4 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 add_subdirectory(test)
 add_subdirectory(lib)
 add_subdirectory(tools)
+add_subdirectory(HelloWorld)
