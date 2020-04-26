@@ -35,7 +35,7 @@ config.excludes = ['Inputs']
 
 # The list of tools required for testing - prepend them with the path specified
 # during configuration (i.e. LT_LLVM_TOOLS_DIR/bin)
-tools = ["FileCheck", "clang"]
+tools = ["FileCheck", "clang", "clang++"]
 llvm_config.add_tool_substitutions(tools, config.llvm_tools_dir)
 
 # The LIT variable to hold the file extension for shared libraries (this is
