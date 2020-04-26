@@ -66,15 +66,15 @@ a C++ header file. For example, you can use the following C++ file that simply
 includes one header file:
 
 ```cpp
+// file.cpp
 #include <vector>
 ```
 
-When running Clang plugins on C++ files that include headers from the
-standard library, it is easier to run them with `clang` rather than `clang
--cc1`:
+When running Clang plugins on C++ files that include headers from the standard
+library, it is easier to run them with `clang++` rather than `clang -cc1`:
 
 ```bash
-$LLVM_DIR/bin/clang++ -c -Xclang -load -Xclang libHelloWorld.dylib -Xclang -plugin -Xclang hello-world <input_file>
+$LLVM_DIR/bin/clang++ -c -Xclang -load -Xclang libHelloWorld.dylib -Xclang -plugin -Xclang hello-world file.cpp
 ```
 
 This way you can be confident that all the necessary include paths are
