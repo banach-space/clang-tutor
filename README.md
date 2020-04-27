@@ -39,12 +39,14 @@ is a self-contained *reference example*. The corresponding
 [CMakeLists.txt](https://github.com/banach-space/clang-tutor/blob/master/HelloWorld/CMakeLists.txt)
 implements the minimum set-up for an out-of-tree plugin.
 
-**HelloWorld** counts the number of class, struct and union (more
-specifically, [C++
-records](https://github.com/llvm/llvm-project/blob/release/10.x/clang/include/clang/AST/DeclCXX.h#L253))
-declarations in the input _translation unit_. In our case a translation unit
-consists of the input source file and all the header files that it includes
-directly or indirectly. **HelloWorld** prints the results on a file by file
+**HelloWorld** extracts some interesting information from the input
+_translation unit_. It visits all [C++ record
+declarations](https://github.com/llvm/llvm-project/blob/release/10.x/clang/include/clang/AST/DeclCXX.h#L253)
+(more specifically class, struct and union declarations) and counts them.
+Recall that translation unit consists of the input source file and all the
+header files that it includes (directly or indirectly).
+
+**HelloWorld** prints the results on a file by file
 basis, i.e. separately for every header file that has been included. It visits
 _all_ declarations - including the ones in header files included by other
 header files. This may lead to some surprising results!
@@ -60,13 +62,18 @@ cmake -DCT_LLVM_INSTALL_DIR=$LLVM_DIR <source/dir/clang/tutor>/HelloWorld/
 make
 # Run the plugin
 $LLVM_DIR/bin/clang -cc1 -load libHelloWorld.dylib -plugin hello-world test/HelloWorld-basic.cpp
+```
+
+You should see the following output:
+
+```
 # Expected output
 (clang-tutor) file: <source/dir/clang/tutor>/test/HelloWorld-basic.cpp
 (clang-tutor)  count: 3
 ```
 
 ### How To Analyze STL Headers
-In order to see what happens with multiple indirectly included header files,
+In order to see what happens with multiple _indirectly_ included header files,
 you can run **HelloWorld** on one of the header files from the [Standard
 Template Library](https://en.wikipedia.org/wiki/Standard_Template_Library). For
 example, you can use the following C++ file that simply includes `vector.h`:
@@ -91,10 +98,12 @@ locate STL headers) are automatically added. For the above input file,
   and
 * the number of C++ records declared in each.
 
-On my system the output consists of 37 header files (one of which contains 371
-declarations). Note that the actual output depends on your host OS, the C++
-standard library implementation and its version. Your results are likely to be
-different.
+
+Note that there are no explicit declarations in `file.cpp` and only one header
+file is included. However, the output on my system consists of 37 header files
+(one of which contains 371 declarations). Note that the actual output depends
+on your host OS, the C++ standard library implementation and its version. Your
+results are likely to be different.
 
 Building & Testing
 ===================
