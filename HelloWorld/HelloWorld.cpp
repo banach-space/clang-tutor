@@ -3,8 +3,16 @@
 //    HelloWorld.cpp
 //
 // DESCRIPTION:
+//    Counts the number of C++ record declarations in the input translation
+//    unit. The results are printed on a file-by-file basis (i.e. for each
+//    included header file separately).
+//
+//    Internally, this implementation leverages llvm::StringMap to map file
+//    names to the corresponding #count of declarations.
 //
 // USAGE:
+//   clang -cc1 -load libHelloWorld.dylib -plugin hello-world\
+//    test/HelloWorld-basic.cpp
 //
 // License: The Unlicense
 //==============================================================================

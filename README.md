@@ -65,6 +65,7 @@ $LLVM_DIR/bin/clang -cc1 -load libHelloWorld.dylib -plugin hello-world test/Hell
 (clang-tutor)  count: 3
 ```
 
+### How To Analyze STL Headers
 In order to see what happens with multiple indirectly included header files,
 you can run **HelloWorld** on one of the header files from the [Standard
 Template Library](https://en.wikipedia.org/wiki/Standard_Template_Library). For
@@ -90,8 +91,8 @@ locate STL headers) are automatically added. For the above input file,
   and
 * the number of C++ records declared in each.
 
-On my system the output lists 37 header files, one of which contains 371
-declarations. Note that the actual output depends on your host OS, the C++
+On my system the output consists of 37 header files (one of which contains 371
+declarations). Note that the actual output depends on your host OS, the C++
 standard library implementation and its version. Your results are likely to be
 different.
 
