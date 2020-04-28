@@ -8,11 +8,12 @@ Example Clang plugins - based on **Clang 10**
 
 **clang-tutor** is a collection of self-contained reference Clang plugins. It's a
 tutorial that targets novice and aspiring Clang developers. Key features:
-  * **Complete** - includes `CMake` build scripts, LIT tests and CI set-up
-  * **Out of source** - builds against a binary Clang/LLVM installation (no
-    need to build Clang from sources)
+
   * **Modern** - based on the latest version of Clang/LLVM (and updated with
     every release)
+  * **Complete** - includes build scripts, LIT tests and CI set-up
+  * **Out of tree** - builds against a binary Clang/LLVM installation (no
+    need to build Clang/LLVM from sources)
 
 ### Overview
 TODO
@@ -133,13 +134,13 @@ Voilà! You should see all tests passing.
 
 Overview of The Plugins
 =======================
-   * [**HelloWorld**](#helloworld) - prints the name, the location and number
-     of base classes for each class declared the input module
-   * [**LACommenter**](#lacommenter) - add comments for literal arguments in
-     functions calls
-   * [**CodeStyleChecker**](#codestylechecker) - checks whether function,
-     variable and class names adhere to LLVM's coding style guide (issues a
-     warning otherwise)
+   * [**HelloWorld**](#helloworld) - counts the number of class, struct and
+     union declarations in the input translation unit
+   * [**LACommenter**](#lacommenter) - adds comments to literal arguments
+     in functions calls
+   * [**CodeStyleChecker**](#codestylechecker) - checks whether names in the
+     source file adhere to LLVM's coding style guide (issues a warning
+     otherwise)
 
 Once you've [built](#build-instructions) this project, you can experiment with
 every plugin separately. All plugins take C and C++ files as input.  All
@@ -157,7 +158,7 @@ void bar() {
 }
 ```
 
-the invocation of `foo` is commented as follows:
+**LACommenter** will decorate the invocation of `foo`  as follows:
 
 ```c
 extern void foo(int some_arg);
