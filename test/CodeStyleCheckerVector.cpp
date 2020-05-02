@@ -1,4 +1,4 @@
-// RUN: clang++ -Xclang -load -Xclang %shlibdir/libHelloWorld%shlibext -Xclang -plugin -Xclang hello-world -c %s 2>&1 | FileCheck %s
+// RUN: clang++ -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -plugin -Xclang code-style-checker -c %s
 
 #include <vector>
 
@@ -8,6 +8,3 @@
 // There's no straightforward way to write a test for an STL header. Indeed,
 // the expected output depends on the actual implementation of the header file.
 // However, STL header files are great inputs for stress tests.
-
-// CHECK-NOT: (clang-tutor)  no declarations found
-// CHECK: (clang-tutor)

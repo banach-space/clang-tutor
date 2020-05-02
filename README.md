@@ -138,9 +138,9 @@ Overview of The Plugins
      union declarations in the input translation unit
    * [**LACommenter**](#lacommenter) - adds comments to literal arguments
      in functions calls
-   * [**CodeStyleChecker**](#codestylechecker) - checks whether names in the
-     source file adhere to LLVM's coding style guide (issues a warning
-     otherwise)
+   * [**CodeStyleChecker**](#codestylechecker) - issue a warning if the input
+     file does not follow [LLVM's coding
+     style guidelines](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly)
 
 Once you've [built](#build-instructions) this project, you can experiment with
 every plugin separately. All plugins take C and C++ files as input.  All

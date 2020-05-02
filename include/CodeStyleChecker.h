@@ -3,6 +3,7 @@
 //    CodeStyleChecker.h
 //
 // DESCRIPTION:
+//    Declares the CodeStyleChecker visitor
 //
 // License: The Unlicense
 //==============================================================================
@@ -22,9 +23,16 @@ public:
 
 private:
   clang::ASTContext *Ctx;
-  void noUnderscoreInName(clang::NamedDecl *Decl);
-  void nameStartsWithLowercase(clang::NamedDecl *Decl);
-  void nameStartsWithUppercase(clang::NamedDecl *Decl);
+
+  // Checks whether the name in Decl contains any `_`. Issues a warnning if it
+  // does.
+  void checkNoUnderscoreInName(clang::NamedDecl *Decl);
+  // Checks whether the name in Decl starts with a lower case letter. Issues a
+  // warning if not.
+  void checkNameStartsWithLowerCase(clang::NamedDecl *Decl);
+  // Checks whether the name in Decl starts with an upper case letter. Issues a
+  // warning if not.
+  void checkNameStartsWithUpperCase(clang::NamedDecl *Decl);
 };
 
 #endif
