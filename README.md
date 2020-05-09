@@ -139,7 +139,7 @@ Overview of The Plugins
    * [**LACommenter**](#lacommenter) - adds comments to literal arguments
      in functions calls
    * [**CodeStyleChecker**](#codestylechecker) - issue a warning if the input
-     file does not follow [LLVM's coding
+     file does not follow one of [LLVM's coding
      style guidelines](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly)
 
 Once you've [built](#build-instructions) this project, you can experiment with
@@ -190,10 +190,57 @@ bin/lacommenter test/LACLong.cpp
 ```
 
 ## CodeStyleChecker
-This plugin checks whether class, function and variable names adhere to LLVM's
-[style
+This plugin demonstrates how to use Clang's
+[DiagnosticEngine](https://github.com/llvm/llvm-project/blob/release/10.x/clang/include/clang/Basic/Diagnostic.h#L149)
+to generate custom compiler warnings.  Essentially, **CodeStyleChecker** checks
+whether names of classes, functions and variables in the input translation unit
+adhere to LLVM's [style
 guide](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly).
-If not, a warning is generated.
+If not, a warning is printed. For every warning, **CodeStyleChecker** generates
+a suggestion that would fix the corresponding issue. This is done with the
+[FixItHint](https://github.com/llvm/llvm-project/blob/release/10.x/clang/include/clang/Basic/Diagnostic.h#L66)
+API.
+[SourceLocation](https://github.com/llvm/llvm-project/blob/release/10.x/clang/include/clang/Basic/SourceLocation.h#L86)
+API is used to generate valid source location.
+
+**CodeStyleChecker** is robust enough to cope with complex examples like
+`vector.h` from STL, yet the actual implementation is fairly compact. For
+example, it can correctly analyze names expanded from macros and knows that it
+should ignore [user-defined conversion
+operators](https://en.cppreference.com/w/cpp/language/cast_operator).
+
+
+### Run the plugin
+Let's test **CodeStyleCheker** on the following file:
+
+```cpp
+// file.cpp
+class clangTutor_BadName;
+```
+
+The name of the class doesn't follow LLVM's coding guide and
+**CodeStyleChecker** indeed captures that:
+
+```bash
+$LLVM_DIR/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin code-style-checker file.cpp
+file.cpp:2:7: warning: Type and variable names should start with upper-case letter
+class clangTutor_BadName;
+      ^~~~~~~~~~~~~~~~~~~
+      ClangTutor_BadName
+file.cpp:2:17: warning: `_` in names is not allowed
+class clangTutor_BadName;
+      ~~~~~~~~~~^~~~~~~~~
+      clangTutorBadName
+2 warnings generated.
+```
+
+There are two warnings generated as two rules have been violated. Every warning
+is accompanied with a suggestion (i.e. a `FixItHint`) that would make the
+corresponding warning go away. Note that **CodeStyleChecker** also supplements
+the warnings with correct source code information.
+
+`-fcolor-diagnostics` above instructs Clang to generate color output
+(unfortunately Markdown doesn't render the colors here).
 
 References
 ==========
@@ -207,6 +254,10 @@ sorted by date.
 * **Clang Tool Development**
   * _"How to build a C++ processing tool using the Clang libraries"_, Peter Smith, Linaro Connect 2018
   ([video](https://www.youtube.com/watch?reload=9&v=8QvLVEaxzC8), [slides](https://s3.amazonaws.com/connect.linaro.org/yvr18/presentations/yvr18-223.pdf))
+* **Diagnostics**
+  * _"Emitting Diagnostics in Clang"_, Peter Goldsborough ([blog
+  post](http://www.goldsborough.me/c++/clang/llvm/tools/2017/02/24/00-00-06-emitting_diagnostics_and_fixithints_in_clang_tools/))
+  
 
 License
 ========
