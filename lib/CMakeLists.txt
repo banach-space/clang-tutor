@@ -3,6 +3,7 @@
 set(CLANG_TUTOR_PLUGINS
     LACommenter
     CodeStyleChecker
+    Obfuscator
     )
 
 set(LACommenter_SOURCES
@@ -10,6 +11,9 @@ set(LACommenter_SOURCES
 
 set(CodeStyleChecker_SOURCES
   CodeStyleChecker.cpp)
+
+set(Obfuscator_SOURCES
+  Obfuscator.cpp)
 
 # CONFIGURE THE PLUGIN LIBRARIES
 # ==============================

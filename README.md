@@ -141,6 +141,8 @@ Overview of The Plugins
    * [**CodeStyleChecker**](#codestylechecker) - issue a warning if the input
      file does not follow one of [LLVM's coding
      style guidelines](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly)
+   * [**Obfuscator**](#obfuscator) - obfuscates integer addition and
+     subtraction
 
 Once you've [built](#build-instructions) this project, you can experiment with
 every plugin separately. All plugins take C and C++ files as input.  All
@@ -234,13 +236,60 @@ class clangTutor_BadName;
 2 warnings generated.
 ```
 
-There are two warnings generated as two rules have been violated. Every warning
-is accompanied with a suggestion (i.e. a `FixItHint`) that would make the
+There are two warnings generated as two rules have been violated. Alongside
+every warning, a suggestion (i.e. a `FixItHint`) that would make the
 corresponding warning go away. Note that **CodeStyleChecker** also supplements
 the warnings with correct source code information.
 
 `-fcolor-diagnostics` above instructs Clang to generate color output
 (unfortunately Markdown doesn't render the colors here).
+
+## Obfuscator
+The **Obfuscator** plugin will rewrite integer addition and subtraction
+according to the following formulae:
+
+```
+a + b == (a ^ b) + 2 * (a & b)
+a - b == (a + ~b) + 1
+```
+
+The above transformations are often used in code obfuscation. You may also know
+them from [Hacker's
+Delight](https://www.amazon.co.uk/Hackers-Delight-Henry-S-Warren/dp/0201914654).
+
+The plugin runs twice over the input file. First it scans for integer
+additions. If any are found, the input file is updated and printed to stdout.
+If there are no integer additions, there is no output. Similar logic is
+implemented for integer subtraction.
+
+Similar code transformations are possible at the [LLVM
+IR](https://llvm.org/docs/LangRef.html) level. In particular, see
+[MBAsub](https://github.com/banach-space/llvm-tutor#mbasub) and
+[MBAAdd](https://github.com/banach-space/llvm-tutor#mbaadd) in
+[**llvm-tutor**](https://github.com/banach-space/llvm-tutor).
+
+### Run the plugin
+Lets use the following file as our input:
+
+```c
+int foo(int a, int b) {
+  return a + b;
+}
+```
+
+You can run the plugin like this:
+
+```bash
+$LLVM_DIR/bin/clang -cc1 -load lib/libObfuscator.dylib -plugin Obfuscator input.cpp
+```
+
+You should see the following output on your screen.
+
+```c
+int foo(int a, int b) {
+  return (a ^ b) + 2 * (a & b);
+}
+```
 
 References
 ==========

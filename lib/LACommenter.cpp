@@ -150,12 +150,12 @@ public:
   // Returns our ASTConsumer per translation unit.
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
-    LACRewriter.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-    return std::make_unique<LACASTConsumer>(LACRewriter);
+    RewriterForLAC.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
+    return std::make_unique<LACASTConsumer>(RewriterForLAC);
   }
 
 private:
-  Rewriter LACRewriter;
+  Rewriter RewriterForLAC;
 };
 
 static FrontendPluginRegistry::Add<LACPluginAction>
