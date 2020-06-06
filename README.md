@@ -4,19 +4,37 @@ clang-tutor
 [![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Darwin/badge.svg?branch=master)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Darwin+branch%3Amaster)
 
 
-Example Clang plugins - based on **Clang 10**
+Example Clang plugins for C and C++ - based on **Clang 10**
 
 **clang-tutor** is a collection of self-contained reference Clang plugins. It's a
 tutorial that targets novice and aspiring Clang developers. Key features:
 
-  * **Modern** - based on the latest version of Clang/LLVM (and updated with
+  * **Modern** - based on the latest version of Clang (and updated with
     every release)
   * **Complete** - includes build scripts, LIT tests and CI set-up
-  * **Out of tree** - builds against a binary Clang/LLVM installation (no
-    need to build Clang/LLVM from sources)
+  * **Out of tree** - builds against a binary Clang installation (no
+    need to build Clang from sources)
 
 ### Overview
-TODO
+[Clang](https://clang.llvm.org/) (together with
+[LibTooling](https://clang.llvm.org/docs/LibTooling.html)) provides a very
+powerful API and infrastructure for analysing and modifying source files from
+the C language family. With Clang's plugin
+[framework](https://clang.llvm.org/docs/ClangPlugins.html) one can relatively
+easily create bespoke tools that aid development and improve productivity. The
+aim of **clang-tutor** is to showcase this framework through small,
+self-contained and testable examples, implemented using [idiomatic
+LLVM](https://llvm.org/docs/CodingStandards.html).
+
+This document explains how to set-up your environment, build and run the
+project, and go about debugging. The source files, apart from the code itself,
+contain comments that will guide you through the implementation. The
+[tests](https://github.com/banach-space/clang-tutor/test) highlight what edge
+cases are supported, so you may want to skim through them as well.
+
+If you are also interested in writing LLVM **pass plugins**, then visit
+[**llvm-tutor**](https://github.com/banach-space/llvm-tutor/) that fallows
+similar format.
 
 ### Table of Contents
 * [HelloWorld](#helloworld)
@@ -24,13 +42,6 @@ TODO
 * [Overview of the Plugins](#overview-of-the-plugins)
 * [References](#References)
 * [License](#license)
-
-Status
-======
-**Work in progress**
-
-Everything builds fine and all tests pass. This project is under active
-development. More content to be added soon.
 
 HelloWorld
 ==========
@@ -134,21 +145,25 @@ Voilà! You should see all tests passing.
 
 Overview of The Plugins
 =======================
-   * [**HelloWorld**](#helloworld) - counts the number of class, struct and
-     union declarations in the input translation unit
-   * [**LACommenter**](#lacommenter) - adds comments to literal arguments
-     in functions calls
-   * [**CodeStyleChecker**](#codestylechecker) - issue a warning if the input
-     file does not follow one of [LLVM's coding
-     style guidelines](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly)
-   * [**Obfuscator**](#obfuscator) - obfuscates integer addition and
-     subtraction
-   * [**UnusedForLoopVar**](#unusedforloopvar) - issue a warning if a
-     for-loop variable is not used
+This table contains a summary of the examples available in **clang-tutor**. The
+_Framework_ column refers to a plugin framework available in Clang that was
+used to implemented the corresponding example. This is either
+[RecursiveASTVisitor](https://clang.llvm.org/docs/RAVFrontendAction.html),
+[ASTMatcher](https://clang.llvm.org/docs/LibASTMatchersTutorial.html) or both. 
 
-Once you've [built](#build-instructions) this project, you can experiment with
-every plugin separately. All plugins take C and C++ files as input.  All
-plugins, except for [**HelloWorld**](#helloworld), are described below.
+| Name      | Description     | Framework |
+|-----------|-----------------|-----------|
+|[**HelloWorld**](#helloworld) | counts the number of class, struct and union declarations in the input translation unit | RecursiveASTVisitor |
+|[**LACommenter**](#lacommenter) | adds comments to literal arguments in functions calls | ASTMatcher |
+|[**CodeStyleChecker**](#codestylechecker) | issue a warning if the input file does not follow one of [LLVM's coding style guidelines](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly) | RecursiveASTVisitor |
+|[**Obfuscator**](#obfuscator) | obfuscates integer addition and subtraction | ASTMatcher |
+|[**UnusedForLoopVar**](#unusedforloopvar) | issue a warning if a for-loop variable is not used | RecursiveASTVisitor + ASTMatcher |
+|[**CodeRefactor**](#coderefactor) | rename class/struct method names | ASTMatcher |
+
+Once you've [built](#building--testing) this project, you can experiment with
+every plugin separately. All of them accept C and C++ files as input. Below you
+will find more detailed descriptions  (except for **HelloWorld**, which is
+documented [here](#helloworld)). 
 
 ## LACommenter
 The **LACommenter** (Literal Argument Commenter) plugin will comment literal
@@ -377,6 +392,82 @@ the issue.
 ```bash
 $LLVM_DIR/bin/clang -cc1 -load lib/libUnusedForLoopVar.dylib -plugin  unused-for-loop-variable input.cpp
 ```
+
+## CodeRefactor
+This plugin will rename a specified member method in a class (or a struct) and
+in all classes derived from it. It wall also update all call sites in which the
+method is used so that the code remains semantically correct.
+
+The following example contains all cases supported by **CodeFefactor**.
+
+```cpp
+struct Base {
+    virtual void foo() {};
+};
+
+struct Derived: public Base {
+    void foo() override {};
+};
+
+void StaticDispatch() {
+  Base B;
+  Derived D;
+
+  B.foo();
+  D.foo();
+}
+
+void DynamicDispatch() {
+  Base *B = new Base();
+  Derived *D = new Derived();
+
+  B->foo();
+  D->foo();
+}
+```
+
+We will use **CodeRefactor** to rename `Base::foo` as `Base::bar`. Note that
+this consists of two steps:
+
+* update the declaration and the definition of `foo` in the base class (i.e.
+  `Base`) as well as all in the derived classes (i.e. `Derived`)
+* update all call sites the use static dispatch (e.g. `B1.foo()`) and dynamic
+  dispatch (e.g. `B2->foo()`). 
+
+**CodeRefactor** will do all this refactoring for you! See
+[below](#run-the-plugin-4) how to run it.
+
+The implementation
+[implementation](https://github.com/banach-space/clang-tutor/blob/master/lib/CodeRefactor.cpp)
+of **CodeRefactor** is rather straightforward, but it can only operate on one
+file at a time.
+[**clang-rename**](https://clang.llvm.org/extra/clang-rename.html) is much more
+powerful in this respect.
+
+### Run the plugin
+**CodeRefactor** requires 3 command line arguments: `-class-name`, `-old-name`,
+`-new-name`. Hopefully these are self-explanatory. Passing the arguments to the
+plugin is  _a bit_ cumbersome and probably best demonstrated with an example:
+
+```bash
+$LLVM_DIR/clang -cc1 -load libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar %s 2>&1
+```
+
+It is much easier when you the plugin through a stand-alone tool like
+`ct-code-refactor`!
+
+### Run the plugin through `ct-code-refactor`
+`ct-code-refactor` is a standalone tool that is basically a wrapper for
+**CodeRefactor**. You can use it to refactor your input file as follows:
+
+```bash
+bin/ct-code-refactor --class-name=Base --new-name=bar --old-name=foo file.cpp
+```
+
+`ct-code-refactor` uses LLVM's [CommandLine
+2.0](https://llvm.org/docs/CommandLine.html) library for parsing command line
+arguments. It is very well documented, relatively easy to integrate and the end
+result is a very intuitive interface.
 
 References
 ==========
