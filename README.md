@@ -143,6 +143,8 @@ Overview of The Plugins
      style guidelines](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly)
    * [**Obfuscator**](#obfuscator) - obfuscates integer addition and
      subtraction
+   * [**UnusedForLoopVar**](#unusedforloopvar) - issue a warning if a
+     for-loop variable is not used
 
 Once you've [built](#build-instructions) this project, you can experiment with
 every plugin separately. All plugins take C and C++ files as input.  All
@@ -289,6 +291,91 @@ You should see the following output on your screen.
 int foo(int a, int b) {
   return (a ^ b) + 2 * (a & b);
 }
+```
+
+## UnusedForLoopVar
+This plugin detects unused for-loop variables (more specifically, the variables
+defined inside the
+[traditional](https://en.cppreference.com/w/cpp/language/for) and
+[range-based](https://en.cppreference.com/w/cpp/language/range-for) `for`
+loop statements) and issues a warning when one is found. For example, in `foo` the
+loop variable `j` is not used:
+
+```c
+int foo(int var_a) {
+  for (int j = 0; j < 10; j++)
+    var_a++;
+
+  return var_a;
+}
+```
+
+**UnusedForLoopVar** will warn you about it. Clearly the for loop in this case
+can be replaced with `var_a += 10;`, so **UnusedForLoopVar** does a great job
+in drawing developer's attention to it. It can also detect unused loop
+variables in range for loops, for example:
+
+```c++
+#include <vector>
+
+int bar(std::vector<int> var_a) {
+  int var_b = 10;
+  for (auto some_integer: var_a)
+    var_b++;
+
+  return var_b;
+}
+
+```
+
+In this case, `some_integer` is not used and **UnusedForLoopVar** will
+highlight it. The loop could be replaced with a much simpler expression: `var_b
++= var_a.size();`.
+
+Obviously unused loop variables _may_ indicate an issue or a potential
+optimisation (e.g. unroll the loop) or a simplification (e.g. replace the loop
+with one arithmetic operation). However, that does not have to be the case and
+sometimes we have good reasons not to use the loop variable.
+If the name of a loop variable matches the `[U|u][N|n][U|u][S|s][E|e][D|d]`
+then it will be ignored by"**UnusedForLoopVar**. For example, the following
+modified version of the above example will not be reported:
+
+```c
+int foo(int var_a) {
+  for (int unused = 0; unused < 10; unused++)
+    var_a++;
+
+  return var_a;
+}
+```
+
+**UnusedForLoopVar** mixes both the
+[ASTMatcher](https://clang.llvm.org/docs/LibASTMatchersTutorial.html) and
+[RecursiveASTVisitor](https://clang.llvm.org/docs/RAVFrontendAction.html)
+frameworks. It is an example of how to leverage both of them to solve a
+slightly more complex problem. The generated warnings are labelled so that you
+can see which framework was used to capture a particular case of an unused
+for-loop variable. For example, for the first example above you will get the
+following warning:
+
+```bash
+warning: (Recursive AST Visitor) regular for-loop variable not used
+```
+
+The second example leads to the following warning:
+
+```bash
+warning: (AST Matcher) range for-loop variable not used
+```
+
+Once you read the [source
+code](https://github.com/banach-space/clang-tutor/blob/master/lib/UnusedForLoopVar.cpp)
+it should be obvious why in every case a different framework is needed to catch
+the issue.
+
+### Run the plugin
+```bash
+$LLVM_DIR/bin/clang -cc1 -load lib/libUnusedForLoopVar.dylib -plugin  unused-for-loop-variable input.cpp
 ```
 
 References

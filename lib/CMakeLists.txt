@@ -4,6 +4,7 @@ set(CLANG_TUTOR_PLUGINS
     LACommenter
     CodeStyleChecker
     Obfuscator
+    UnusedForLoopVar
     )
 
 set(LACommenter_SOURCES
@@ -14,6 +15,9 @@ set(CodeStyleChecker_SOURCES
 
 set(Obfuscator_SOURCES
   Obfuscator.cpp)
+
+set(UnusedForLoopVar_SOURCES
+  UnusedForLoopVar.cpp)
 
 # CONFIGURE THE PLUGIN LIBRARIES
 # ==============================
