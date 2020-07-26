@@ -488,7 +488,13 @@ sorted by date.
 * **Diagnostics**
   * _"Emitting Diagnostics in Clang"_, Peter Goldsborough ([blog
   post](http://www.goldsborough.me/c++/clang/llvm/tools/2017/02/24/00-00-06-emitting_diagnostics_and_fixithints_in_clang_tools/))
-  
+* **Projects That Use Clang Plugins**
+  * Mozilla: official documentation on [static analysis in Firefox](https://firefox-source-docs.mozilla.org/code-quality/static-analysis.html#build-time-static-analysis), custom [ASTMatchers](https://searchfox.org/mozilla-central/source/build/clang-plugin/CustomMatchers.h)
+  * Chromium: official documentation on [using clang plugins](https://chromium.googlesource.com/chromium/src.git/+/master/docs/clang.md#using-plugins), in-tree [source code](https://chromium.googlesource.com/chromium/src/+/master/tools/clang/plugins/)
+  * LibreOffice: official documenation on [developing Clang plugins](https://wiki.documentfoundation.org/Development/Clang_plugins), in-tree [source code](https://github.com/LibreOffice/core/tree/master/compilerplugins/clang)
+* **clang-query**
+  * _"Exploring Clang Tooling Part 2: Examining the Clang AST with clang-query"_, Stephen Kelly, [blog post](https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-part-2-examining-the-clang-ast-with-clang-query/)
+  * _"The Future of AST-Matcher based Refactoring"_, Stephen Kelly, [video 1](https://www.youtube.com/watch?v=yqi8U8Q0h2g&t=1202s), [video 2](https://www.youtube.com/watch?v=38tYYrnfNrs), [blog post](https://steveire.wordpress.com/2019/04/30/the-future-of-ast-matching-refactoring-tools-eurollvm-and-accu/)
 
 License
 ========
