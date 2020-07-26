@@ -11,13 +11,12 @@
 
 #include "clang/AST/ASTConsumer.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
-#include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "clang/Rewrite/Frontend/FixItRewriter.h"
 #include "clang/Tooling/CommonOptionsParser.h"
 
 //-----------------------------------------------------------------------------
-// ASTMatcher
+// ASTFinder callback
 //-----------------------------------------------------------------------------
 class CodeRefactorMatcher
     : public clang::ast_matchers::MatchFinder::MatchCallback {
@@ -46,11 +45,11 @@ public:
   CodeRefactorASTConsumer(clang::Rewriter &R, std::string ClassName,
                           std::string OldName, std::string NewName);
   void HandleTranslationUnit(clang::ASTContext &Ctx) override {
-    Matcher.matchAST(Ctx);
+    Finder.matchAST(Ctx);
   }
 
 private:
-  clang::ast_matchers::MatchFinder Matcher;
+  clang::ast_matchers::MatchFinder Finder;
   CodeRefactorMatcher CodeRefactorHandler;
   // The name of the class to match. Use base class name to rename in all
   // derived classes.

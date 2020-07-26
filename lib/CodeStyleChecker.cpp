@@ -25,7 +25,6 @@
 #include "CodeStyleChecker.h"
 
 #include "clang/AST/AST.h"
-#include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/FrontendPluginRegistry.h"
@@ -150,21 +149,6 @@ void CodeStyleChecker::checkNameStartsWithUpperCase(NamedDecl *Decl) {
       "Type and variable names should start with upper-case letter");
   DiagEngine.Report(Decl->getLocation(), DiagID) << FixItHint;
 }
-
-//-----------------------------------------------------------------------------
-// ASTConsumer
-//-----------------------------------------------------------------------------
-class CSCConsumer : public ASTConsumer {
-public:
-  explicit CSCConsumer(ASTContext *Context) : Visitor(Context) {}
-
-  void HandleTranslationUnit(ASTContext &Ctx) {
-    Visitor.TraverseDecl(Ctx.getTranslationUnitDecl());
-  }
-
-private:
-  CodeStyleChecker Visitor;
-};
 
 //-----------------------------------------------------------------------------
 // FrotendAction

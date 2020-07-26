@@ -174,7 +174,7 @@ bool UnusedForLoopVarVisitor::VisitDeclRefExpr(DeclRefExpr const *Stmt) {
 }
 
 //-----------------------------------------------------------------------------
-//  UFLVASTConsumer - implementation
+// UFLVASTConsumer - implemenentation
 //-----------------------------------------------------------------------------
 UFLVASTConsumer::UFLVASTConsumer(ASTContext &CTX, SourceManager &InSM)
     : SM(InSM), UFLVVisitor(&CTX) {
@@ -198,9 +198,8 @@ UFLVASTConsumer::UFLVASTConsumer(ASTContext &CTX, SourceManager &InSM)
 }
 
 //-----------------------------------------------------------------------------
-// Registration
+// FrotendAction
 //-----------------------------------------------------------------------------
-// Implement PluginASTAction rather than ASTFrontendAction
 class UFLVMatcherPluginAction : public PluginASTAction {
 public:
   // Our plugin can alter behavior based on the command line options
@@ -217,6 +216,9 @@ public:
   }
 };
 
+//-----------------------------------------------------------------------------
+// Registration
+//-----------------------------------------------------------------------------
 static FrontendPluginRegistry::Add<UFLVMatcherPluginAction>
     X(/*Name=*/"unused-for-loop-variable",
       /*Desc=*/"Find unused for-loop variables");

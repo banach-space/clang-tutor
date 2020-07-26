@@ -26,7 +26,7 @@
 using namespace clang;
 
 //-----------------------------------------------------------------------------
-// HelloWorld implementation
+// RecursiveASTVisitor
 //-----------------------------------------------------------------------------
 class HelloWorld : public RecursiveASTVisitor<HelloWorld> {
 public:
@@ -88,7 +88,7 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-// FrotendAction
+// FrotendAction for HelloWorld
 //-----------------------------------------------------------------------------
 class FindNamedClassAction : public clang::PluginASTAction {
 public:

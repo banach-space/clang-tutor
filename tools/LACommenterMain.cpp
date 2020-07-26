@@ -25,19 +25,13 @@ using namespace clang;
 //===----------------------------------------------------------------------===//
 // Command line options
 //===----------------------------------------------------------------------===//
-static llvm::cl::OptionCategory LACCategory("my-tool options");
+static llvm::cl::OptionCategory LACCategory("lacommenter options");
 
 class LACPluginAction : public PluginASTAction {
 public:
   bool ParseArgs(const CompilerInstance &CI,
                  const std::vector<std::string> &args) override {
     return true;
-  }
-
-  // Output the edit buffer for this translation unit
-  void EndSourceFileAction() override {
-    LACRewriter.getEditBuffer(LACRewriter.getSourceMgr().getMainFileID())
-        .write(llvm::outs());
   }
 
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,

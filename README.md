@@ -192,20 +192,23 @@ https://llvm.org/docs/CodingStandards.html#comment-formatting). **LACommenter**
 will comment character, integer, floating point, boolean and string literal
 arguments.
 
-This plugin is based on a similar example from a
-[presentation](https://s3.amazonaws.com/connect.linaro.org/yvr18/presentations/yvr18-223.pdf)
-by Peter Smith.
+This plugin is based on a similar example by Peter Smith presented
+[here](https://s3.amazonaws.com/connect.linaro.org/yvr18/presentations/yvr18-223.pdf).
 
 ### Run the plugin
+You can test **LACommenter** on the example presented above. Assuming that it
+was saved in `input_file.c`, you can add comments to it as follows:
 
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load lib/libLACommenter.dylib -plugin LAC test/LACLong.cpp
+$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC input_file.cpp
 ```
 
 ### Run the plugin through `lacommenter`
+**locommenter** is a standalone tool that will run the **LACommenter** plugin,
+but without the need of using `clang` and loading the plugin:
 
 ```bash
-bin/lacommenter test/LACLong.cpp
+<build_dir>/bin/lacommenter input_file.cpp
 ```
 
 ## CodeStyleChecker
@@ -297,7 +300,7 @@ int foo(int a, int b) {
 You can run the plugin like this:
 
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load lib/libObfuscator.dylib -plugin Obfuscator input.cpp
+$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libObfuscator.dylib -plugin Obfuscator input.cpp
 ```
 
 You should see the following output on your screen.
@@ -390,7 +393,7 @@ the issue.
 
 ### Run the plugin
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load lib/libUnusedForLoopVar.dylib -plugin  unused-for-loop-variable input.cpp
+$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin  unused-for-loop-variable input.cpp
 ```
 
 ## CodeRefactor
@@ -450,7 +453,7 @@ powerful in this respect.
 plugin is  _a bit_ cumbersome and probably best demonstrated with an example:
 
 ```bash
-$LLVM_DIR/clang -cc1 -load libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar %s 2>&1
+$LLVM_DIR/clang -cc1 -load <build_dir>/lib/libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar %s 2>&1
 ```
 
 It is much easier when you the plugin through a stand-alone tool like
@@ -461,7 +464,7 @@ It is much easier when you the plugin through a stand-alone tool like
 **CodeRefactor**. You can use it to refactor your input file as follows:
 
 ```bash
-bin/ct-code-refactor --class-name=Base --new-name=bar --old-name=foo file.cpp
+<build_dir>/bin/ct-code-refactor --class-name=Base --new-name=bar --old-name=foo file.cpp
 ```
 
 `ct-code-refactor` uses LLVM's [CommandLine

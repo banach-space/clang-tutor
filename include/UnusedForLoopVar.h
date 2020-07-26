@@ -18,7 +18,7 @@
 #include "llvm/ADT/SmallVector.h"
 
 //-----------------------------------------------------------------------------
-// ASTMatcher
+// ASTMatcher callback
 //-----------------------------------------------------------------------------
 class UnusedForLoopVarMatcher
     : public clang::ast_matchers::MatchFinder::MatchCallback {

@@ -36,6 +36,9 @@
 using namespace clang;
 using namespace ast_matchers;
 
+//-----------------------------------------------------------------------------
+// CallbackForSub - implementation
+//-----------------------------------------------------------------------------
 void CallbackForSub::run(const MatchFinder::MatchResult &Result) {
   const auto &Op = Result.Nodes.getNodeAs<clang::BinaryOperator>("op");
 
@@ -77,6 +80,19 @@ void CallbackForSub::run(const MatchFinder::MatchResult &Result) {
   Changed = true;
 }
 
+void CallbackForSub::onEndOfTranslationUnit() {
+  if (Changed == false)
+    return;
+
+  // Output to stdout
+  ObfuscatorRewriter
+      .getEditBuffer(ObfuscatorRewriter.getSourceMgr().getMainFileID())
+      .write(llvm::outs());
+}
+
+//-----------------------------------------------------------------------------
+// CallbackForAdd - implementation
+//-----------------------------------------------------------------------------
 void CallbackForAdd::run(const MatchFinder::MatchResult &Result) {
   std::string LHSAsStr, RHSAsStr;
   SourceRange RangeLHS, RangeRHS;
@@ -119,20 +135,6 @@ void CallbackForAdd::run(const MatchFinder::MatchResult &Result) {
 void CallbackForAdd::onEndOfTranslationUnit() {
   if (Changed == false)
     return;
-  // Replace in place
-  // LACRewriter.overwriteChangedFiles();
-
-  // Output to stdout
-  ObfuscatorRewriter
-      .getEditBuffer(ObfuscatorRewriter.getSourceMgr().getMainFileID())
-      .write(llvm::outs());
-}
-
-void CallbackForSub::onEndOfTranslationUnit() {
-  if (Changed == false)
-    return;
-  // Replace in place
-  // LACRewriter.overwriteChangedFiles();
 
   // Output to stdout
   ObfuscatorRewriter
@@ -141,7 +143,7 @@ void CallbackForSub::onEndOfTranslationUnit() {
 }
 
 //-----------------------------------------------------------------------------
-// ObfuscatorAdd - implementation
+// ObfuscatorASTConsumer - implementation
 //-----------------------------------------------------------------------------
 ObfuscatorASTConsumer::ObfuscatorASTConsumer(Rewriter &R)
     : AddHandler(R), SubHandler(R) {
@@ -168,9 +170,8 @@ ObfuscatorASTConsumer::ObfuscatorASTConsumer(Rewriter &R)
 }
 
 //-----------------------------------------------------------------------------
-// Registration
+// FrotendAction
 //-----------------------------------------------------------------------------
-// Implement PluginASTAction rather than ASTFrontendAction
 class ObfuscatorAddPluginAction : public PluginASTAction {
 public:
   // Our plugin can alter behavior based on the command line options
@@ -190,6 +191,9 @@ private:
   Rewriter RewriterForObfuscator;
 };
 
+//-----------------------------------------------------------------------------
+// Registration
+//-----------------------------------------------------------------------------
 static FrontendPluginRegistry::Add<ObfuscatorAddPluginAction>
     X(/*Name=*/"Obfuscator",
       /*Desc=*/"Mixed Boolean Algebra Transformations");

@@ -13,6 +13,9 @@
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
 
+//-----------------------------------------------------------------------------
+// RecursiveASTVisitor
+//-----------------------------------------------------------------------------
 class CodeStyleChecker : public clang::RecursiveASTVisitor<CodeStyleChecker> {
 public:
   explicit CodeStyleChecker(clang::ASTContext *Ctx) : Ctx(Ctx) {}
@@ -33,6 +36,21 @@ private:
   // Checks whether the name in Decl starts with an upper case letter. Issues a
   // warning if not.
   void checkNameStartsWithUpperCase(clang::NamedDecl *Decl);
+};
+
+//-----------------------------------------------------------------------------
+// ASTConsumer
+//-----------------------------------------------------------------------------
+class CSCConsumer : public clang::ASTConsumer {
+public:
+  explicit CSCConsumer(clang::ASTContext *Context) : Visitor(Context) {}
+
+  void HandleTranslationUnit(clang::ASTContext &Ctx) {
+    Visitor.TraverseDecl(Ctx.getTranslationUnitDecl());
+  }
+
+private:
+  CodeStyleChecker Visitor;
 };
 
 #endif

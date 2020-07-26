@@ -47,7 +47,7 @@ using namespace ast_matchers;
 //-----------------------------------------------------------------------------
 // LACommenter - implementation
 //-----------------------------------------------------------------------------
-void LACommenter::run(const MatchFinder::MatchResult &Result) {
+void LACommenterMatcher::run(const MatchFinder::MatchResult &Result) {
   // ASTContext is used to retrieve the source location
   ASTContext *Ctx = Result.Context;
 
@@ -102,7 +102,7 @@ void LACommenter::run(const MatchFinder::MatchResult &Result) {
   }
 }
 
-void LACommenter::onEndOfTranslationUnit() {
+void LACommenterMatcher::onEndOfTranslationUnit() {
   // Replace in place
   // LACRewriter.overwriteChangedFiles();
 
@@ -112,10 +112,7 @@ void LACommenter::onEndOfTranslationUnit() {
 
 }
 
-LACASTConsumer::LACASTConsumer(Rewriter &R) : LAC(R) {
-  // We use almost the same syntax as the ASTMatcher prototyped in
-  // clang-query. The changes are the .bind(string) additions so that we
-  // can access these once the match has occurred.
+LACASTConsumer::LACASTConsumer(Rewriter &R) : LACHandler(R) {
   StatementMatcher CallSiteMatcher =
       callExpr(
           allOf(callee(functionDecl(unless(isVariadic())).bind("callee")),
@@ -130,15 +127,15 @@ LACASTConsumer::LACASTConsumer(Rewriter &R) : LAC(R) {
                 )
           )
           .bind("caller");
+
   // LAC is the callback that will run when the ASTMatcher finds the pattern
   // above.
-  Matcher.addMatcher(CallSiteMatcher, &LAC);
+  Finder.addMatcher(CallSiteMatcher, &LACHandler);
 }
 
 //-----------------------------------------------------------------------------
-// Registration
+// FrotendAction
 //-----------------------------------------------------------------------------
-// Implement PluginASTAction rather than ASTFrontendAction
 class LACPluginAction : public PluginASTAction {
 public:
   // Our plugin can alter behavior based on the command line options
@@ -158,6 +155,9 @@ private:
   Rewriter RewriterForLAC;
 };
 
+//-----------------------------------------------------------------------------
+// Registration
+//-----------------------------------------------------------------------------
 static FrontendPluginRegistry::Add<LACPluginAction>
     X(/*Name=*/"LAC",
       /*Desc=*/"Literal Argument Commenter");

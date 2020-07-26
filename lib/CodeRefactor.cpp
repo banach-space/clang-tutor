@@ -22,7 +22,7 @@ using namespace clang;
 using namespace ast_matchers;
 
 //-----------------------------------------------------------------------------
-// CodeRefactor - implementation
+// CodeRefactorMatcher - implementation
 //-----------------------------------------------------------------------------
 void CodeRefactorMatcher::run(const MatchFinder::MatchResult &Result) {
   const MemberExpr *MemberAccess =
@@ -61,19 +61,18 @@ CodeRefactorASTConsumer::CodeRefactorASTConsumer(Rewriter &R,
       callee(memberExpr(member(hasName(OldName))).bind("MemberAccess")),
       thisPointerType(cxxRecordDecl(isSameOrDerivedFrom(hasName(ClassName)))));
 
-  Matcher.addMatcher(MatcherForMemberAccess, &CodeRefactorHandler);
+  Finder.addMatcher(MatcherForMemberAccess, &CodeRefactorHandler);
 
   const auto MatcherForMemberDecl = cxxRecordDecl(
       allOf(isSameOrDerivedFrom(hasName(ClassName)),
             hasMethod(decl(namedDecl(hasName(OldName))).bind("MemberDecl"))));
 
-  Matcher.addMatcher(MatcherForMemberDecl, &CodeRefactorHandler);
+  Finder.addMatcher(MatcherForMemberDecl, &CodeRefactorHandler);
 }
 
 //-----------------------------------------------------------------------------
-// Registration
+// FrotendAction
 //-----------------------------------------------------------------------------
-// Implement PluginASTAction rather than ASTFrontendAction
 class CodeRefactorAddPluginAction : public PluginASTAction {
 public:
   bool ParseArgs(const CompilerInstance &CI,
@@ -150,6 +149,9 @@ private:
   std::string NewName;
 };
 
+//-----------------------------------------------------------------------------
+// Registration
+//-----------------------------------------------------------------------------
 static FrontendPluginRegistry::Add<CodeRefactorAddPluginAction>
     X(/*Name=*/"CodeRefactor",
       /*Desc=*/"Change the name of a class method");

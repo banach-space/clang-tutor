@@ -17,7 +17,7 @@
 #include "clang/Tooling/CommonOptionsParser.h"
 
 //-----------------------------------------------------------------------------
-// Callback for integer add
+// ASTMatcher callback (add instructions)
 //-----------------------------------------------------------------------------
 class CallbackForAdd : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
@@ -33,7 +33,7 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-// Callback for integer sub
+// ASTMatcher callback (sub instructions)
 //-----------------------------------------------------------------------------
 class CallbackForSub : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
