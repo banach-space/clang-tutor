@@ -1,5 +1,6 @@
 clang-tutor
 =========
+[![Build Status](https://travis-ci.org/banach-space/clang-tutor.svg?branch=master)](https://travis-ci.org/banach-space/clang-tutor)
 [![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Ubuntu/badge.svg?branch=master)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Ubuntu+branch%3Amaster)
 [![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Darwin/badge.svg?branch=master)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Darwin+branch%3Amaster)
 
