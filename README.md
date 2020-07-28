@@ -476,12 +476,12 @@ result is a very intuitive interface.
 References
 ==========
 Below is a list of clang resources available outside the official online
-documentation that I have found very helpful. Where possible, the items are
-sorted by date.
+documentation that I have found very helpful.
 
-* **Examples in Clang**
+* **Resources inside Clang**
   * Refactoring tool template:
     [clang-tools-extra/tool-template](https://github.com/llvm/llvm-project/tree/release/10.x/clang-tools-extra/tool-template)
+  * AST Matcher [Reference](https://clang.llvm.org/docs/LibASTMatchersReference.html)
 * **Clang Tool Development**
   * _"How to build a C++ processing tool using the Clang libraries"_, Peter Smith, Linaro Connect 2018
   ([video](https://www.youtube.com/watch?reload=9&v=8QvLVEaxzC8), [slides](https://s3.amazonaws.com/connect.linaro.org/yvr18/presentations/yvr18-223.pdf))
@@ -495,6 +495,7 @@ sorted by date.
 * **clang-query**
   * _"Exploring Clang Tooling Part 2: Examining the Clang AST with clang-query"_, Stephen Kelly, [blog post](https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-part-2-examining-the-clang-ast-with-clang-query/)
   * _"The Future of AST-Matcher based Refactoring"_, Stephen Kelly, [video 1](https://www.youtube.com/watch?v=yqi8U8Q0h2g&t=1202s), [video 2](https://www.youtube.com/watch?v=38tYYrnfNrs), [blog post](https://steveire.wordpress.com/2019/04/30/the-future-of-ast-matching-refactoring-tools-eurollvm-and-accu/)
+  * Compiler Explorer [view](godbolt.org/z/clang-query) with clang-query
 
 License
 ========
