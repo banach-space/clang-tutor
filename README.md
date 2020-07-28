@@ -495,7 +495,7 @@ documentation that I have found very helpful.
 * **clang-query**
   * _"Exploring Clang Tooling Part 2: Examining the Clang AST with clang-query"_, Stephen Kelly, [blog post](https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-part-2-examining-the-clang-ast-with-clang-query/)
   * _"The Future of AST-Matcher based Refactoring"_, Stephen Kelly, [video 1](https://www.youtube.com/watch?v=yqi8U8Q0h2g&t=1202s), [video 2](https://www.youtube.com/watch?v=38tYYrnfNrs), [blog post](https://steveire.wordpress.com/2019/04/30/the-future-of-ast-matching-refactoring-tools-eurollvm-and-accu/)
-  * Compiler Explorer [view](godbolt.org/z/clang-query) with clang-query
+  * Compiler Explorer [view](https://godbolt.org/z/clang-query) with clang-query
 
 License
 ========
