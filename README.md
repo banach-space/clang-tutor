@@ -265,6 +265,15 @@ the warnings with correct source code information.
 `-fcolor-diagnostics` above instructs Clang to generate color output
 (unfortunately Markdown doesn't render the colors here).
 
+### Run the plugin through `ct-code-style-checker`
+**ct-code-style-checker** is a standalone tool that will run the **CodeStyleChecker** plugin,
+but without the need of using `clang` and loading the plugin:
+
+```bash
+<build_dir>/bin/ct-code-style-checker input_file.cpp
+```
+
+
 ## Obfuscator
 The **Obfuscator** plugin will rewrite integer addition and subtraction
 according to the following formulae:

@@ -1,27 +1,45 @@
-add_executable(lacommenter
+# THE LIST OF TOOLS AND THE CORRESPONDING SOURCE FILES
+# ====================================================
+set(CLANG_TUTOR_TOOLS
+    lacommenter
+    ct-code-refactor
+    ct-code-style-checker
+)
+
+set(lacommenter_SOURCES
   LACommenterMain.cpp
   ../lib/LACommenter.cpp
 )
 
-add_executable(ct-code-refactor
+set(ct-code-refactor_SOURCES
   CodeRefactorMain.cpp
   ../lib/CodeRefactor.cpp
 )
 
-target_link_libraries(lacommenter
-  clangTooling
-  )
+set(ct-code-style-checker_SOURCES
+  CodeStyleCheckerMain.cpp
+  ../lib/CodeStyleChecker.cpp
+)
 
-target_link_libraries(ct-code-refactor
-  clangTooling
-  )
+# CONFIGURE THE TOOLS
+# ===================
+foreach( tool ${CLANG_TUTOR_TOOLS} )
+    # Create a library corresponding to 'plugin'
+    add_executable(
+      ${tool}
+      ${${tool}_SOURCES}
+      )
 
-target_include_directories(
-  lacommenter
-  PRIVATE
-  "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+    # Link with libclangTooling
+    target_link_libraries(
+      ${tool}
+      clangTooling
+    )
 
-target_include_directories(
-  ct-code-refactor
-  PRIVATE
-  "${CMAKE_CURRENT_SOURCE_DIR}/../include")
+    # Configure include directories for 'tool'
+    target_include_directories(
+      ${tool}
+      PRIVATE
+      "${CMAKE_CURRENT_SOURCE_DIR}/../include"
+    )
+endforeach()
