@@ -40,15 +40,6 @@ foreach( plugin ${CLANG_TUTOR_PLUGINS} )
       "${CMAKE_CURRENT_SOURCE_DIR}/../include"
     )
 
-    target_link_libraries(${plugin} ${YOUR_CMAKE_VARIABLE})
-    # target_link_libraries(
-    #   ${plugin}
-    #   clangASTMatchers
-    #   )
-    get_target_property(OUT clangASTMatchers INTERFACE_LINK_LIBRARIES)
-
-    get_target_property(OUT clangASTMatchers INTERFACE_LINK_LIBRARIES)
-
     # On Darwin (unlike on Linux), undefined symbols in shared objects are not
     # allowed at the end of the link-edit. The plugins defined here:
     #  - _are_ shared objects
@@ -65,5 +56,4 @@ foreach( plugin ${CLANG_TUTOR_PLUGINS} )
       ${plugin}
       "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>"
       )
-    get_target_property(OUT ${plugin} LINK_INTERFACE_LIBRARIES)
 endforeach()
