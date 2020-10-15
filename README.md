@@ -85,6 +85,9 @@ You should see the following output:
 (clang-tutor)  count: 3
 ```
 
+If you have cloned clang from llvm.org/git/clang.git the installation directory
+is the root directory of the repo clone.
+
 ### How To Analyze STL Headers
 In order to see what happens with multiple _indirectly_ included header files,
 you can run **HelloWorld** on one of the header files from the [Standard
@@ -130,7 +133,8 @@ make
 The `CT_LLVM_INSTALL_DIR` variable should be set to the root of either the
 installation or build directory of Clang 10. It is used to locate the
 corresponding `LLVMConfig.cmake` script that is used to set the include and
-library paths.
+library paths. If you have cloned clang from llvm.org/git/clang.git the
+installation directory is the root directory of the repo clone.
 
 In order to run the tests, you need to install **llvm-lit** (aka **lit**). It's
 not bundled with LLVM 10 packages, but you can install it with **pip**:
