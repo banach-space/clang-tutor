@@ -3,8 +3,11 @@
 //    LACommenterMain.cpp
 //
 // DESCRIPTION:
+//    A standalone tool that runs the LACommenter plugin. See
+//    LACommenter.cpp for a complete description.
 //
 // USAGE:
+//    * ct-la-commenter input-file.cpp
 //
 // REFERENCES:
 //    Based on an example by Peter Smith:
@@ -27,6 +30,9 @@ using namespace clang;
 //===----------------------------------------------------------------------===//
 static llvm::cl::OptionCategory LACCategory("lacommenter options");
 
+//===----------------------------------------------------------------------===//
+// PluginASTAction
+//===----------------------------------------------------------------------===//
 class LACPluginAction : public PluginASTAction {
 public:
   bool ParseArgs(const CompilerInstance &CI,
@@ -37,7 +43,7 @@ public:
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
     LACRewriter.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-    return std::make_unique<LACASTConsumer>(LACRewriter);
+    return std::make_unique<LACommenterASTConsumer>(LACRewriter);
   }
 
 private:

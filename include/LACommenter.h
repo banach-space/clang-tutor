@@ -20,7 +20,8 @@
 class LACommenterMatcher : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
   LACommenterMatcher(clang::Rewriter &LACRewriter) : LACRewriter(LACRewriter) {}
-  // Callback that's executed whenever the Matcher in LACASTConsumer matches.
+  // Callback that's executed whenever the Matcher in LACommenterASTConsumer
+  // matches.
   void run(const clang::ast_matchers::MatchFinder::MatchResult &) override;
   // Callback that's executed at the end of the translation unit
   void onEndOfTranslationUnit() override;
@@ -33,9 +34,9 @@ private:
 //-----------------------------------------------------------------------------
 // ASTConsumer
 //-----------------------------------------------------------------------------
-class LACASTConsumer : public clang::ASTConsumer {
+class LACommenterASTConsumer : public clang::ASTConsumer {
 public:
-  LACASTConsumer(clang::Rewriter &R);
+  LACommenterASTConsumer(clang::Rewriter &R);
   void HandleTranslationUnit(clang::ASTContext &Ctx) override {
     Finder.matchAST(Ctx);
   }

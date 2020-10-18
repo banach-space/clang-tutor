@@ -112,7 +112,7 @@ void LACommenterMatcher::onEndOfTranslationUnit() {
 
 }
 
-LACASTConsumer::LACASTConsumer(Rewriter &R) : LACHandler(R) {
+LACommenterASTConsumer::LACommenterASTConsumer(Rewriter &R) : LACHandler(R) {
   StatementMatcher CallSiteMatcher =
       callExpr(
           allOf(callee(functionDecl(unless(isVariadic())).bind("callee")),
@@ -148,7 +148,7 @@ public:
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
     RewriterForLAC.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
-    return std::make_unique<LACASTConsumer>(RewriterForLAC);
+    return std::make_unique<LACommenterASTConsumer>(RewriterForLAC);
   }
 
 private:

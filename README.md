@@ -204,12 +204,12 @@ was saved in `input_file.c`, you can add comments to it as follows:
 $LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC input_file.cpp
 ```
 
-### Run the plugin through `lacommenter`
+### Run the plugin through `ct-la-commenter`
 **locommenter** is a standalone tool that will run the **LACommenter** plugin,
 but without the need of using `clang` and loading the plugin:
 
 ```bash
-<build_dir>/bin/lacommenter input_file.cpp
+<build_dir>/bin/ct-la-commenter input_file.cpp
 ```
 
 ## CodeStyleChecker

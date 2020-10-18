@@ -1,12 +1,12 @@
 # THE LIST OF TOOLS AND THE CORRESPONDING SOURCE FILES
 # ====================================================
 set(CLANG_TUTOR_TOOLS
-    lacommenter
+    ct-la-commenter
     ct-code-refactor
     ct-code-style-checker
 )
 
-set(lacommenter_SOURCES
+set(ct-la-commenter_SOURCES
   LACommenterMain.cpp
   ../lib/LACommenter.cpp
 )
