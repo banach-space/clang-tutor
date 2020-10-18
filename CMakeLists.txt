@@ -36,11 +36,8 @@ message("CLANG STATUS:
   Includes (llvm)     ${LLVM_INCLUDE_DIRS}"
 )
 
-# Compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall\
-    -fdiagnostics-color=always")
-
-include_directories("${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
+# Set the LLVM and Clang header and library paths
+include_directories(SYSTEM "${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
 
 #===============================================================================
 # 3. CLANG-TUTOR BUILD CONFIGURATION
