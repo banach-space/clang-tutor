@@ -23,7 +23,7 @@
 //
 // USAGE:
 //    1. As a loadable Clang plugin:
-//      clang -cc1 -load <BUILD_DIR>/lib/libLACommenter.dylib \
+//      clang -cc1 -load <BUILD_DIR>/lib/libLACommenter.dylib '\'
 //        -plugin LACPlugin <input-cpp-file>
 //    2. As a standalone tool:
 //      <BUILD_DIR>/bin/lacommenter <input-cpp-file>

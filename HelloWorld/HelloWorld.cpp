@@ -11,7 +11,7 @@
 //    names to the corresponding #count of declarations.
 //
 // USAGE:
-//   clang -cc1 -load libHelloWorld.dylib -plugin hello-world\
+//   clang -cc1 -load libHelloWorld.dylib -plugin hello-world '\'
 //    test/HelloWorld-basic.cpp
 //
 // License: The Unlicense

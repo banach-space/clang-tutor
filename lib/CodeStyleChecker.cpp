@@ -21,10 +21,10 @@
 //
 // USAGE:
 //    Main TU only:
-//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC\
+//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC `\`
 //        input-file.cpp
 //    All TUs (the main file and the #includ-ed header files)
-//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC\
+//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC `\`
 //        -main-tu-only=true input-file.cpp
 //
 // License: The Unlicense
