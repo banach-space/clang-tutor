@@ -44,6 +44,9 @@ static cl::opt<std::string> NewNameOpt{
     "new-name", cl::desc("The new name of the method to be renamed"),
     cl::Required, cl::init(""), cl::cat(CodeRefactorCategory)};
 
+//===----------------------------------------------------------------------===//
+// PluginASTAction
+//===----------------------------------------------------------------------===//
 class CodeRefactorPluginAction : public PluginASTAction {
 public:
   explicit CodeRefactorPluginAction(){};
