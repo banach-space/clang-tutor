@@ -245,7 +245,7 @@ The name of the class doesn't follow LLVM's coding guide and
 **CodeStyleChecker** indeed captures that:
 
 ```bash
-$LLVM_DIR/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin code-style-checker file.cpp
+$LLVM_DIR/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin CSC file.cpp
 file.cpp:2:7: warning: Type and variable names should start with upper-case letter
 class clangTutor_BadName;
       ^~~~~~~~~~~~~~~~~~~

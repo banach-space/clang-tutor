@@ -3,10 +3,14 @@
 //    CodeStyleCheckerMain.cpp
 //
 // DESCRIPTION:
+//    A standalone tool that runs the CodeStyleChecker plugin. See
+//    CodeStyleChecker.cpp for a complete description.
 //
 // USAGE:
-//
-// REFERENCES:
+//  Main TU only:
+//    * ct-code-style-checker input-file.cpp
+//  All TUs (the main file and the #includ-ed header files)
+//    * ct-code-style-checker -main-tu-only=true input-file.cpp
 //
 // License: The Unlicense
 //==============================================================================
@@ -25,6 +29,15 @@ using namespace clang;
 //===----------------------------------------------------------------------===//
 static llvm::cl::OptionCategory CSCCategory("ct-code-style-checker options");
 
+static cl::opt<bool> MainTuOnly{
+    "main-tu-only",
+    cl::desc("Only run on the main transletion unit "
+             "(e.g. ignore included header files)"),
+    cl::init(true), cl::cat(CSCCategory)};
+
+//===----------------------------------------------------------------------===//
+// PluginASTAction
+//===----------------------------------------------------------------------===//
 class CSCPluginAction : public PluginASTAction {
 public:
   bool ParseArgs(const CompilerInstance &CI,
@@ -34,7 +47,8 @@ public:
 
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
-    return std::make_unique<CSCConsumer>(&CI.getASTContext());
+    return std::make_unique<CodeStyleCheckerASTConsumer>(
+        &CI.getASTContext(), MainTuOnly, CI.getSourceManager());
   }
 };
 

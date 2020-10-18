@@ -16,9 +16,10 @@
 //-----------------------------------------------------------------------------
 // RecursiveASTVisitor
 //-----------------------------------------------------------------------------
-class CodeStyleChecker : public clang::RecursiveASTVisitor<CodeStyleChecker> {
+class CodeStyleCheckerVisitor
+    : public clang::RecursiveASTVisitor<CodeStyleCheckerVisitor> {
 public:
-  explicit CodeStyleChecker(clang::ASTContext *Ctx) : Ctx(Ctx) {}
+  explicit CodeStyleCheckerVisitor(clang::ASTContext *Ctx) : Ctx(Ctx) {}
   bool VisitCXXRecordDecl(clang::CXXRecordDecl *Decl);
   bool VisitFunctionDecl(clang::FunctionDecl *Decl);
   bool VisitVarDecl(clang::VarDecl *Decl);
@@ -41,16 +42,33 @@ private:
 //-----------------------------------------------------------------------------
 // ASTConsumer
 //-----------------------------------------------------------------------------
-class CSCConsumer : public clang::ASTConsumer {
+class CodeStyleCheckerASTConsumer : public clang::ASTConsumer {
 public:
-  explicit CSCConsumer(clang::ASTContext *Context) : Visitor(Context) {}
+  explicit CodeStyleCheckerASTConsumer(clang::ASTContext *Context,
+                                       bool MainFileOnly,
+                                       clang::SourceManager &SM)
+      : Visitor(Context), SM(SM), MainTUOnly(MainFileOnly) {}
 
   void HandleTranslationUnit(clang::ASTContext &Ctx) {
-    Visitor.TraverseDecl(Ctx.getTranslationUnitDecl());
+    if (!MainTUOnly)
+      Visitor.TraverseDecl(Ctx.getTranslationUnitDecl());
+    else {
+      // Only visit declarations declared in in the input TU
+      auto Decls = Ctx.getTranslationUnitDecl()->decls();
+      for (auto &Decl : Decls) {
+        const auto &FileID = SM.getFileID(Decl->getLocation());
+        if (FileID != SM.getMainFileID())
+          continue;
+        Visitor.TraverseDecl(Decl);
+      }
+    }
   }
 
 private:
-  CodeStyleChecker Visitor;
+  CodeStyleCheckerVisitor Visitor;
+  clang::SourceManager &SM;
+  // Should this plugin be only run on the main translation unit?
+  bool MainTUOnly = true;
 };
 
 #endif

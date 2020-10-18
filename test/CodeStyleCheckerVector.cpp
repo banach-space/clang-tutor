@@ -1,4 +1,6 @@
-// RUN: clang++ -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -plugin -Xclang code-style-checker -c %s
+// RUN: clang++ -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -plugin -Xclang CSC -c %s
+// RUN: clang++ -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -plugin -Xclang CSC -Xclang -plugin-arg-CSC -Xclang -main-tu-only=true -c %s
+// RUN: clang++ -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -plugin -Xclang CSC -Xclang -plugin-arg-CSC -Xclang -main-tu-only=false -c %s
 
 #include <vector>
 

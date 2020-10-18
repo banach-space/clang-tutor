@@ -16,9 +16,16 @@
 //    vector.h from STL. Also, note that it implements only a small subset of
 //    LLVM's coding guidelines.
 //
+//    By default this plugin will only run on the main translation unit. Use
+//    `-main-tu-only=true` to make it run on e.g. included header files too.
+//
 // USAGE:
-//   clang -cc1 -load libCodeStyleChecker.dylib -plugin code-style-checker\
-//    test/CodeStyleCheckerUnderscore.cpp
+//    Main TU only:
+//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC\
+//        input-file.cpp
+//    All TUs (the main file and the #includ-ed header files)
+//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC\
+//        -main-tu-only=true input-file.cpp
 //
 // License: The Unlicense
 //==============================================================================
@@ -32,9 +39,9 @@
 using namespace clang;
 
 //-----------------------------------------------------------------------------
-// CodeStyleChecker implementation
+// CodeStyleCheckerVisitor implementation
 //-----------------------------------------------------------------------------
-bool CodeStyleChecker::VisitCXXRecordDecl(CXXRecordDecl *Decl) {
+bool CodeStyleCheckerVisitor::VisitCXXRecordDecl(CXXRecordDecl *Decl) {
   // Skip anonymous records, e.g. unions:
   //    * https://en.cppreference.com/w/cpp/language/union
   if (0 == Decl->getNameAsString().size())
@@ -45,7 +52,7 @@ bool CodeStyleChecker::VisitCXXRecordDecl(CXXRecordDecl *Decl) {
   return true;
 }
 
-bool CodeStyleChecker::VisitFunctionDecl(FunctionDecl *Decl) {
+bool CodeStyleCheckerVisitor::VisitFunctionDecl(FunctionDecl *Decl) {
   // Skip user-defined conversion operators/functions:
   //    * https://en.cppreference.com/w/cpp/language/cast_operator
   if (isa<CXXConversionDecl>(Decl))
@@ -56,7 +63,7 @@ bool CodeStyleChecker::VisitFunctionDecl(FunctionDecl *Decl) {
   return true;
 }
 
-bool CodeStyleChecker::VisitVarDecl(VarDecl *Decl) {
+bool CodeStyleCheckerVisitor::VisitVarDecl(VarDecl *Decl) {
   // Skip anonymous function parameter declarations
   if (isa<ParmVarDecl>(Decl) &&  (0 == Decl->getNameAsString().size()))
     return true;
@@ -66,7 +73,7 @@ bool CodeStyleChecker::VisitVarDecl(VarDecl *Decl) {
   return true;
 }
 
-bool CodeStyleChecker::VisitFieldDecl(FieldDecl *Decl) {
+bool CodeStyleCheckerVisitor::VisitFieldDecl(FieldDecl *Decl) {
   // Skip anonymous bit-fields:
   //  * https://en.cppreference.com/w/c/language/bit_field
   if (0 == Decl->getNameAsString().size())
@@ -78,7 +85,7 @@ bool CodeStyleChecker::VisitFieldDecl(FieldDecl *Decl) {
   return true;
 }
 
-void CodeStyleChecker::checkNoUnderscoreInName(NamedDecl *Decl) {
+void CodeStyleCheckerVisitor::checkNoUnderscoreInName(NamedDecl *Decl) {
   auto Name = Decl->getNameAsString();
   size_t underscorePos = Name.find('_');
 
@@ -102,7 +109,7 @@ void CodeStyleChecker::checkNoUnderscoreInName(NamedDecl *Decl) {
   DiagEngine.Report(UnderscoreLoc, DiagID).AddFixItHint(FixItHint);
 }
 
-void CodeStyleChecker::checkNameStartsWithLowerCase(NamedDecl *Decl) {
+void CodeStyleCheckerVisitor::checkNameStartsWithLowerCase(NamedDecl *Decl) {
   auto Name = Decl->getNameAsString();
   char FirstChar = Name[0];
 
@@ -126,7 +133,7 @@ void CodeStyleChecker::checkNameStartsWithLowerCase(NamedDecl *Decl) {
   DiagEngine.Report(Decl->getLocation(), DiagID) << FixItHint;
 }
 
-void CodeStyleChecker::checkNameStartsWithUpperCase(NamedDecl *Decl) {
+void CodeStyleCheckerVisitor::checkNameStartsWithUpperCase(NamedDecl *Decl) {
   auto Name = Decl->getNameAsString();
   char FirstChar = Name[0];
 
@@ -158,19 +165,36 @@ public:
   std::unique_ptr<ASTConsumer>
   CreateASTConsumer(CompilerInstance &Compiler,
                     llvm::StringRef InFile) override {
-    return std::make_unique<CSCConsumer>(&Compiler.getASTContext());
+    return std::make_unique<CodeStyleCheckerASTConsumer>(
+        &Compiler.getASTContext(), MainTuOnly, Compiler.getSourceManager());
   }
 
   bool ParseArgs(const CompilerInstance &CI,
-                 const std::vector<std::string> &args) override {
+                 const std::vector<std::string> &Args) override {
+    for (StringRef Arg : Args) {
+      if (Arg.startswith("-"))
+        MainTuOnly = Arg.substr(strlen("-main-tu-only=")).equals_lower("true");
+      else if (Arg.startswith("-help"))
+        PrintHelp(llvm::errs());
+      else
+        return false;
+    }
+
     return true;
   }
+
+  void PrintHelp(llvm::raw_ostream &ros) {
+    ros << "Help for CodeStyleChecker plugin goes here\n";
+  }
+
+private:
+  bool MainTuOnly = false;
 };
 
 //-----------------------------------------------------------------------------
 // Registration
 //-----------------------------------------------------------------------------
 static clang::FrontendPluginRegistry::Add<CSCASTAction>
-    X(/*Name=*/"code-style-checker",
+    X(/*Name=*/"CSC",
       /*Description=*/"Checks whether class, variable and function names "
                       "adhere to LLVM's guidelines");

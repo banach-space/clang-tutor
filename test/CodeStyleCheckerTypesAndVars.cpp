@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin code-style-checker %s 2>&1
+// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC %s 2>&1
 
 // Verify that type and variable names starting with lower case are reported as
 // invalid

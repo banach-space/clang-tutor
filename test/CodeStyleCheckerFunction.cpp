@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin code-style-checker %s 2>&1
+// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC %s 2>&1
 
 // Verify that function names starting with upper case are reported as invalid
 
