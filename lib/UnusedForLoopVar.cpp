@@ -176,7 +176,8 @@ bool UnusedForLoopVarVisitor::VisitDeclRefExpr(DeclRefExpr const *Stmt) {
 //-----------------------------------------------------------------------------
 // UnusedForLoopVarASTConsumer - implemenentation
 //-----------------------------------------------------------------------------
-UnusedForLoopVarASTConsumer::UnusedForLoopVarASTConsumer(ASTContext &CTX, SourceManager &InSM)
+UnusedForLoopVarASTConsumer::UnusedForLoopVarASTConsumer(ASTContext &CTX,
+                                                         SourceManager &InSM)
     : SM(InSM), UFLVVisitor(&CTX) {
   // ASTMatcher for a range for-loop
   auto LoopVar = varDecl(unless(matchesAnyListedName(NameToMatch)));

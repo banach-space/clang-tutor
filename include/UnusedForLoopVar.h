@@ -24,7 +24,8 @@ class UnusedForLoopVarMatcher
     : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
   UnusedForLoopVarMatcher() = default;
-  // Callback that's executed whenever the Matcher in UnusedForLoopVarASTConsumer matches
+  // Callback that's executed whenever the Matcher in
+  // UnusedForLoopVarASTConsumer matches
   void run(const clang::ast_matchers::MatchFinder::MatchResult &) override;
 
 private:

@@ -36,7 +36,8 @@ private:
 //-----------------------------------------------------------------------------
 // ASTMatcher callback (sub instructions)
 //-----------------------------------------------------------------------------
-class ObfuscatorMatcherForSub : public clang::ast_matchers::MatchFinder::MatchCallback {
+class ObfuscatorMatcherForSub
+    : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
   explicit ObfuscatorMatcherForSub(clang::Rewriter &RewriterForObfuscatorSub)
       : ObfuscatorRewriter(RewriterForObfuscatorSub) {}
