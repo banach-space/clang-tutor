@@ -16,6 +16,8 @@ tutorial that targets novice and aspiring Clang developers. Key features:
   * **Out of tree** - builds against a binary Clang installation (no
     need to build Clang from sources)
 
+Corrections and feedback always welcome!
+
 ### Overview
 [Clang](https://clang.llvm.org/) (together with
 [LibTooling](https://clang.llvm.org/docs/LibTooling.html)) provides a very
