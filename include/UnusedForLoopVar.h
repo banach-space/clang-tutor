@@ -24,7 +24,7 @@ class UnusedForLoopVarMatcher
     : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
   UnusedForLoopVarMatcher() = default;
-  // Callback that's executed whenever the Matcher in UFLVASTConsumer matches
+  // Callback that's executed whenever the Matcher in UnusedForLoopVarASTConsumer matches
   void run(const clang::ast_matchers::MatchFinder::MatchResult &) override;
 
 private:
@@ -54,16 +54,16 @@ private:
 //-----------------------------------------------------------------------------
 // ASTConsumer
 //-----------------------------------------------------------------------------
-class UFLVASTConsumer : public clang::ASTConsumer {
+class UnusedForLoopVarASTConsumer : public clang::ASTConsumer {
 public:
-  UFLVASTConsumer(clang::ASTContext &Ctx, clang::SourceManager &SM);
+  UnusedForLoopVarASTConsumer(clang::ASTContext &Ctx, clang::SourceManager &SM);
   void HandleTranslationUnit(clang::ASTContext &Ctx) override {
     Matcher.matchAST(Ctx);
 
     // Only visit declarations declared in in the input TU
     auto Decls = Ctx.getTranslationUnitDecl()->decls();
     for (auto &Decl : Decls) {
-      const auto& FileID = SM.getFileID(Decl->getLocation());
+      const auto &FileID = SM.getFileID(Decl->getLocation());
       if (FileID != SM.getMainFileID())
         continue;
       UFLVVisitor.TraverseDecl(Decl);

@@ -15,8 +15,7 @@
 //  modifies the additions, second time it modifies the subtractions.
 //
 // USAGE:
-//    As a loadable Clang plugin:
-//      clang -cc1 -load <BUILD_DIR>/lib/libObfuscatorAdd.dylib `\`
+//    * clang -cc1 -load <BUILD_DIR>/lib/libObfuscatorAdd.dylib `\`
 //        -plugin ObfuscatorAddPlugin <input-cpp-file>
 //
 // License: The Unlicense
@@ -37,9 +36,9 @@ using namespace clang;
 using namespace ast_matchers;
 
 //-----------------------------------------------------------------------------
-// CallbackForSub - implementation
+// ObfuscatorMatcherForSub - implementation
 //-----------------------------------------------------------------------------
-void CallbackForSub::run(const MatchFinder::MatchResult &Result) {
+void ObfuscatorMatcherForSub::run(const MatchFinder::MatchResult &Result) {
   const auto &Op = Result.Nodes.getNodeAs<clang::BinaryOperator>("op");
 
   std::string LHSAsStr, RHSAsStr;
@@ -80,7 +79,7 @@ void CallbackForSub::run(const MatchFinder::MatchResult &Result) {
   Changed = true;
 }
 
-void CallbackForSub::onEndOfTranslationUnit() {
+void ObfuscatorMatcherForSub::onEndOfTranslationUnit() {
   if (Changed == false)
     return;
 
@@ -91,9 +90,9 @@ void CallbackForSub::onEndOfTranslationUnit() {
 }
 
 //-----------------------------------------------------------------------------
-// CallbackForAdd - implementation
+// ObfuscatorMatcherForAdd - implementation
 //-----------------------------------------------------------------------------
-void CallbackForAdd::run(const MatchFinder::MatchResult &Result) {
+void ObfuscatorMatcherForAdd::run(const MatchFinder::MatchResult &Result) {
   std::string LHSAsStr, RHSAsStr;
   SourceRange RangeLHS, RangeRHS;
 
@@ -132,7 +131,7 @@ void CallbackForAdd::run(const MatchFinder::MatchResult &Result) {
   Changed = true;
 }
 
-void CallbackForAdd::onEndOfTranslationUnit() {
+void ObfuscatorMatcherForAdd::onEndOfTranslationUnit() {
   if (Changed == false)
     return;
 

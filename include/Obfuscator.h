@@ -19,9 +19,10 @@
 //-----------------------------------------------------------------------------
 // ASTMatcher callback (add instructions)
 //-----------------------------------------------------------------------------
-class CallbackForAdd : public clang::ast_matchers::MatchFinder::MatchCallback {
+class ObfuscatorMatcherForAdd
+    : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
-  explicit CallbackForAdd(clang::Rewriter &RewriterForObfuscator)
+  explicit ObfuscatorMatcherForAdd(clang::Rewriter &RewriterForObfuscator)
       : ObfuscatorRewriter(RewriterForObfuscator) {}
   void onEndOfTranslationUnit() override;
 
@@ -35,9 +36,9 @@ private:
 //-----------------------------------------------------------------------------
 // ASTMatcher callback (sub instructions)
 //-----------------------------------------------------------------------------
-class CallbackForSub : public clang::ast_matchers::MatchFinder::MatchCallback {
+class ObfuscatorMatcherForSub : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
-  explicit CallbackForSub(clang::Rewriter &RewriterForObfuscatorSub)
+  explicit ObfuscatorMatcherForSub(clang::Rewriter &RewriterForObfuscatorSub)
       : ObfuscatorRewriter(RewriterForObfuscatorSub) {}
   void onEndOfTranslationUnit() override;
 
@@ -60,8 +61,8 @@ public:
 
 private:
   clang::ast_matchers::MatchFinder Matcher;
-  CallbackForAdd AddHandler;
-  CallbackForSub SubHandler;
+  ObfuscatorMatcherForAdd AddHandler;
+  ObfuscatorMatcherForSub SubHandler;
 };
 
 #endif

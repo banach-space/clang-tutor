@@ -5,7 +5,7 @@
 // DESCRIPTION:
 //
 // USAGE:
-//   clang -cc1 -load libUnusedForLoopVar%.dylib '\'
+//   * clang -cc1 -load libUnusedForLoopVar%.dylib '\'
 //      -plugin unused-for-loop-variable test/UnusedForLoopVar_nested.cpp
 //
 // License: The Unlicense
@@ -174,9 +174,9 @@ bool UnusedForLoopVarVisitor::VisitDeclRefExpr(DeclRefExpr const *Stmt) {
 }
 
 //-----------------------------------------------------------------------------
-// UFLVASTConsumer - implemenentation
+// UnusedForLoopVarASTConsumer - implemenentation
 //-----------------------------------------------------------------------------
-UFLVASTConsumer::UFLVASTConsumer(ASTContext &CTX, SourceManager &InSM)
+UnusedForLoopVarASTConsumer::UnusedForLoopVarASTConsumer(ASTContext &CTX, SourceManager &InSM)
     : SM(InSM), UFLVVisitor(&CTX) {
   // ASTMatcher for a range for-loop
   auto LoopVar = varDecl(unless(matchesAnyListedName(NameToMatch)));
@@ -211,8 +211,8 @@ public:
   // Returns our ASTConsumer per translation unit.
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
-    return std::make_unique<UFLVASTConsumer>(CI.getASTContext(),
-                                             CI.getSourceManager());
+    return std::make_unique<UnusedForLoopVarASTConsumer>(CI.getASTContext(),
+                                                         CI.getSourceManager());
   }
 };
 
@@ -220,5 +220,5 @@ public:
 // Registration
 //-----------------------------------------------------------------------------
 static FrontendPluginRegistry::Add<UFLVMatcherPluginAction>
-    X(/*Name=*/"unused-for-loop-variable",
+    X(/*Name=*/"UFLV",
       /*Desc=*/"Find unused for-loop variables");

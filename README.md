@@ -403,7 +403,7 @@ the issue.
 
 ### Run the plugin
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin  unused-for-loop-variable input.cpp
+$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
 ```
 
 ## CodeRefactor

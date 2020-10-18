@@ -1,4 +1,4 @@
-// RUN: clang++ -Xclang -verify -Xclang -load -Xclang %shlibdir/libUnusedForLoopVar%shlibext -Xclang -plugin -Xclang unused-for-loop-variable -c %s 2>&1
+// RUN: clang++ -Xclang -verify -Xclang -load -Xclang %shlibdir/libUnusedForLoopVar%shlibext -Xclang -plugin -Xclang UFLV -c %s 2>&1
 
 #include <vector>
 
