@@ -47,7 +47,7 @@ void ObfuscatorMatcherForSub::run(const MatchFinder::MatchResult &Result) {
   // Grab the left-hand-side of the expression
   if (const auto *LHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("lhs")
                             ->IgnoreImplicit()) {
-    LHSAsStr = dyn_cast<clang::DeclRefExpr>(LHS)->getDecl()->getName();
+    LHSAsStr = dyn_cast<clang::DeclRefExpr>(LHS)->getDecl()->getName().str();
     RangeLHS = LHS->getSourceRange();
   } else if (const auto *LHS =
                  Result.Nodes.getNodeAs<clang::IntegerLiteral>("lhs")) {
@@ -60,7 +60,7 @@ void ObfuscatorMatcherForSub::run(const MatchFinder::MatchResult &Result) {
   // Grab the right-hand-side of the expression
   if (const auto *RHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("rhs")
                             ->IgnoreImplicit()) {
-    RHSAsStr = dyn_cast<clang::DeclRefExpr>(RHS)->getDecl()->getName();
+    RHSAsStr = dyn_cast<clang::DeclRefExpr>(RHS)->getDecl()->getName().str();
     RangeRHS = RHS->getSourceRange();
   } else if (const auto *RHS =
                  Result.Nodes.getNodeAs<clang::IntegerLiteral>("rhs")) {
@@ -99,7 +99,7 @@ void ObfuscatorMatcherForAdd::run(const MatchFinder::MatchResult &Result) {
   // Grab the left-hand-side of the expression
   if (const auto *LHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("lhs")
                             ->IgnoreImplicit()) {
-    LHSAsStr = dyn_cast<clang::DeclRefExpr>(LHS)->getDecl()->getName();
+    LHSAsStr = dyn_cast<clang::DeclRefExpr>(LHS)->getDecl()->getName().str();
     RangeLHS = LHS->getSourceRange();
   } else if (const auto *LHS =
                  Result.Nodes.getNodeAs<clang::IntegerLiteral>("lhs")) {
@@ -112,7 +112,7 @@ void ObfuscatorMatcherForAdd::run(const MatchFinder::MatchResult &Result) {
   // Grab the right-hand-side of the expression
   if (const auto *RHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("rhs")
                             ->IgnoreImplicit()) {
-    RHSAsStr = dyn_cast<clang::DeclRefExpr>(RHS)->getDecl()->getName();
+    RHSAsStr = dyn_cast<clang::DeclRefExpr>(RHS)->getDecl()->getName().str();
     RangeRHS = RHS->getSourceRange();
   } else if (const auto *RHS =
                  Result.Nodes.getNodeAs<clang::IntegerLiteral>("rhs")) {

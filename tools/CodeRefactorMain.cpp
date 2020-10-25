@@ -3,15 +3,12 @@
 //    CodeRefactorommenterMain.cpp
 //
 // DESCRIPTION:
-//    The processing of input arguments (defined with the llvm::cl API) so that
-//    they can be used inside CodeRefactorPluginAction was inspired by the
-//    implementation of clang-check:
-//    https://github.com/llvm/llvm-project/blob/release/10.x/clang/tools/clang-check/ClangCheck.cpp#L137
-//    It relies on using variables that are global inside this TU. Perhaps this
-//    is not idea, but I could not find a better way (neither in documentation
-//    nor in code).
+//    A standalone tool that runs the CodeRefactor plugin. See
+//    CodeRefactor.cpp for a complete description.
 //
 // USAGE:
+//    * ct-code-refactor --class-name=<class-in-which-to-rename> '\'
+//      --new-name=<new-method-name> --old-name=<old-method-name> input-file.cpp
 //
 //
 // License: The Unlicense

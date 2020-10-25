@@ -21,6 +21,7 @@
 #include "clang/AST/RecursiveASTVisitor.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "llvm/Support/raw_ostream.h"
+#include "clang/Basic/FileManager.h"
 #include "llvm/ADT/StringMap.h"
 
 using namespace clang;
