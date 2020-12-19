@@ -20,6 +20,12 @@ jobs:
           brew upgrade
           brew install llvm@11
           pip3 install lit
+      - name: Build HelloWorld
+        run: |
+          cd HelloWorld
+          mkdir build && cd build
+          cmake -DCT_LLVM_INSTALL_DIR="/usr/local/opt/llvm/" ../
+          make -j2
       - name: Build clang-tutor + run tests
         run: |
           cd $GITHUB_WORKSPACE
