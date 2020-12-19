@@ -13,8 +13,9 @@ list(APPEND CMAKE_PREFIX_PATH "${CT_LLVM_INSTALL_DIR}/lib/cmake/clang/")
 
 find_package(Clang REQUIRED CONFIG)
 
-# HelloWorld includes headers from LLVM - update the include paths accordingly
-include_directories(${LLVM_INCLUDE_DIRS})
+# HelloWorld includes headers from LLVM and Clang - update the include paths
+# accordingly
+include_directories(SYSTEM "${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
 
 #===============================================================================
 # 2. LLVM-TUTOR BUILD CONFIGURATION
