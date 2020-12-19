@@ -2,7 +2,7 @@ name: x86-Ubuntu-llvm-from-sources
 
 on:
   schedule:
-    - cron:  '0 */4 * * *'
+    - cron:  '0 * * * *'
 
 jobs:
   build:
@@ -34,8 +34,8 @@ jobs:
         run: |
           # This a quick and easy hack. Not something I would use on my
           # production machine.
-          rm /usr/bin/ld
-          ln -s /usr/bin/x86_64-linux-gnu-ld.gold /usr/bin/ld
+          sudo rm /usr/bin/ld
+          sudo ln -s /usr/bin/x86_64-linux-gnu-ld.gold /usr/bin/ld
       - name: Build LLVM & Clang
         run: |
           cd llvm-project
