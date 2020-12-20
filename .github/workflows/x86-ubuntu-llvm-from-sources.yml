@@ -42,11 +42,10 @@ jobs:
           git checkout release/11.x
           mkdir build && cd build
           cmake -G Ninja -D CMAKE_MAKE_PROGRAM=$GITHUB_WORKSPACE/ninja \
-            -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang" \
+            -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_OPTIMIZED_TABLEGEN=ON \
             ../llvm
-          # Note that only the required tools are built
-          ninja clang opt lli not FileCheck
+          ninja
       - name: Install lit
         run: |
           sudo pip3 install lit
