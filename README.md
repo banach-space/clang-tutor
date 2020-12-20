@@ -184,7 +184,7 @@ cd llvm-project
 git checkout release/11.x
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=host -DLLVM_ENABLE_PROJECTS=clang <llvm-project/root/dir>/llvm/
+cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=host -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" <llvm-project/root/dir>/llvm/
 cmake --build .
 ```
 For more details read the [official
