@@ -1,7 +1,7 @@
 name: x86-Ubuntu-llvm-from-sources
 
-on: 
-  workflow_dispatch
+on: workflow_dispatch
+on:
   schedule:
     - cron:  '0 0 * * *'
 
