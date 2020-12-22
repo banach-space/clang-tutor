@@ -45,8 +45,10 @@ void ObfuscatorMatcherForSub::run(const MatchFinder::MatchResult &Result) {
   SourceRange RangeLHS, RangeRHS;
 
   // Grab the left-hand-side of the expression
-  if (const auto *LHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("lhs")
-                            ->IgnoreImplicit()) {
+  if (const auto *LHSWithIC =
+          Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("lhs")) {
+    const auto *LHS = LHSWithIC->IgnoreImplicit();
+
     LHSAsStr = dyn_cast<clang::DeclRefExpr>(LHS)->getDecl()->getName().str();
     RangeLHS = LHS->getSourceRange();
   } else if (const auto *LHS =
@@ -58,8 +60,10 @@ void ObfuscatorMatcherForSub::run(const MatchFinder::MatchResult &Result) {
   }
 
   // Grab the right-hand-side of the expression
-  if (const auto *RHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("rhs")
-                            ->IgnoreImplicit()) {
+  if (const auto *RHSWithIC =
+          Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("rhs")) {
+    const auto *RHS = RHSWithIC->IgnoreImplicit();
+
     RHSAsStr = dyn_cast<clang::DeclRefExpr>(RHS)->getDecl()->getName().str();
     RangeRHS = RHS->getSourceRange();
   } else if (const auto *RHS =
@@ -96,9 +100,14 @@ void ObfuscatorMatcherForAdd::run(const MatchFinder::MatchResult &Result) {
   std::string LHSAsStr, RHSAsStr;
   SourceRange RangeLHS, RangeRHS;
 
+  if (Result.Nodes.getMap().size() == 0)
+    llvm_unreachable("Unsupported case in the handler for `+`");
+
   // Grab the left-hand-side of the expression
-  if (const auto *LHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("lhs")
-                            ->IgnoreImplicit()) {
+  if (const auto *LHSWithIC =
+          Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("lhs")) {
+    const auto *LHS = LHSWithIC->IgnoreImplicit();
+
     LHSAsStr = dyn_cast<clang::DeclRefExpr>(LHS)->getDecl()->getName().str();
     RangeLHS = LHS->getSourceRange();
   } else if (const auto *LHS =
@@ -110,8 +119,10 @@ void ObfuscatorMatcherForAdd::run(const MatchFinder::MatchResult &Result) {
   }
 
   // Grab the right-hand-side of the expression
-  if (const auto *RHS = Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("rhs")
-                            ->IgnoreImplicit()) {
+  if (const auto *RHSWithIC =
+          Result.Nodes.getNodeAs<clang::ImplicitCastExpr>("rhs")) {
+    const auto *RHS = RHSWithIC->IgnoreImplicit();
+
     RHSAsStr = dyn_cast<clang::DeclRefExpr>(RHS)->getDecl()->getName().str();
     RangeRHS = RHS->getSourceRange();
   } else if (const auto *RHS =

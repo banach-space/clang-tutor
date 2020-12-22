@@ -41,15 +41,6 @@ jobs:
           cd llvm-project
           git checkout release/11.x
           mkdir build && cd build
-          # Use clang to build Clang/LLVM.
-          # Note: Ubuntu 18.04 provides gcc-7 as the default compiler. Clang
-          # (and LLVM) build just fine with that, but then some clang-tutor
-          # plugins fail with an internal Clang error. I'm not quite sure why.
-          # Everything is fine when building with clang (the available version
-          # is clang-9). So, instead of debugging the above, I'm using clang to
-          # build Clang/LLVM for clang-tutor.
-          export CC=clang
-          export CXX=clang++
           cmake -G Ninja -D CMAKE_MAKE_PROGRAM=$GITHUB_WORKSPACE/ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_OPTIMIZED_TABLEGEN=ON \
