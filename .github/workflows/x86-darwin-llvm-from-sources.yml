@@ -1,7 +1,8 @@
 name: x86-Darwin-llvm-from-sources
 
 on:
-  workflow_dispatch
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   build:
@@ -37,6 +38,7 @@ jobs:
           cmake -G Ninja -D CMAKE_MAKE_PROGRAM=$GITHUB_WORKSPACE/ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_OPTIMIZED_TABLEGEN=ON \
+            -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \
             ../llvm
           ninja
       - name: Install lit
@@ -53,4 +55,4 @@ jobs:
           mkdir build && cd build
           cmake -DCT_LLVM_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
           make -j2
-          lit test/
+          lit -va test/

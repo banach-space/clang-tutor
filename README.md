@@ -190,6 +190,12 @@ cmake --build .
 For more details read the [official
 documentation](https://llvm.org/docs/CMake.html).
 
+### Note for macOS users
+As per this great
+[description](https://quuxplusone.github.io/blog/2019/11/09/llvm-from-scratch/)
+by Arthur O’Dwyer , add `-DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)"` to your
+CMake invocation when building Clang from sources. Otherwise, `clang`  won't be
+able to find e.g. standard C headers (e.g.  `wchar.h`).
 
 Building & Testing
 ===================
