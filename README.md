@@ -68,12 +68,13 @@ You can build and run **HelloWorld** like this:
 ```bash
 # Build the plugin
 export LLVM_DIR=<installation/dir/of/clang/11>
+export CLANG_TUTOR_DIR=<source/dir/clang/tutor>
 mkdir build
 cd build
-cmake -DCT_LLVM_INSTALL_DIR=$LLVM_DIR <source/dir/clang/tutor>/HelloWorld/
+cmake -DCT_LLVM_INSTALL_DIR=$LLVM_DIR $CLANG_TUTOR_DIR/HelloWorld/
 make
 # Run the plugin
-$LLVM_DIR/bin/clang -cc1 -load libHelloWorld.dylib -plugin hello-world test/HelloWorld-basic.cpp
+$LLVM_DIR/bin/clang -cc1 -load ./libHelloWorld.{so|dylib} -plugin hello-world $CLANG_TUTOR_DIR/test/HelloWorld-basic.cpp
 ```
 
 You should see the following output:
