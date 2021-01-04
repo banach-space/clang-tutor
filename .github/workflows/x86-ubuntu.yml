@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Install Dependencies
         run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
@@ -18,12 +18,13 @@ jobs:
         run: |
           cd HelloWorld
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR="/usr/lib/llvm-11/" ../
+          cmake -DCT_LLVM_INSTALL_DIR=/usr/lib/llvm-11/ ../
           make -j2
+          /usr/lib/llvm-11/bin/clang -cc1 -load ./libHelloWorld.so -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
       - name: Build clang-tutor + run tests
         run: |
           cd $GITHUB_WORKSPACE
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR="/usr/lib/llvm-11/" ../
+          cmake -DCT_LLVM_INSTALL_DIR=/usr/lib/llvm-11/ ../
           make -j2
           lit test/
