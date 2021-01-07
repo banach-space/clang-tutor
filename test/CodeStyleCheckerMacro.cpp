@@ -1,4 +1,6 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC %s 2>&1
+// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC -plugin-arg-CSC -main-tu-only=false %s 2>&1
+
+// TODO: Investigate why this is required: -plugin-arg-CSC -main-tu-only=false
 
 #define clang_tutor_class_ok(class_name) class ClangTutor##class_name
 #define clang_tutor_class_underscore(class_name) class Clang_TutorClass##class_name
