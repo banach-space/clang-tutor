@@ -57,8 +57,12 @@ public:
       // Only visit declarations declared in in the input TU
       auto Decls = Ctx.getTranslationUnitDecl()->decls();
       for (auto &Decl : Decls) {
-        const auto &FileID = SM.getFileID(Decl->getLocation());
-        if (FileID != SM.getMainFileID())
+        // Ignore declarations out of the main translation unit.
+        //
+        // SourceManager::isInMainFile method takes into account locations
+        // expansion like macro expansion scenario and checks expansion
+        // location instead if spelling location if required.
+        if (!SM.isInMainFile(Decl->getLocation()))
           continue;
         Visitor.TraverseDecl(Decl);
       }
