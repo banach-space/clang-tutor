@@ -17,7 +17,7 @@
 //    LLVM's coding guidelines.
 //
 //    By default this plugin will only run on the main translation unit. Use
-//    `-main-tu-only=true` to make it run on e.g. included header files too.
+//    `-main-tu-only=false` to make it run on e.g. included header files too.
 //
 // USAGE:
 //    Main TU only:
@@ -25,7 +25,7 @@
 //        input-file.cpp
 //    All TUs (the main file and the #includ-ed header files)
 //      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC `\`
-//        -main-tu-only=true input-file.cpp
+//        -plugin-arg-CSC -main-tu-only=false input-file.cpp
 //
 // License: The Unlicense
 //==============================================================================
@@ -172,7 +172,7 @@ public:
   bool ParseArgs(const CompilerInstance &CI,
                  const std::vector<std::string> &Args) override {
     for (StringRef Arg : Args) {
-      if (Arg.startswith("-"))
+      if (Arg.startswith("-main-tu-only="))
         MainTuOnly = Arg.substr(strlen("-main-tu-only=")).equals_lower("true");
       else if (Arg.startswith("-help"))
         PrintHelp(llvm::errs());
@@ -188,7 +188,7 @@ public:
   }
 
 private:
-  bool MainTuOnly = false;
+  bool MainTuOnly = true;
 };
 
 //-----------------------------------------------------------------------------
