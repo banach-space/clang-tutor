@@ -5,8 +5,8 @@
 // DESCRIPTION:
 //
 // USAGE:
-//   * clang -cc1 -load libUnusedForLoopVar%.dylib '\'
-//      -plugin unused-for-loop-variable test/UnusedForLoopVar_nested.cpp
+//   * clang -cc1 -load libUnusedForLoopVar.dylib '\'
+//      -plugin UFLV test/UnusedForLoopVar_nested.cpp
 //
 // License: The Unlicense
 //==============================================================================
