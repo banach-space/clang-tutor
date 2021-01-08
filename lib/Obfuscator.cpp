@@ -15,8 +15,8 @@
 //  modifies the additions, second time it modifies the subtractions.
 //
 // USAGE:
-//    * clang -cc1 -load <BUILD_DIR>/lib/libObfuscatorAdd.dylib `\`
-//        -plugin ObfuscatorAddPlugin <input-cpp-file>
+//    * clang -cc1 -load <BUILD_DIR>/lib/libObfuscator.dylib `\`
+//        -plugin Obfuscator <input-cpp-file>
 //
 // License: The Unlicense
 //==============================================================================
@@ -182,7 +182,7 @@ ObfuscatorASTConsumer::ObfuscatorASTConsumer(Rewriter &R)
 //-----------------------------------------------------------------------------
 // FrotendAction
 //-----------------------------------------------------------------------------
-class ObfuscatorAddPluginAction : public PluginASTAction {
+class ObfuscatorPluginAction : public PluginASTAction {
 public:
   // Our plugin can alter behavior based on the command line options
   bool ParseArgs(const CompilerInstance &,
@@ -204,6 +204,6 @@ private:
 //-----------------------------------------------------------------------------
 // Registration
 //-----------------------------------------------------------------------------
-static FrontendPluginRegistry::Add<ObfuscatorAddPluginAction>
+static FrontendPluginRegistry::Add<ObfuscatorPluginAction>
     X(/*Name=*/"Obfuscator",
       /*Desc=*/"Mixed Boolean Algebra Transformations");
