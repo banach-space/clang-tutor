@@ -32,6 +32,8 @@
 #include "llvm/Support/Casting.h"
 #include "llvm/Support/raw_ostream.h"
 
+#include <memory>
+
 using namespace clang;
 using namespace ast_matchers;
 
@@ -75,22 +77,10 @@ void ObfuscatorMatcherForSub::run(const MatchFinder::MatchResult &Result) {
   }
 
   // Rewrite the expression
-  ObfuscatorRewriter.ReplaceText(RangeLHS,
-                                 "(" + LHSAsStr + " + ~" + RHSAsStr + ")");
-  ObfuscatorRewriter.ReplaceText(Op->getOperatorLoc(), "+");
-  ObfuscatorRewriter.ReplaceText(RangeRHS, "1");
-
-  Changed = true;
-}
-
-void ObfuscatorMatcherForSub::onEndOfTranslationUnit() {
-  if (Changed == false)
-    return;
-
-  // Output to stdout
-  ObfuscatorRewriter
-      .getEditBuffer(ObfuscatorRewriter.getSourceMgr().getMainFileID())
-      .write(llvm::outs());
+  ObfuscatorRewriter->ReplaceText(RangeLHS,
+                                  "(" + LHSAsStr + " + ~" + RHSAsStr + ")");
+  ObfuscatorRewriter->ReplaceText(Op->getOperatorLoc(), "+");
+  ObfuscatorRewriter->ReplaceText(RangeRHS, "1");
 }
 
 //-----------------------------------------------------------------------------
@@ -134,28 +124,16 @@ void ObfuscatorMatcherForAdd::run(const MatchFinder::MatchResult &Result) {
   }
 
   // Rewrite the expression
-  ObfuscatorRewriter.ReplaceText(RangeLHS,
-                                 "(" + LHSAsStr + " ^ " + RHSAsStr + ")");
-  ObfuscatorRewriter.ReplaceText(RangeRHS,
-                                 "2 * (" + LHSAsStr + " & " + RHSAsStr + ")");
-
-  Changed = true;
-}
-
-void ObfuscatorMatcherForAdd::onEndOfTranslationUnit() {
-  if (Changed == false)
-    return;
-
-  // Output to stdout
-  ObfuscatorRewriter
-      .getEditBuffer(ObfuscatorRewriter.getSourceMgr().getMainFileID())
-      .write(llvm::outs());
+  ObfuscatorRewriter->ReplaceText(RangeLHS,
+                                  "(" + LHSAsStr + " ^ " + RHSAsStr + ")");
+  ObfuscatorRewriter->ReplaceText(RangeRHS,
+                                  "2 * (" + LHSAsStr + " & " + RHSAsStr + ")");
 }
 
 //-----------------------------------------------------------------------------
 // ObfuscatorASTConsumer - implementation
 //-----------------------------------------------------------------------------
-ObfuscatorASTConsumer::ObfuscatorASTConsumer(Rewriter &R)
+ObfuscatorASTConsumer::ObfuscatorASTConsumer(std::shared_ptr<Rewriter> R)
     : AddHandler(R), SubHandler(R) {
   const auto MatcherAdd =
       binaryOperator(
@@ -184,6 +162,8 @@ ObfuscatorASTConsumer::ObfuscatorASTConsumer(Rewriter &R)
 //-----------------------------------------------------------------------------
 class ObfuscatorPluginAction : public PluginASTAction {
 public:
+  ObfuscatorPluginAction()
+      : RewriterForObfuscator{std::make_shared<Rewriter>()} {}
   // Our plugin can alter behavior based on the command line options
   bool ParseArgs(const CompilerInstance &,
                  const std::vector<std::string> &) override {
@@ -193,12 +173,19 @@ public:
   // Returns our ASTConsumer per translation unit.
   std::unique_ptr<ASTConsumer> CreateASTConsumer(CompilerInstance &CI,
                                                  StringRef file) override {
-    RewriterForObfuscator.setSourceMgr(CI.getSourceManager(), CI.getLangOpts());
+    RewriterForObfuscator->setSourceMgr(CI.getSourceManager(),
+                                        CI.getLangOpts());
     return std::make_unique<ObfuscatorASTConsumer>(RewriterForObfuscator);
   }
 
+  void EndSourceFileAction() override {
+    RewriterForObfuscator
+        ->getEditBuffer(RewriterForObfuscator->getSourceMgr().getMainFileID())
+        .write(llvm::outs());
+  }
+
 private:
-  Rewriter RewriterForObfuscator;
+  std::shared_ptr<Rewriter> RewriterForObfuscator;
 };
 
 //-----------------------------------------------------------------------------

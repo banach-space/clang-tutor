@@ -16,21 +16,22 @@
 #include "clang/Rewrite/Frontend/FixItRewriter.h"
 #include "clang/Tooling/CommonOptionsParser.h"
 
+#include <memory>
+
 //-----------------------------------------------------------------------------
 // ASTMatcher callback (add instructions)
 //-----------------------------------------------------------------------------
 class ObfuscatorMatcherForAdd
     : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
-  explicit ObfuscatorMatcherForAdd(clang::Rewriter &RewriterForObfuscator)
-      : ObfuscatorRewriter(RewriterForObfuscator) {}
-  void onEndOfTranslationUnit() override;
+  explicit ObfuscatorMatcherForAdd(
+      std::shared_ptr<clang::Rewriter> RewriterForObfuscator)
+      : ObfuscatorRewriter{std::move(RewriterForObfuscator)} {}
 
   void run(const clang::ast_matchers::MatchFinder::MatchResult &) override;
 
 private:
-  clang::Rewriter ObfuscatorRewriter;
-  bool Changed = false;
+  std::shared_ptr<clang::Rewriter> ObfuscatorRewriter;
 };
 
 //-----------------------------------------------------------------------------
@@ -39,15 +40,14 @@ private:
 class ObfuscatorMatcherForSub
     : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
-  explicit ObfuscatorMatcherForSub(clang::Rewriter &RewriterForObfuscatorSub)
-      : ObfuscatorRewriter(RewriterForObfuscatorSub) {}
-  void onEndOfTranslationUnit() override;
+  explicit ObfuscatorMatcherForSub(
+      std::shared_ptr<clang::Rewriter> RewriterForObfuscatorSub)
+      : ObfuscatorRewriter{std::move(RewriterForObfuscatorSub)} {}
 
   void run(const clang::ast_matchers::MatchFinder::MatchResult &) override;
 
 private:
-  clang::Rewriter ObfuscatorRewriter;
-  bool Changed = false;
+  std::shared_ptr<clang::Rewriter> ObfuscatorRewriter;
 };
 
 //-----------------------------------------------------------------------------
@@ -55,7 +55,7 @@ private:
 //-----------------------------------------------------------------------------
 class ObfuscatorASTConsumer : public clang::ASTConsumer {
 public:
-  ObfuscatorASTConsumer(clang::Rewriter &R);
+  ObfuscatorASTConsumer(std::shared_ptr<clang::Rewriter> R);
   void HandleTranslationUnit(clang::ASTContext &Ctx) override {
     Matcher.matchAST(Ctx);
   }

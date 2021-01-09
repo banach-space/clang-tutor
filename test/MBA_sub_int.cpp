@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -load %shlibdir/libObfuscator%shlibext -add-plugin Obfuscator %s 2>&1 | FileCheck %s --match-full-lines
+// RUN: clang -cc1 -load %shlibdir/libObfuscator%shlibext -plugin Obfuscator %s 2>&1 | FileCheck %s --match-full-lines
 // TODO We need --match-full-lines to make sure that FileCheck doesn't match
 // against the CHECK lines. Normally, the comments in the input file can be
 // stripped by the preprocessor. However, if I add `-E -P` to strip the
