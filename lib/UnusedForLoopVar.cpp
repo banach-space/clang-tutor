@@ -55,7 +55,7 @@ void UnusedForLoopVarMatcher::runRegularForLoop(
 
   // Don't follow #include files
   if (RegularForLoop &&
-      !Ctx->getSourceManager().isWrittenInMainFile(RegularForLoop->getForLoc()))
+      !Ctx->getSourceManager().isInMainFile(RegularForLoop->getForLoc()))
     return;
 
   // Loop over all variables declared in the init statement of the loop
@@ -84,7 +84,7 @@ void UnusedForLoopVarMatcher::runRangeForLoop(
 
   // Don't follow #include files: range for-loop
   if (RangeForLoop &&
-      !Ctx->getSourceManager().isWrittenInMainFile(RangeForLoop->getForLoc()))
+      !Ctx->getSourceManager().isInMainFile(RangeForLoop->getForLoc()))
     return;
 
   // If LoopVar _is used_ there's nothing to report

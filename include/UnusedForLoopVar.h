@@ -61,11 +61,10 @@ public:
   void HandleTranslationUnit(clang::ASTContext &Ctx) override {
     Matcher.matchAST(Ctx);
 
-    // Only visit declarations declared in in the input TU
+    // Only visit declarations declared in the input TU
     auto Decls = Ctx.getTranslationUnitDecl()->decls();
     for (auto &Decl : Decls) {
-      const auto &FileID = SM.getFileID(Decl->getLocation());
-      if (FileID != SM.getMainFileID())
+      if (!SM.isInMainFile(Decl->getLocation()))
         continue;
       UFLVVisitor.TraverseDecl(Decl);
     }

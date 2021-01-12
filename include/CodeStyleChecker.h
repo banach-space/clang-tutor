@@ -54,7 +54,7 @@ public:
     if (!MainTUOnly)
       Visitor.TraverseDecl(Ctx.getTranslationUnitDecl());
     else {
-      // Only visit declarations declared in in the input TU
+      // Only visit declarations declared in the input TU
       auto Decls = Ctx.getTranslationUnitDecl()->decls();
       for (auto &Decl : Decls) {
         // Ignore declarations out of the main translation unit.
