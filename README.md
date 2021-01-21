@@ -32,7 +32,7 @@ LLVM](https://llvm.org/docs/CodingStandards.html).
 This document explains how to set-up your environment, build and run the
 project, and go about debugging. The source files, apart from the code itself,
 contain comments that will guide you through the implementation. The
-[tests](https://github.com/banach-space/clang-tutor/test) highlight what edge
+[tests](https://github.com/banach-space/clang-tutor/tree/main/test) highlight what edge
 cases are supported, so you may want to skim through them as well.
 
 ### Table of Contents
@@ -46,9 +46,9 @@ cases are supported, so you may want to skim through them as well.
 HelloWorld
 ==========
 The **HelloWorld** plugin from
-[HelloWorld.cpp](https://github.com/banach-space/clang-tutor/blob/master/HelloWorld/HelloWorld.cpp)
+[HelloWorld.cpp](https://github.com/banach-space/clang-tutor/blob/main/HelloWorld/HelloWorld.cpp)
 is a self-contained *reference example*. The corresponding
-[CMakeLists.txt](https://github.com/banach-space/clang-tutor/blob/master/HelloWorld/CMakeLists.txt)
+[CMakeLists.txt](https://github.com/banach-space/clang-tutor/blob/main/HelloWorld/CMakeLists.txt)
 implements the minimum set-up for an out-of-tree plugin.
 
 **HelloWorld** extracts some interesting information from the input
@@ -228,7 +228,7 @@ Overview of The Plugins
 =======================
 This table contains a summary of the examples available in **clang-tutor**. The
 _Framework_ column refers to a plugin framework available in Clang that was
-used to implemented the corresponding example. This is either
+used to implement the corresponding example. This is either
 [RecursiveASTVisitor](https://clang.llvm.org/docs/RAVFrontendAction.html),
 [ASTMatcher](https://clang.llvm.org/docs/LibASTMatchersTutorial.html) or both. 
 
@@ -477,23 +477,24 @@ warning: (AST Matcher) range for-loop variable not used
 ```
 
 Once you read the [source
-code](https://github.com/banach-space/clang-tutor/blob/master/lib/UnusedForLoopVar.cpp)
+code](https://github.com/banach-space/clang-tutor/blob/main/lib/UnusedForLoopVar.cpp)
 it should be obvious why in every case a different framework is needed to catch
 the issue.
 
 ### Run the plugin
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
+$LLVM_DIR/bin/clang -cc1 -fcolor-diagnostics -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
 ```
 
 ## CodeRefactor
 This plugin will rename a specified member method in a class (or a struct) and
-in all classes derived from it. It wall also update all call sites in which the
+in all classes derived from it. It will also update all call sites in which the
 method is used so that the code remains semantically correct.
 
 The following example contains all cases supported by **CodeFefactor**.
 
 ```cpp
+// file.cpp
 struct Base {
     virtual void foo() {};
 };
@@ -530,8 +531,8 @@ this consists of two steps:
 **CodeRefactor** will do all this refactoring for you! See
 [below](#run-the-plugin-4) how to run it.
 
-The implementation
-[implementation](https://github.com/banach-space/clang-tutor/blob/master/lib/CodeRefactor.cpp)
+The
+[implementation](https://github.com/banach-space/clang-tutor/blob/main/lib/CodeRefactor.cpp)
 of **CodeRefactor** is rather straightforward, but it can only operate on one
 file at a time.
 [**clang-rename**](https://clang.llvm.org/extra/clang-rename.html) is much more
@@ -543,7 +544,7 @@ powerful in this respect.
 plugin is  _a bit_ cumbersome and probably best demonstrated with an example:
 
 ```bash
-$LLVM_DIR/clang -cc1 -load <build_dir>/lib/libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar %s 2>&1
+$LLVM_DIR/clang -cc1 -load <build_dir>/lib/libCodeRefactor.dylib -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar file.cpp
 ```
 
 It is much easier when you the plugin through a stand-alone tool like
