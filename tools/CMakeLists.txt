@@ -29,10 +29,22 @@ foreach( tool ${CLANG_TUTOR_TOOLS} )
       ${tool}
       ${${tool}_SOURCES}
       )
-
-    # Link with libclangTooling
+    
+    # Link with required llvm components   
+    set(LLVM_LINK_COMPONENTS
+      support
+      FrontendOpenMP
+      )
+    
+    # link with required clang components 
     target_link_libraries(
       ${tool}
+      clangAST
+      clangASTMatchers
+      clangBasic
+      clangFrontend
+      clangRewrite
+      clangSerialization
       clangTooling
     )
 
