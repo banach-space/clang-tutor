@@ -2,7 +2,22 @@
 // FILE:
 //    CodeRefactor.cpp
 //
-// DESCRIPTION:
+// DESCRIPTION: CodeRefactor will rename a specified member method in a class 
+// (or a struct) and in all classes derived from it. It will also update all 
+// call sites in which the method is used so that the code remains semantically
+// correct. For example we can use CodeRefactor to rename Base::foo as 
+// Base::bar.
+//
+// USAGE:
+//    1. As a loadable Clang plugin:
+//      clang -cc1 -load <BUILD_DIR>/lib/libCodeRefactor.dylib  -plugin  '\'
+//      CodeRefactor -plugin-arg-CodeRefactor -class-name '\'
+//      -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name '\'
+//      -plugin-arg-CodeRefactor run  -plugin-arg-CodeRefactor -new-name '\'
+//      -plugin-arg-CodeRefactor walk test/CodeRefactor_Class.cpp
+//    2. As a standalone tool:
+//       <BUILD_DIR>/bin/ct-code-refactor --class-name=Base --new-name=walk '\'
+//        --old-name=run test/CodeRefactor_Class.cpp
 //
 // License: The Unlicense
 //==============================================================================

@@ -16,7 +16,7 @@
 //
 // USAGE:
 //    * clang -cc1 -load <BUILD_DIR>/lib/libObfuscator.dylib `\`
-//        -plugin Obfuscator <input-cpp-file>
+//        -plugin Obfuscator test/MBA_add_int.cpp
 //
 // License: The Unlicense
 //==============================================================================
@@ -179,6 +179,7 @@ public:
   }
 
   void EndSourceFileAction() override {
+    // Output to stdout (via llvm::outs()
     RewriterForObfuscator
         ->getEditBuffer(RewriterForObfuscator->getSourceMgr().getMainFileID())
         .write(llvm::outs());

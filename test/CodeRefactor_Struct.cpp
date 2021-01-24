@@ -1,7 +1,7 @@
 // RUN: clang -cc1 -load %shlibdir/libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name \
 // RUN: -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor run \
 // RUN: -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor walk %s 2>&1 | FileCheck %s --match-full-lines
-// RUN:  ../bin/ct-code-refactor --class-name=Base --new-name=walk --old-name=run %s | FileCheck %s --match-full-lines
+// RUN:  ../bin/ct-code-refactor --class-name=Base --new-name=walk --old-name=run %s -- | FileCheck %s --match-full-lines
 
 // Verify that the method `run` is renamed as `walk` (in both Base and Derived)
 
