@@ -1,7 +1,7 @@
 // RUN: clang -cc1 -load %shlibdir/libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name \
 // RUN: -plugin-arg-CodeRefactor Derived  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor run \
 // RUN: -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor walk %s 2>&1 | FileCheck %s --match-full-lines
-// RUN:  ../bin/ct-code-refactor --class-name=Derived --new-name=walk --old-name=run %s | FileCheck %s --match-full-lines
+// RUN:  ../bin/ct-code-refactor --class-name=Derived --new-name=walk --old-name=run %s -- | FileCheck %s --match-full-lines
 
 // Verify that Derived::run() is renamed as Derived::walk() (i.e. only the
 // derived class is refactored).

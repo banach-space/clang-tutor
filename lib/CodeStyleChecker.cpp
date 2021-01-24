@@ -20,12 +20,17 @@
 //    `-main-tu-only=false` to make it run on e.g. included header files too.
 //
 // USAGE:
+//    1. As a loadable Clang plugin:
 //    Main TU only:
-//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC `\`
-//        input-file.cpp
+//      * clang -cc1 -load <BUILD_DIR>/lib/libCodeStyleChecker.dylib -plugin '\'
+//        CSC test/CodeStyleCheckerVector.cpp
 //    All TUs (the main file and the #includ-ed header files)
-//      * clang -cc1 -load libCodeStyleChecker.dylib -plugin CSC `\`
-//        -plugin-arg-CSC -main-tu-only=false input-file.cpp
+//      * clang -cc1 -load <BUILD_DIR>/lib/libCodeStyleChecker.dylib '\' 
+//        -plugin CSC -plugin-arg-CSC -main-tu-only=false '\'
+//        test/CodeStyleCheckerVector.cpp
+//    2. As a standalone tool:
+//        <BUILD_DIR>/bin/ct-code-style-checker '\'
+//        test/ct-code-style-checker-basic.cpp
 //
 // License: The Unlicense
 //==============================================================================

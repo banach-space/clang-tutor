@@ -18,15 +18,15 @@
 //    }
 //    ```
 //
-//    TODO: Update the following
+// TODO: Update the following
 //    This plugin modifies the input file in-place.
 //
 // USAGE:
 //    1. As a loadable Clang plugin:
 //      clang -cc1 -load <BUILD_DIR>/lib/libLACommenter.dylib '\'
-//        -plugin LACPlugin <input-cpp-file>
+//        -plugin LACPlugin test/LACInt.cpp
 //    2. As a standalone tool:
-//      <BUILD_DIR>/bin/lacommenter <input-cpp-file>
+//      <BUILD_DIR>/bin/ct-la-commenter test/LACInt.cpp
 //
 // REFERENCES:
 //    Based on an example by Peter Smith:

@@ -11,18 +11,18 @@
 //    names to the corresponding #count of declarations.
 //
 // USAGE:
-//   clang -cc1 -load libHelloWorld.dylib -plugin hello-world '\'
+//   clang -cc1 -load <BUILD_DIR>/lib/libHelloWorld.dylib -plugin hello-world '\'
 //    test/HelloWorld-basic.cpp
 //
 // License: The Unlicense
 //==============================================================================
-#include "clang/Frontend/FrontendPluginRegistry.h"
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/RecursiveASTVisitor.h"
-#include "clang/Frontend/CompilerInstance.h"
-#include "llvm/Support/raw_ostream.h"
 #include "clang/Basic/FileManager.h"
+#include "clang/Frontend/CompilerInstance.h"
+#include "clang/Frontend/FrontendPluginRegistry.h"
 #include "llvm/ADT/StringMap.h"
+#include "llvm/Support/raw_ostream.h"
 
 using namespace clang;
 

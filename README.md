@@ -289,8 +289,25 @@ $LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC 
 but without the need of using `clang` and loading the plugin:
 
 ```bash
-<build_dir>/bin/ct-la-commenter input_file.cpp
+<build_dir>/bin/ct-la-commenter input_file.cpp --
 ```
+
+If you don't append `--` at the end of tools invocation will get the complain 
+from Clang tools about missing compilation database as follow:
+
+```
+Error while trying to load a compilation database:
+Could not auto-detect compilation database for file "input_file.cpp"
+No compilation database found in <source/dir/clang-tutor> or any parent directory
+fixed-compilation-database: Error while opening fixed database: No such file or directory
+json-compilation-database: Error while opening JSON database: No such file or directory
+Running without flags.
+```
+Another workaround to solve the issue is to set the 
+[CMAKE_EXPORT_COMPILE_COMMANDS flag](https://cmake.org/cmake/help/v3.14/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html)
+during the CMake invocation. It will give you the compilation database into your
+build directory with the filename as compile_commands.json. More detailed 
+explaination about it can be found on [Eli Bendersky's blog](https://eli.thegreenplace.net/2014/05/21/compilation-databases-for-clang-based-tools). 
 
 ## CodeStyleChecker
 This plugin demonstrates how to use Clang's
@@ -350,7 +367,7 @@ the warnings with correct source code information.
 but without the need of using `clang` and loading the plugin:
 
 ```bash
-<build_dir>/bin/ct-code-style-checker input_file.cpp
+<build_dir>/bin/ct-code-style-checker input_file.cpp --
 ```
 
 
@@ -406,8 +423,8 @@ This plugin detects unused for-loop variables (more specifically, the variables
 defined inside the
 [traditional](https://en.cppreference.com/w/cpp/language/for) and
 [range-based](https://en.cppreference.com/w/cpp/language/range-for) `for`
-loop statements) and issues a warning when one is found. For example, in `foo` the
-loop variable `j` is not used:
+loop statements) and issues a warning when one is found. For example, in 
+function `foo` the loop variable `j` is not used:
 
 ```c
 int foo(int var_a) {
@@ -555,7 +572,7 @@ It is much easier when you the plugin through a stand-alone tool like
 **CodeRefactor**. You can use it to refactor your input file as follows:
 
 ```bash
-<build_dir>/bin/ct-code-refactor --class-name=Base --new-name=bar --old-name=foo file.cpp
+<build_dir>/bin/ct-code-refactor --class-name=Base --new-name=bar --old-name=foo file.cpp  --
 ```
 
 `ct-code-refactor` uses LLVM's [CommandLine
