@@ -30,7 +30,7 @@ jobs:
           echo "${GITHUB_WORKSPACE}" >> $GITHUB_PATH
       - name: Clone llvm-project
         run: |
-          git clone --depth 1 --single-branch --branch release/11.x https://github.com/llvm/llvm-project
+          git clone --depth 1 --single-branch --branch release/12.x https://github.com/llvm/llvm-project
       - name: Make ld.gold the default linker
         run: |
           # This a quick and easy hack. Not something I would use on my
@@ -40,7 +40,7 @@ jobs:
       - name: Build LLVM & Clang
         run: |
           cd llvm-project
-          git checkout release/11.x
+          git checkout release/12.x
           mkdir build && cd build
           cmake -G Ninja -D CMAKE_MAKE_PROGRAM=$GITHUB_WORKSPACE/ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
