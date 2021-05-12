@@ -7,6 +7,12 @@ project(clang-tutor)
 # Set this to a valid Clang installation dir
 set(CT_LLVM_INSTALL_DIR "" CACHE PATH "LLVM installation directory")
 
+if (DEFINED LLVM_DIR)
+  set(CT_LLVM_INSTALL_DIR "${LLVM_DIR}/../..")
+elseif (DEFINED Clang_DIR)
+  set(CT_LLVM_INSTALL_DIR "${Clang_DIR}/../..")
+endif()
+
 # A bit of a sanity checking
 set(CT_LLVM_INCLUDE_DIR "${CT_LLVM_INSTALL_DIR}/include/llvm")
 if(NOT EXISTS "${CT_LLVM_INCLUDE_DIR}")
