@@ -1,8 +1,8 @@
 clang-tutor
 =========
-[![Build Status](https://travis-ci.org/banach-space/clang-tutor.svg?branch=master)](https://travis-ci.org/banach-space/clang-tutor)
-[![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Ubuntu/badge.svg?branch=master)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Ubuntu+branch%3Amaster)
-[![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Darwin/badge.svg?branch=master)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Darwin+branch%3Amaster)
+[![Build Status](https://travis-ci.com/banach-space/clang-tutor.svg?branch=main)](https://travis-ci.com/banach-space/clang-tutor)
+[![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Ubuntu/badge.svg?branch=main)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Ubuntu+branch%3Amain)
+[![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Darwin/badge.svg?branch=main)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Darwin+branch%3Amain)
 
 
 Example Clang plugins for C and C++ - based on **Clang 12**
