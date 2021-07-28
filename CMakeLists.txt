@@ -2,25 +2,38 @@ cmake_minimum_required(VERSION 3.13.4)
 project(clang-tutor)
 
 #===============================================================================
+# 0. GET CLANG INSTALLATION DIR
+#===============================================================================
+# In clang-tutor, `CT_Clang_INSTALL_DIR` is the key CMake variable - it points
+# to a Clang installation directory. For the sake of completeness,
+# <PackageName>_DIR (i.e. `Clang_DIR`) and <PackageName>_ROOT (i.e.
+# `Clang_ROOT`) are also supported. Visit CMake documentation for more details:
+#   https://cmake.org/cmake/help/latest/command/find_package.html
+# Use only _one_ of these variables.
+
+if(DEFINED Clang_ROOT)
+  set(CT_CLANG_PACKAGE_DIR "${Clang_ROOT}/../../..")
+elseif(DEFINED Clang_DIR)
+  set(CT_CLANG_PACKAGE_DIR "${Clang_DIR}/../../..")
+endif()
+mark_as_advanced(CT_CLANG_PACKAGE_DIR)
+
+# Set this to a valid Clang installation directory. This is most likely where
+# LLVM is installed on your system.
+set(CT_Clang_INSTALL_DIR "${CT_CLANG_PACKAGE_DIR}" CACHE PATH
+  "Clang installation directory")
+
+#===============================================================================
 # 1. VERIFY CLANG INSTALLATION DIR
 #===============================================================================
-# Set this to a valid Clang installation dir
-set(CT_LLVM_INSTALL_DIR "" CACHE PATH "LLVM installation directory")
-
-if (DEFINED LLVM_DIR)
-  set(CT_LLVM_INSTALL_DIR "${LLVM_DIR}/../..")
-elseif (DEFINED Clang_DIR)
-  set(CT_LLVM_INSTALL_DIR "${Clang_DIR}/../..")
-endif()
-
-# A bit of a sanity checking
-set(CT_LLVM_INCLUDE_DIR "${CT_LLVM_INSTALL_DIR}/include/llvm")
+set(CT_LLVM_INCLUDE_DIR "${CT_Clang_INSTALL_DIR}/include/llvm")
 if(NOT EXISTS "${CT_LLVM_INCLUDE_DIR}")
 message(FATAL_ERROR
-  " CT_LLVM_INSTALL_DIR (${CT_LLVM_INCLUDE_DIR}) is invalid.")
+  " CT_Clang_INSTALL_DIR (${CT_LLVM_INCLUDE_DIR}) is invalid.")
 endif()
 
-set(CT_LLVM_CMAKE_FILE "${CT_LLVM_INSTALL_DIR}/lib/cmake/clang/ClangConfig.cmake")
+set(CT_LLVM_CMAKE_FILE
+  "${CT_Clang_INSTALL_DIR}/lib/cmake/clang/ClangConfig.cmake")
 if(NOT EXISTS "${CT_LLVM_CMAKE_FILE}")
 message(FATAL_ERROR
   " CT_LLVM_CMAKE_FILE (${CT_LLVM_CMAKE_FILE}) is invalid.")
@@ -28,10 +41,10 @@ endif()
 
 #===============================================================================
 # 2. LOAD CLANG CONFIGURATION
-#    For more: http://llvm.org/docs/CMake.html#embedding-llvm-in-your-project
+#    Extracted from:
+#    http://llvm.org/docs/CMake.html#embedding-llvm-in-your-project
 #===============================================================================
-list(APPEND CMAKE_PREFIX_PATH "${CT_LLVM_INSTALL_DIR}/lib/cmake/llvm/")
-list(APPEND CMAKE_PREFIX_PATH "${CT_LLVM_INSTALL_DIR}/lib/cmake/clang/")
+list(APPEND CMAKE_PREFIX_PATH "${CT_Clang_INSTALL_DIR}/lib/cmake/clang/")
 
 find_package(Clang REQUIRED CONFIG)
 
@@ -43,7 +56,7 @@ if(NOT "12" VERSION_EQUAL "${LLVM_VERSION_MAJOR}")
 endif()
 
 message(STATUS "Found Clang ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using ClangConfig.cmake in: ${CT_LLVM_INSTALL_DIR}")
+message(STATUS "Using ClangConfig.cmake in: ${CT_Clang_INSTALL_DIR}")
 
 message("CLANG STATUS:
   Includes (clang)    ${CLANG_INCLUDE_DIRS}
@@ -60,7 +73,7 @@ include_directories(SYSTEM "${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "")
 
 # Build type
-if (NOT CMAKE_BUILD_TYPE)
+if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Debug CACHE
       STRING "Build type (default Debug):" FORCE)
 endif()
@@ -78,8 +91,9 @@ endif()
 # are triggered if llvm-tutor is built without this flag (though otherwise it
 # builds fine). For consistency, add it here too.
 include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag("-fvisibility-inlines-hidden" SUPPORTS_FVISIBILITY_INLINES_HIDDEN_FLAG)
-if (${SUPPORTS_FVISIBILITY_INLINES_HIDDEN_FLAG} EQUAL "1")
+check_cxx_compiler_flag("-fvisibility-inlines-hidden"
+  SUPPORTS_FVISIBILITY_INLINES_HIDDEN_FLAG)
+if(${SUPPORTS_FVISIBILITY_INLINES_HIDDEN_FLAG} EQUAL "1")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility-inlines-hidden")
 endif()
 

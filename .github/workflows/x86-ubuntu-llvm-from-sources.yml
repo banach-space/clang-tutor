@@ -55,11 +55,13 @@ jobs:
         run: |
           cd HelloWorld
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
+          # HelloWorld only supports CT_Clang_INSTALL_DIR
+          cmake -DCT_Clang_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
           make -j2
       - name: Build llvm-tutor + run tests
         run: |
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
+          # Test with Clang_DIR
+          cmake -DClang_DIR="$GITHUB_WORKSPACE/llvm-project/build/lib/cmake/clang/" ../
           make -j2
           lit test/

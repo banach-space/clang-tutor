@@ -49,11 +49,11 @@ jobs:
         run: |
           cd HelloWorld
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
+          cmake -DCT_Clang_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
           make -j2
       - name: Build clang-tutor + run tests
         run: |
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
+          cmake -DCT_Clang_INSTALL_DIR="$GITHUB_WORKSPACE/llvm-project/build" ../
           make -j2
           lit -va test/

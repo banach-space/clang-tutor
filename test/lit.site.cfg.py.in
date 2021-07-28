@@ -1,6 +1,6 @@
 import sys
 
-config.llvm_tools_dir = "@CT_LLVM_INSTALL_DIR@/bin"
+config.llvm_tools_dir = "@CT_Clang_INSTALL_DIR@/bin"
 config.llvm_shlib_ext = "@CT_TEST_SHLIBEXT@"
 config.llvm_shlib_dir = "@CMAKE_LIBRARY_OUTPUT_DIRECTORY@"
 

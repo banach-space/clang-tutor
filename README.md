@@ -67,14 +67,14 @@ You can build and run **HelloWorld** like this:
 
 ```bash
 # Build the plugin
-export LLVM_DIR=<installation/dir/of/clang/12>
+export Clang_DIR=<installation/dir/of/clang/12>
 export CLANG_TUTOR_DIR=<source/dir/clang/tutor>
 mkdir build
 cd build
-cmake -DCT_LLVM_INSTALL_DIR=$LLVM_DIR $CLANG_TUTOR_DIR/HelloWorld/
+cmake -DCT_Clang_INSTALL_DIR=$Clang_DIR $CLANG_TUTOR_DIR/HelloWorld/
 make
 # Run the plugin
-$LLVM_DIR/bin/clang -cc1 -load ./libHelloWorld.{so|dylib} -plugin hello-world $CLANG_TUTOR_DIR/test/HelloWorld-basic.cpp
+$Clang_DIR/bin/clang -cc1 -load ./libHelloWorld.{so|dylib} -plugin hello-world $CLANG_TUTOR_DIR/test/HelloWorld-basic.cpp
 ```
 
 You should see the following output:
@@ -100,7 +100,7 @@ When running a Clang plugin on a C++ file that includes headers from STL, it is
 easier to run it with `clang++` (rather than `clang -cc1`) like this:
 
 ```bash
-$LLVM_DIR/bin/clang++ -c -Xclang -load -Xclang libHelloWorld.dylib -Xclang -plugin -Xclang hello-world file.cpp
+$Clang_DIR/bin/clang++ -c -Xclang -load -Xclang libHelloWorld.dylib -Xclang -plugin -Xclang hello-world file.cpp
 ```
 
 This way you can be confident that all the necessary include paths (required to
@@ -203,11 +203,11 @@ Building & Testing
 You can build **clang-tutor** (and all the provided plugins) as follows:
 ```bash
 cd <build/dir>
-cmake -DCT_LLVM_INSTALL_DIR=<installation/dir/of/clang/12> <source/dir/clang-tutor>
+cmake -DCT_Clang_INSTALL_DIR=<installation/dir/of/clang/12> <source/dir/clang-tutor>
 make
 ```
 
-The `CT_LLVM_INSTALL_DIR` variable should be set to the root of either the
+The `CT_Clang_INSTALL_DIR` variable should be set to the root of either the
 installation or build directory of Clang 12. It is used to locate the
 corresponding `LLVMConfig.cmake` script that is used to set the include and
 library paths.
@@ -281,7 +281,7 @@ You can test **LACommenter** on the example presented above. Assuming that it
 was saved in `input_file.c`, you can add comments to it as follows:
 
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC input_file.cpp
+$Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC input_file.cpp
 ```
 
 ### Run the plugin through `ct-la-commenter`
@@ -342,7 +342,7 @@ The name of the class doesn't follow LLVM's coding guide and
 **CodeStyleChecker** indeed captures that:
 
 ```bash
-$LLVM_DIR/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin CSC file.cpp
+$Clang_DIR/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin CSC file.cpp
 file.cpp:2:7: warning: Type and variable names should start with upper-case letter
 class clangTutor_BadName;
       ^~~~~~~~~~~~~~~~~~~
@@ -407,7 +407,7 @@ int foo(int a, int b) {
 You can run the plugin like this:
 
 ```bash
-$LLVM_DIR/bin/clang -cc1 -load <build_dir>/lib/libObfuscator.dylib -plugin Obfuscator input.cpp
+$Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libObfuscator.dylib -plugin Obfuscator input.cpp
 ```
 
 You should see the following output on your screen.
@@ -500,7 +500,7 @@ the issue.
 
 ### Run the plugin
 ```bash
-$LLVM_DIR/bin/clang -cc1 -fcolor-diagnostics -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
+$Clang_DIR/bin/clang -cc1 -fcolor-diagnostics -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
 ```
 
 ## CodeRefactor
@@ -561,7 +561,7 @@ powerful in this respect.
 plugin is  _a bit_ cumbersome and probably best demonstrated with an example:
 
 ```bash
-$LLVM_DIR/clang -cc1 -load <build_dir>/lib/libCodeRefactor.dylib -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar file.cpp
+$Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libCodeRefactor.dylib -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar file.cpp
 ```
 
 It is much easier when you the plugin through a stand-alone tool like

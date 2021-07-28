@@ -5,11 +5,11 @@ project(clang-tutor-hello-world)
 # 1. LOAD LLVM CONFIGURATION
 #===============================================================================
 # Set this to a valid LLVM installation dir
-set(CT_LLVM_INSTALL_DIR "" CACHE PATH "LLVM installation directory")
+set(CT_Clang_INSTALL_DIR "" CACHE PATH "LLVM installation directory")
 
 # Add the location of ClangConfig.cmake to CMake search paths (so that
 # find_package can locate it)
-list(APPEND CMAKE_PREFIX_PATH "${CT_LLVM_INSTALL_DIR}/lib/cmake/clang/")
+list(APPEND CMAKE_PREFIX_PATH "${CT_Clang_INSTALL_DIR}/lib/cmake/clang/")
 
 find_package(Clang REQUIRED CONFIG)
 

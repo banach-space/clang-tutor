@@ -25,13 +25,15 @@ jobs:
         run: |
           cd HelloWorld
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR=/usr/lib/llvm-12/ ../
+          # HelloWorld only supports CT_Clang_INSTALL_DIR
+          cmake -DCT_Clang_INSTALL_DIR=/usr/lib/llvm-12/ ../
           make -j2
           /usr/lib/llvm-12/bin/clang -cc1 -load ./libHelloWorld.so -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
       - name: Build clang-tutor + run tests
         run: |
           cd $GITHUB_WORKSPACE
           mkdir build && cd build
-          cmake -DCT_LLVM_INSTALL_DIR=/usr/lib/llvm-12/ ../
+          # Test with Clang_ROOT
+          cmake -DClang_ROOT=/usr/lib/llvm-12/lib/cmake/clang/ ../
           make -j2
           lit test/
