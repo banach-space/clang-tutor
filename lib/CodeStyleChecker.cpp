@@ -178,7 +178,7 @@ public:
                  const std::vector<std::string> &Args) override {
     for (StringRef Arg : Args) {
       if (Arg.startswith("-main-tu-only="))
-        MainTuOnly = Arg.substr(strlen("-main-tu-only=")).equals_lower("true");
+        MainTuOnly = Arg.substr(strlen("-main-tu-only=")).equals_insensitive("true");
       else if (Arg.startswith("-help"))
         PrintHelp(llvm::errs());
       else

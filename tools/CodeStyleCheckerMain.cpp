@@ -14,6 +14,8 @@
 //
 // License: The Unlicense
 //==============================================================================
+#include <iostream>
+
 #include "CodeStyleChecker.h"
 
 #include "clang/Frontend/CompilerInstance.h"
@@ -56,9 +58,13 @@ public:
 // Main driver code.
 //===----------------------------------------------------------------------===//
 int main(int Argc, const char **Argv) {
-  clang::tooling::CommonOptionsParser OptionsParser(Argc, Argv, CSCCategory);
-  clang::tooling::ClangTool Tool(OptionsParser.getCompilations(),
-                                 OptionsParser.getSourcePathList());
+  Expected<tooling::CommonOptionsParser> expectedOptionsParser = clang::tooling::CommonOptionsParser::create(Argc, Argv, CSCCategory);
+  if (auto E = expectedOptionsParser.takeError()) {
+    std::cerr << "Problem constructing CommonOptionsParser " << toString(std::move(E)) << std::endl;
+    return EXIT_FAILURE;
+  }
+  clang::tooling::ClangTool Tool(expectedOptionsParser->getCompilations(),
+                                 expectedOptionsParser->getSourcePathList());
 
   return Tool.run(
       clang::tooling::newFrontendActionFactory<CSCPluginAction>().get());

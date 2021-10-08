@@ -15,6 +15,8 @@
 //
 // License: The Unlicense
 //==============================================================================
+#include <iostream>
+
 #include "LACommenter.h"
 
 #include "clang/Frontend/CompilerInstance.h"
@@ -54,9 +56,13 @@ private:
 // Main driver code.
 //===----------------------------------------------------------------------===//
 int main(int Argc, const char **Argv) {
-  clang::tooling::CommonOptionsParser OptionsParser(Argc, Argv, LACCategory);
-  clang::tooling::ClangTool Tool(OptionsParser.getCompilations(),
-                                 OptionsParser.getSourcePathList());
+  Expected<tooling::CommonOptionsParser> expectedOptionsParser = clang::tooling::CommonOptionsParser::create(Argc, Argv, LACCategory);
+  if (auto E = expectedOptionsParser.takeError()) {
+    std::cerr << "Problem constructing CommonOptionsParser " << toString(std::move(E)) << std::endl;
+    return EXIT_FAILURE;
+  }
+  clang::tooling::ClangTool Tool(expectedOptionsParser->getCompilations(),
+                                 expectedOptionsParser->getSourcePathList());
 
   return Tool.run(
       clang::tooling::newFrontendActionFactory<LACPluginAction>().get());
