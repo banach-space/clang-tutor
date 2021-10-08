@@ -15,8 +15,6 @@
 //
 // License: The Unlicense
 //==============================================================================
-#include <iostream>
-
 #include "LACommenter.h"
 
 #include "clang/Frontend/CompilerInstance.h"
@@ -58,7 +56,7 @@ private:
 int main(int Argc, const char **Argv) {
   Expected<tooling::CommonOptionsParser> expectedOptionsParser = clang::tooling::CommonOptionsParser::create(Argc, Argv, LACCategory);
   if (auto E = expectedOptionsParser.takeError()) {
-    std::cerr << "Problem constructing CommonOptionsParser " << toString(std::move(E)) << std::endl;
+    errs() << "Problem constructing CommonOptionsParser " << toString(std::move(E)) << '\n';
     return EXIT_FAILURE;
   }
   clang::tooling::ClangTool Tool(expectedOptionsParser->getCompilations(),
