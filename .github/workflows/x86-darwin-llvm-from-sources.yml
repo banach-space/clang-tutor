@@ -11,30 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Download Ninja
-        shell: cmake -P {0}
         run: |
-          # The following steps are implemented using CMake commands
-          set(ninja_version "1.9.0")
-          set(ninja_suffix "mac.zip")
-          set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
-          file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
-          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
-
-          if (NOT "${{ runner.os }}" STREQUAL "Windows")
-            execute_process(
-            COMMAND chmod +x ninja
-            )
-          endif()
+          git clone git://github.com/martine/ninja.git
+          pushd ninja
+          ./bootstrap.py
+          chmod a+rx ninja
+          popd
       - name: Add Ninja to $PATH
         run: |
-          echo "${GITHUB_WORKSPACE}" >> $GITHUB_PATH
+          echo "${GITHUB_WORKSPACE}/ninja" >> $GITHUB_PATH
       - name: Clone llvm-project
         run: |
-          git clone --depth 1 --single-branch --branch release/12.x https://github.com/llvm/llvm-project
+          git clone --depth 1 --single-branch --branch release/13.x https://github.com/llvm/llvm-project
       - name: Build LLVM & Clang
         run: |
           cd llvm-project
-          git checkout release/12.x
+          git checkout release/13.x
           mkdir build && cd build
           cmake -G Ninja -D CMAKE_MAKE_PROGRAM=$GITHUB_WORKSPACE/ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
