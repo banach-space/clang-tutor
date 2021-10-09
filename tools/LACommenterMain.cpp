@@ -54,13 +54,13 @@ private:
 // Main driver code.
 //===----------------------------------------------------------------------===//
 int main(int Argc, const char **Argv) {
-  Expected<tooling::CommonOptionsParser> expectedOptionsParser = clang::tooling::CommonOptionsParser::create(Argc, Argv, LACCategory);
-  if (auto E = expectedOptionsParser.takeError()) {
+  Expected<tooling::CommonOptionsParser> eOptParser = clang::tooling::CommonOptionsParser::create(Argc, Argv, LACCategory);
+  if (auto E = eOptParser.takeError()) {
     errs() << "Problem constructing CommonOptionsParser " << toString(std::move(E)) << '\n';
     return EXIT_FAILURE;
   }
-  clang::tooling::ClangTool Tool(expectedOptionsParser->getCompilations(),
-                                 expectedOptionsParser->getSourcePathList());
+  clang::tooling::ClangTool Tool(eOptParser->getCompilations(),
+                                 eOptParser->getSourcePathList());
 
   return Tool.run(
       clang::tooling::newFrontendActionFactory<LACPluginAction>().get());
