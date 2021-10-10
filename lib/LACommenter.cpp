@@ -109,7 +109,6 @@ void LACommenterMatcher::onEndOfTranslationUnit() {
   // Output to stdout
   LACRewriter.getEditBuffer(LACRewriter.getSourceMgr().getMainFileID())
       .write(llvm::outs());
-
 }
 
 LACommenterASTConsumer::LACommenterASTConsumer(Rewriter &R) : LACHandler(R) {
@@ -122,10 +121,7 @@ LACommenterASTConsumer::LACommenterASTConsumer(Rewriter &R) : LACHandler(R) {
                       hasAnyArgument(ignoringParenCasts(integerLiteral())),
                       hasAnyArgument(ignoringParenCasts(stringLiteral())),
                       hasAnyArgument(ignoringParenCasts(characterLiteral())),
-                      hasAnyArgument(ignoringParenCasts(floatLiteral()))
-                      )
-                )
-          )
+                      hasAnyArgument(ignoringParenCasts(floatLiteral())))))
           .bind("caller");
 
   // LAC is the callback that will run when the ASTMatcher finds the pattern

@@ -76,9 +76,12 @@ private:
 // Main driver code.
 //===----------------------------------------------------------------------===//
 int main(int Argc, const char **Argv) {
-  Expected<tooling::CommonOptionsParser> eOptParser = clang::tooling::CommonOptionsParser::create(Argc, Argv, CodeRefactorCategory);
+  Expected<tooling::CommonOptionsParser> eOptParser =
+      clang::tooling::CommonOptionsParser::create(Argc, Argv,
+                                                  CodeRefactorCategory);
   if (auto E = eOptParser.takeError()) {
-    errs() << "Problem constructing CommonOptionsParser " << toString(std::move(E)) << '\n';
+    errs() << "Problem constructing CommonOptionsParser "
+           << toString(std::move(E)) << '\n';
     return EXIT_FAILURE;
   }
   clang::tooling::RefactoringTool Tool(eOptParser->getCompilations(),

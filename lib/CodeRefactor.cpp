@@ -2,10 +2,10 @@
 // FILE:
 //    CodeRefactor.cpp
 //
-// DESCRIPTION: CodeRefactor will rename a specified member method in a class 
-// (or a struct) and in all classes derived from it. It will also update all 
+// DESCRIPTION: CodeRefactor will rename a specified member method in a class
+// (or a struct) and in all classes derived from it. It will also update all
 // call sites in which the method is used so that the code remains semantically
-// correct. For example we can use CodeRefactor to rename Base::foo as 
+// correct. For example we can use CodeRefactor to rename Base::foo as
 // Base::bar.
 //
 // USAGE:

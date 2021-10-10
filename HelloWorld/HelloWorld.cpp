@@ -11,8 +11,8 @@
 //    names to the corresponding #count of declarations.
 //
 // USAGE:
-//   clang -cc1 -load <BUILD_DIR>/lib/libHelloWorld.dylib -plugin hello-world '\'
-//    test/HelloWorld-basic.cpp
+//   clang -cc1 -load <BUILD_DIR>/lib/libHelloWorld.dylib '\'
+//    -plugin hello-world test/HelloWorld-basic.cpp
 //
 // License: The Unlicense
 //==============================================================================
@@ -56,8 +56,9 @@ bool HelloWorld::VisitCXXRecordDecl(CXXRecordDecl *Declaration) {
   if (FullLocation.isMacroID())
     FullLocation = FullLocation.getExpansionLoc();
 
-  SourceManager& SrcMgr = Context->getSourceManager();
-  const FileEntry* Entry = SrcMgr.getFileEntryForID(SrcMgr.getFileID(FullLocation));
+  SourceManager &SrcMgr = Context->getSourceManager();
+  const FileEntry *Entry =
+      SrcMgr.getFileEntryForID(SrcMgr.getFileID(FullLocation));
   DeclMap[Entry->getName()]++;
 
   return true;
@@ -74,11 +75,12 @@ public:
     Visitor.TraverseDecl(Ctx.getTranslationUnitDecl());
 
     if (Visitor.getDeclMap().empty()) {
-      llvm::outs() << "(clang-tutor)  no declarations found " << "\n";
+      llvm::outs() << "(clang-tutor)  no declarations found "
+                   << "\n";
       return;
     }
 
-    for (auto &Element : Visitor.getDeclMap()){
+    for (auto &Element : Visitor.getDeclMap()) {
       llvm::outs() << "(clang-tutor)  file: " << Element.first() << "\n";
       llvm::outs() << "(clang-tutor)  count: " << Element.second << "\n";
     }

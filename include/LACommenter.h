@@ -17,7 +17,8 @@
 //-----------------------------------------------------------------------------
 // ASTMatcher callback
 //-----------------------------------------------------------------------------
-class LACommenterMatcher : public clang::ast_matchers::MatchFinder::MatchCallback {
+class LACommenterMatcher
+    : public clang::ast_matchers::MatchFinder::MatchCallback {
 public:
   LACommenterMatcher(clang::Rewriter &LACRewriter) : LACRewriter(LACRewriter) {}
   // Callback that's executed whenever the Matcher in LACommenterASTConsumer

@@ -25,7 +25,7 @@
 //      * clang -cc1 -load <BUILD_DIR>/lib/libCodeStyleChecker.dylib -plugin '\'
 //        CSC test/CodeStyleCheckerVector.cpp
 //    All TUs (the main file and the #includ-ed header files)
-//      * clang -cc1 -load <BUILD_DIR>/lib/libCodeStyleChecker.dylib '\' 
+//      * clang -cc1 -load <BUILD_DIR>/lib/libCodeStyleChecker.dylib '\'
 //        -plugin CSC -plugin-arg-CSC -main-tu-only=false '\'
 //        test/CodeStyleCheckerVector.cpp
 //    2. As a standalone tool:
@@ -70,7 +70,7 @@ bool CodeStyleCheckerVisitor::VisitFunctionDecl(FunctionDecl *Decl) {
 
 bool CodeStyleCheckerVisitor::VisitVarDecl(VarDecl *Decl) {
   // Skip anonymous function parameter declarations
-  if (isa<ParmVarDecl>(Decl) &&  (0 == Decl->getNameAsString().size()))
+  if (isa<ParmVarDecl>(Decl) && (0 == Decl->getNameAsString().size()))
     return true;
 
   checkNameStartsWithUpperCase(Decl);
@@ -178,7 +178,8 @@ public:
                  const std::vector<std::string> &Args) override {
     for (StringRef Arg : Args) {
       if (Arg.startswith("-main-tu-only="))
-        MainTuOnly = Arg.substr(strlen("-main-tu-only=")).equals_insensitive("true");
+        MainTuOnly =
+            Arg.substr(strlen("-main-tu-only=")).equals_insensitive("true");
       else if (Arg.startswith("-help"))
         PrintHelp(llvm::errs());
       else
