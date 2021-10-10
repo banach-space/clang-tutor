@@ -11,26 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Download Ninja
-        shell: cmake -P {0}
         run: |
-          # The following steps are implemented using CMake commands
-          set(ninja_version "1.9.0")
-          set(ninja_suffix "linux.zip")
-          set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
-          file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
-          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
-
-          if (NOT "${{ runner.os }}" STREQUAL "Windows")
-            execute_process(
-            COMMAND chmod +x ninja
-            )
-          endif()
+          git clone git://github.com/ninja-build/ninja.git
+          pushd ninja
+          ./configure.py --bootstrap
+          popd
       - name: Add Ninja to $PATH
         run: |
-          echo "${GITHUB_WORKSPACE}" >> $GITHUB_PATH
+          echo "${GITHUB_WORKSPACE}/ninja" >> $GITHUB_PATH
       - name: Clone llvm-project
         run: |
-          git clone --depth 1 --single-branch --branch release/12.x https://github.com/llvm/llvm-project
+          git clone --depth 1 --single-branch --branch release/13.x https://github.com/llvm/llvm-project
       - name: Make ld.gold the default linker
         run: |
           # This a quick and easy hack. Not something I would use on my

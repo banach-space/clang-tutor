@@ -94,7 +94,7 @@ public:
                  const std::vector<std::string> &Args) override {
     // Example error handling.
     DiagnosticsEngine &D = CI.getDiagnostics();
-    for (unsigned I = 0, E = Args.size(); I != E; ++I) {
+    for (size_t I = 0, E = Args.size(); I != E; ++I) {
       llvm::errs() << "CodeRefactor arg = " << Args[I] << "\n";
 
       if (Args[I] == "-class-name") {
@@ -126,17 +126,17 @@ public:
         PrintHelp(llvm::errs());
     }
 
-    if (NewName == "") {
+    if (NewName.empty()) {
       D.Report(D.getCustomDiagID(DiagnosticsEngine::Error,
                                  "missing -new-name argument"));
       return false;
     }
-    if (OldName == "") {
+    if (OldName.empty()) {
       D.Report(D.getCustomDiagID(DiagnosticsEngine::Error,
                                  "missing -old-name argument"));
       return false;
     }
-    if (ClassName == "") {
+    if (ClassName.empty()) {
       D.Report(D.getCustomDiagID(DiagnosticsEngine::Error,
                                  "missing -class-name argument"));
       return false;
@@ -144,7 +144,7 @@ public:
 
     return true;
   }
-  void PrintHelp(llvm::raw_ostream &ros) {
+  static void PrintHelp(llvm::raw_ostream &ros) {
     ros << "Help for CodeRefactor plugin goes here\n";
   }
 
