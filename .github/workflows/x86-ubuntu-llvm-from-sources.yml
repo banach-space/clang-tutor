@@ -31,9 +31,9 @@ jobs:
       - name: Build LLVM & Clang
         run: |
           cd llvm-project
-          git checkout release/12.x
+          git checkout release/13.x
           mkdir build && cd build
-          cmake -G Ninja -D CMAKE_MAKE_PROGRAM=$GITHUB_WORKSPACE/ninja \
+          cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="X86" -DLLVM_OPTIMIZED_TABLEGEN=ON \
             ../llvm
