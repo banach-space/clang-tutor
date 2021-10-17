@@ -18,7 +18,7 @@ jobs:
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
           sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main"
           sudo apt-get update
-          sudo apt-get install -y llvm-13 llvm-13-dev clang-13 libclang-common-13-dev libclang-13-dev llvm-13-tools
+          sudo apt-get install -y llvm-13 llvm-13-dev clang-13 libclang-common-13-dev libclang-13-dev llvm-13-tools libomp-13-dev
           sudo apt-get install python3-setuptools
           sudo pip3 install lit
       - name: Build HelloWorld
