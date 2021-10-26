@@ -86,7 +86,7 @@ CodeRefactorASTConsumer::CodeRefactorASTConsumer(Rewriter &R,
 }
 
 //-----------------------------------------------------------------------------
-// FrotendAction
+// FrontendAction
 //-----------------------------------------------------------------------------
 class CodeRefactorAddPluginAction : public PluginASTAction {
 public:

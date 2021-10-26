@@ -91,7 +91,7 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-// FrotendAction for HelloWorld
+// FrontendAction for HelloWorld
 //-----------------------------------------------------------------------------
 class FindNamedClassAction : public clang::PluginASTAction {
 public:

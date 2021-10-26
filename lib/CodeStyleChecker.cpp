@@ -163,7 +163,7 @@ void CodeStyleCheckerVisitor::checkNameStartsWithUpperCase(NamedDecl *Decl) {
 }
 
 //-----------------------------------------------------------------------------
-// FrotendAction
+// FrontendAction
 //-----------------------------------------------------------------------------
 class CSCASTAction : public PluginASTAction {
 public:

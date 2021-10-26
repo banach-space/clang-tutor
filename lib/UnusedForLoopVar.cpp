@@ -174,7 +174,7 @@ bool UnusedForLoopVarVisitor::VisitDeclRefExpr(DeclRefExpr const *Stmt) {
 }
 
 //-----------------------------------------------------------------------------
-// UnusedForLoopVarASTConsumer - implemenentation
+// UnusedForLoopVarASTConsumer - implementation
 //-----------------------------------------------------------------------------
 UnusedForLoopVarASTConsumer::UnusedForLoopVarASTConsumer(ASTContext &CTX,
                                                          SourceManager &InSM)
@@ -199,7 +199,7 @@ UnusedForLoopVarASTConsumer::UnusedForLoopVarASTConsumer(ASTContext &CTX,
 }
 
 //-----------------------------------------------------------------------------
-// FrotendAction
+// FrontendAction
 //-----------------------------------------------------------------------------
 class UFLVMatcherPluginAction : public PluginASTAction {
 public:
