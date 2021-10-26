@@ -3,7 +3,7 @@
 //    LACommenter.cpp
 //
 // DESCRIPTION:
-//    Literal argument commenter - adds in-line C-style comments as reccomended
+//    Literal argument commenter - adds in-line C-style comments as recommended
 //    in LLVM's coding guideline:
 //      * https://llvm.org/docs/CodingStandards.html#comment-formatting
 //    This plugin will comment the following literal argument types:
@@ -52,7 +52,7 @@ void LACommenterMatcher::run(const MatchFinder::MatchResult &Result) {
   ASTContext *Ctx = Result.Context;
 
   // Callee and caller are accessed via .bind("callee") and .bind("caller"),
-  // respecitvely, from the ASTMatcher
+  // respectively, from the ASTMatcher
   const FunctionDecl *CalleeDecl =
       Result.Nodes.getNodeAs<clang::FunctionDecl>("callee");
   const CallExpr *TheCall = Result.Nodes.getNodeAs<clang::CallExpr>("caller");
@@ -130,7 +130,7 @@ LACommenterASTConsumer::LACommenterASTConsumer(Rewriter &R) : LACHandler(R) {
 }
 
 //-----------------------------------------------------------------------------
-// FrotendAction
+// FrontendAction
 //-----------------------------------------------------------------------------
 class LACPluginAction : public PluginASTAction {
 public:

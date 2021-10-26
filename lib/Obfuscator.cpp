@@ -11,7 +11,7 @@
 //
 //  Either of the operands can be a literal or a variable declared earlier. The
 //  modified file is printed to stdout. Additions and subtractions are modified
-//  seperately, i.e. the plugin runs twice over the input file. First time it
+//  separately, i.e. the plugin runs twice over the input file. First time it
 //  modifies the additions, second time it modifies the subtractions.
 //
 // USAGE:
@@ -158,7 +158,7 @@ ObfuscatorASTConsumer::ObfuscatorASTConsumer(std::shared_ptr<Rewriter> R)
 }
 
 //-----------------------------------------------------------------------------
-// FrotendAction
+// FrontendAction
 //-----------------------------------------------------------------------------
 class ObfuscatorPluginAction : public PluginASTAction {
 public:
