@@ -274,7 +274,7 @@ will comment character, integer, floating point, boolean and string literal
 arguments.
 
 This plugin is based on a similar example by Peter Smith presented
-[here](https://s3.amazonaws.com/connect.linaro.org/yvr18/presentations/yvr18-223.pdf).
+[here](https://static.linaro.org/connect/yvr18/presentations/yvr18-223.pdf).
 
 ### Run the plugin
 You can test **LACommenter** on the example presented above. Assuming that it
