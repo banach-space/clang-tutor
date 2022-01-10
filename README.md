@@ -121,7 +121,7 @@ results are likely to be different.
 Development Environment
 =======================
 ## Platform Support And Requirements
-**clang-tutor** has been tested on **Ubuntu 18.04** and **Mac OS X 10.14.6**. In
+**clang-tutor** has been tested on **Ubuntu 20.04** and **Mac OS X 10.14.6**. In
 order to build **clang-tutor** you will need:
 
   * LLVM 13 and Clang 13
@@ -131,9 +131,6 @@ order to build **clang-tutor** you will need:
 As Clang is a subproject within
 [llvm-project](https://github.com/llvm/llvm-project), it depends on LLVM (i.e.
 **clang-tutor** requires development packages for both Clang and LLVM).
-
-Note that the default version of CMake in **Ubuntu 18.04** is 3.10.2, so you
-may need to update it manually.
 
 There are additional requirements for tests (these will be satisfied by
 installing LLVM 13):
@@ -169,7 +166,7 @@ from the official [repository](http://apt.llvm.org/):
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-13 main"
 sudo apt-get update
-sudo apt-get install -y llvm-13 llvm-13-dev llvm-13-tools clang-13 libclang-common-13-dev libclang-13-dev 
+sudo apt-get install -y llvm-13 llvm-13-dev libllvm13 llvm-13-tools clang-13 libclang-common-13-dev libclang-13-dev libmlir-13 libmlir-13-dev
 ```
 This will install all the required header files, libraries and tools in
 `/usr/lib/llvm-13/`.
