@@ -87,7 +87,11 @@ void UnusedForLoopVarMatcher::runRangeForLoop(
       !Ctx->getSourceManager().isInMainFile(RangeForLoop->getForLoc()))
     return;
 
-  // If LoopVar _is used_ there's nothing to report
+  // If LoopVar _is used_ there's nothing to report. Note that in the following
+  // case, `j` will be flagged as _used_ and `i` will be flagged as _not_used_.
+  // ```cpp
+  // for (int j = 0, i = 0; j < 20; j++) { }
+  // ```
   if (LoopVar->isUsed(true))
     return;
 
@@ -130,7 +134,8 @@ bool UnusedForLoopVarVisitor::TraverseForStmt(ForStmt *S) {
   if (VarsDeclaredInLoopInitStmt.empty())
     return true;
 
-  // Traverse the body of the loop and record every use of the loop indices
+  // Traverse, recursively, the body of the loop and record every use of the
+  // loop indices
   auto Ret = RecursiveASTVisitor::TraverseStmt(S->getBody());
 
   // For every loop variable declaration, LoopVarDecl, check whether the
@@ -151,7 +156,7 @@ bool UnusedForLoopVarVisitor::TraverseForStmt(ForStmt *S) {
   VarsDeclaredInLoopInitStmt.clear();
   UsedVars.clear();
 
-  // TODO: What are we returning here?
+  // Return whether the visitation was terminated early
   return Ret;
 }
 

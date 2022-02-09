@@ -42,7 +42,13 @@ class UnusedForLoopVarVisitor
     : public clang::RecursiveASTVisitor<UnusedForLoopVarVisitor> {
 public:
   explicit UnusedForLoopVarVisitor(clang::ASTContext *Ctx) : Ctx(Ctx) {}
+  // TraverseFoo(Foo *x) methods are documented in
+  // clang/include/clang/AST/RecursiveASTVisitor.h (above the declaration of
+  // the `RecursiveASTVisitor` class)
   bool TraverseForStmt(clang::ForStmt *S);
+  // VisitFoo(Foo *x) methods are documented in
+  // clang/include/clang/AST/RecursiveASTVisitor.h (above the declaration of
+  // the `RecursiveASTVisitor` class)
   bool VisitDeclRefExpr(clang::DeclRefExpr const *S);
 
 private:

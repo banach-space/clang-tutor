@@ -490,10 +490,12 @@ The second example leads to the following warning:
 warning: (AST Matcher) range for-loop variable not used
 ```
 
-Once you read the [source
+Reading the [source
 code](https://github.com/banach-space/clang-tutor/blob/main/lib/UnusedForLoopVar.cpp)
-it should be obvious why in every case a different framework is needed to catch
-the issue.
+should help you understand why different frameworks are needed in different
+cases. I have also added a few test files that you can use as reference
+examples (e.g.
+[UnusedForLoopVar_regular_loop.cpp](https://github.com/banach-space/clang-tutor/blob/main/test/UnusedForLoopVar_regular_loop.cpp)).
 
 ### Run the plugin
 ```bash
