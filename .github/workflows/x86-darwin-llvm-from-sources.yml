@@ -21,11 +21,11 @@ jobs:
           echo "${GITHUB_WORKSPACE}/ninja" >> $GITHUB_PATH
       - name: Clone llvm-project
         run: |
-          git clone --depth 1 --single-branch --branch release/13.x https://github.com/llvm/llvm-project
+          git clone --depth 1 --single-branch --branch release/14.x https://github.com/llvm/llvm-project
       - name: Build LLVM & Clang
         run: |
           cd llvm-project
-          git checkout release/13.x
+          git checkout release/14.x
           mkdir build && cd build
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
