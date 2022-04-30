@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        type: [Debug, Release]
     steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
@@ -22,13 +25,13 @@ jobs:
         run: |
           cd HelloWorld
           mkdir build && cd build
-          cmake -DCT_Clang_INSTALL_DIR=/usr/local/opt/llvm/ ../
+          cmake -DCT_Clang_INSTALL_DIR=/usr/local/opt/llvm/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
           make -j2
           /usr/local/opt/llvm/bin/clang -cc1 -load ./libHelloWorld.dylib -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
       - name: Build clang-tutor + run tests
         run: |
           cd $GITHUB_WORKSPACE
           mkdir build && cd build
-          cmake -DCT_Clang_INSTALL_DIR=/usr/local/opt/llvm/  ../
+          cmake -DCT_Clang_INSTALL_DIR=/usr/local/opt/llvm/ -DCMAKE_BUILD_TYPE=${{ matrix.type }}  ../
           make -j2
           lit test/
