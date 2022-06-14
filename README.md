@@ -6,6 +6,12 @@ clang-tutor
 
 Example Clang plugins for C and C++ - based on **Clang 13**
 
+> **NOTE:** The switch to Clang 14 is awaiting
+> [#97618](https://github.com/Homebrew/homebrew-core/pull/97618) to be
+> resolved. In the meantime, you can use the  
+> [release_14](https://github.com/banach-space/clang-tutor/tree/release_14)
+> branch.
+
 **clang-tutor** is a collection of self-contained reference Clang plugins. It's a
 tutorial that targets novice and aspiring Clang developers. Key features:
 
