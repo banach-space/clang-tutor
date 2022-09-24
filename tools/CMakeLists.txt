@@ -7,19 +7,43 @@ set(CLANG_TUTOR_TOOLS
 )
 
 set(ct-la-commenter_SOURCES
-  LACommenterMain.cpp
-  ../lib/LACommenter.cpp
+ "${CMAKE_CURRENT_SOURCE_DIR}/LACommenterMain.cpp"
+ "${CMAKE_CURRENT_SOURCE_DIR}/../lib/LACommenter.cpp"
 )
 
 set(ct-code-refactor_SOURCES
-  CodeRefactorMain.cpp
-  ../lib/CodeRefactor.cpp
+ "${CMAKE_CURRENT_SOURCE_DIR}/CodeRefactorMain.cpp"
+ "${CMAKE_CURRENT_SOURCE_DIR}/../lib/CodeRefactor.cpp"
 )
 
 set(ct-code-style-checker_SOURCES
-  CodeStyleCheckerMain.cpp
-  ../lib/CodeStyleChecker.cpp
+ "${CMAKE_CURRENT_SOURCE_DIR}/CodeStyleCheckerMain.cpp"
+ "${CMAKE_CURRENT_SOURCE_DIR}/../lib/CodeStyleChecker.cpp"
 )
+
+# DECIDE WHAT LIBRARIES TO LINK IN
+#=================================
+# The list of the libraries below is the required minimum. However, when using
+# LLVM from Homebrew your system linker might complain when using these:
+# ```
+#   (...) Opaque pointers are only supported in -opaque-pointers mode (Producer: 'LLVM15.0.0' Reader: 'LLVM APPLE_1_1400.0.29.102_0')
+# ```
+# To work around this, you can use `libclang-cpp` and `libLLVM` instead. That
+# solves the problem because:
+#  * `libclang-cpp`/`libLLVM` are always a dynamic library (and the problem above is only
+#    triggered for static libs)
+#  * `libclang-cpp`/`libLLVM` include all Clang/LLVM libraries (i.e. all the
+#    libraries listed below _and more_)
+set(libs "clang")
+
+try_compile(testMinimalCompilation "${CMAKE_BINARY_DIR}/temp" SOURCES
+  ${ct-la-commenter_SOURCES})
+
+if(NOT ${testMinimalCompilation})
+  set(libs "clang-cpp" "LLVM")
+endif()
+
+message("list libs: ${libs}")
 
 # CONFIGURE THE TOOLS
 # ===================
@@ -33,7 +57,7 @@ foreach( tool ${CLANG_TUTOR_TOOLS} )
     # Link with libclangTooling
     target_link_libraries(
       ${tool}
-      clangTooling
+      ${libs}
     )
 
     # Configure include directories for 'tool'

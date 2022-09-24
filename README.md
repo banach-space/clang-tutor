@@ -4,7 +4,7 @@ clang-tutor
 [![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Darwin/badge.svg?branch=main)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Darwin+branch%3Amain)
 
 
-Example Clang plugins for C and C++ - based on **Clang 14**
+Example Clang plugins for C and C++ - based on **Clang 15**
 
 **clang-tutor** is a collection of self-contained reference Clang plugins. It's a
 tutorial that targets novice and aspiring Clang developers. Key features:
@@ -52,7 +52,7 @@ implements the minimum set-up for an out-of-tree plugin.
 
 **HelloWorld** extracts some interesting information from the input
 _translation unit_. It visits all [C++ record
-declarations](https://github.com/llvm/llvm-project/blob/release/14.x/clang/include/clang/AST/DeclCXX.h#L253)
+declarations](https://github.com/llvm/llvm-project/blob/release/15.x/clang/include/clang/AST/DeclCXX.h#L253)
 (more specifically class, struct and union declarations) and counts them.
 Recall that translation unit consists of the input source file and all the
 header files that it includes (directly or indirectly).
@@ -66,7 +66,7 @@ You can build and run **HelloWorld** like this:
 
 ```bash
 # Build the plugin
-export Clang_DIR=<installation/dir/of/clang/14>
+export Clang_DIR=<installation/dir/of/clang/15>
 export CLANG_TUTOR_DIR=<source/dir/clang/tutor>
 mkdir build
 cd build
@@ -123,8 +123,8 @@ Development Environment
 **clang-tutor** has been tested on **Ubuntu 20.04** and **Mac OS X 10.14.6**. In
 order to build **clang-tutor** you will need:
 
-  * LLVM 14 and Clang 14
-  * C++ compiler that supports C++14
+  * LLVM 15 and Clang 15
+  * C++ compiler that supports C++17
   * CMake 3.13.4 or higher
 
 As Clang is a subproject within
@@ -132,14 +132,14 @@ As Clang is a subproject within
 **clang-tutor** requires development packages for both Clang and LLVM).
 
 There are additional requirements for tests (these will be satisfied by
-installing LLVM 14):
+installing LLVM 15):
   * [**lit**](https://llvm.org/docs/CommandGuide/lit.html) (aka **llvm-lit**,
     LLVM tool for executing the tests)
   * [**FileCheck**](https://llvm.org/docs/CommandGuide/FileCheck.html) (LIT
     requirement, it's used to check whether tests generate the expected output)
 
-## Installing Clang 14 On Mac OS X
-On Darwin you can install Clang 14 and LLVM 14 with
+## Installing Clang 15 On Mac OS X
+On Darwin you can install Clang 15 and LLVM 15 with
 [Homebrew](https://brew.sh/):
 
 ```bash
@@ -147,7 +147,7 @@ brew install llvm
 ```
 
 If you already have an older version of Clang and LLVM installed, you can
-upgrade it to Clang 14 and LLVM 14 like this:
+upgrade it to Clang 15 and LLVM 15 like this:
 
 ```bash
 brew upgrade llvm
@@ -156,29 +156,29 @@ brew upgrade llvm
 Once the installation (or upgrade) is complete, all the required header files,
 libraries and tools will be located in `/usr/local/opt/llvm/`.
 
-## Installing Clang 14 On Ubuntu
-On Ubuntu Bionic, you can [install modern
+## Installing Clang 15 On Ubuntu
+On Ubuntu Jammy Jellyfish, you can [install modern
 LLVM](https://blog.kowalczyk.info/article/k/how-to-install-latest-clang-6.0-on-ubuntu-16.04-xenial-wsl.html)
 from the official [repository](http://apt.llvm.org/):
 
 ```bash
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-14 main"
+sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main"
 sudo apt-get update
-sudo apt-get install -y llvm-14 llvm-14-dev libllvm14 llvm-14-tools clang-14 libclang-common-14-dev libclang-14-dev libmlir-14 libmlir-14-dev
+sudo apt-get install -y llvm-15 llvm-15-dev libllvm15 llvm-15-tools clang-15 libclang-common-15-dev libclang-15-dev libmlir-15 libmlir-15-dev
 ```
 This will install all the required header files, libraries and tools in
-`/usr/lib/llvm-14/`.
+`/usr/lib/llvm-15/`.
 
-## Building Clang 14 From Sources
+## Building Clang 15 From Sources
 Building from sources can be slow and tricky to debug. It is not necessary, but
-might be your preferred way of obtaining LLVM/Clang 14. The following steps
+might be your preferred way of obtaining LLVM/Clang 15. The following steps
 will work on Linux and Mac OS X:
 
 ```bash
 git clone https://github.com/llvm/llvm-project.git
 cd llvm-project
-git checkout release/14.x
+git checkout release/15.x
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=host -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" <llvm-project/root/dir>/llvm/
@@ -199,17 +199,17 @@ Building & Testing
 You can build **clang-tutor** (and all the provided plugins) as follows:
 ```bash
 cd <build/dir>
-cmake -DCT_Clang_INSTALL_DIR=<installation/dir/of/clang/14> <source/dir/clang-tutor>
+cmake -DCT_Clang_INSTALL_DIR=<installation/dir/of/clang/15> <source/dir/clang-tutor>
 make
 ```
 
 The `CT_Clang_INSTALL_DIR` variable should be set to the root of either the
-installation or build directory of Clang 14. It is used to locate the
+installation or build directory of Clang 15. It is used to locate the
 corresponding `LLVMConfig.cmake` script that is used to set the include and
 library paths.
 
 In order to run the tests, you need to install **llvm-lit** (aka **lit**). It's
-not bundled with LLVM 14 packages, but you can install it with **pip**:
+not bundled with LLVM 15 packages, but you can install it with **pip**:
 ```bash
 # Install lit - note that this installs lit globally
 pip install lit
@@ -307,16 +307,16 @@ explaination about it can be found on [Eli Bendersky's blog](https://eli.thegree
 
 ## CodeStyleChecker
 This plugin demonstrates how to use Clang's
-[DiagnosticEngine](https://github.com/llvm/llvm-project/blob/release/14.x/clang/include/clang/Basic/Diagnostic.h#L191)
+[DiagnosticEngine](https://github.com/llvm/llvm-project/blob/release/15.x/clang/include/clang/Basic/Diagnostic.h#L191)
 to generate custom compiler warnings.  Essentially, **CodeStyleChecker** checks
 whether names of classes, functions and variables in the input translation unit
 adhere to LLVM's [style
 guide](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly).
 If not, a warning is printed. For every warning, **CodeStyleChecker** generates
 a suggestion that would fix the corresponding issue. This is done with the
-[FixItHint](https://github.com/llvm/llvm-project/blob/release/14.x/clang/include/clang/Basic/Diagnostic.h#L70)
+[FixItHint](https://github.com/llvm/llvm-project/blob/release/15.x/clang/include/clang/Basic/Diagnostic.h#L70)
 API.
-[SourceLocation](https://github.com/llvm/llvm-project/blob/release/14.x/clang/include/clang/Basic/SourceLocation.h#L86)
+[SourceLocation](https://github.com/llvm/llvm-project/blob/release/15.x/clang/include/clang/Basic/SourceLocation.h#L86)
 API is used to generate valid source location.
 
 **CodeStyleChecker** is robust enough to cope with complex examples like
