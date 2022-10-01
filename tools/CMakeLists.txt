@@ -34,7 +34,7 @@ set(ct-code-style-checker_SOURCES
 #    triggered for static libs)
 #  * `libclang-cpp`/`libLLVM` include all Clang/LLVM libraries (i.e. all the
 #    libraries listed below _and more_)
-set(libs "clang")
+set(libs "clangTooling")
 
 try_compile(testMinimalCompilation "${CMAKE_BINARY_DIR}/temp" SOURCES
   ${ct-la-commenter_SOURCES})
@@ -42,8 +42,6 @@ try_compile(testMinimalCompilation "${CMAKE_BINARY_DIR}/temp" SOURCES
 if(NOT ${testMinimalCompilation})
   set(libs "clang-cpp" "LLVM")
 endif()
-
-message("list libs: ${libs}")
 
 # CONFIGURE THE TOOLS
 # ===================
