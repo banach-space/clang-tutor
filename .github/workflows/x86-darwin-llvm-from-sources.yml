@@ -32,6 +32,7 @@ jobs:
             -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
             -DLLVM_TARGETS_TO_BUILD="X86" \
             -DLLVM_OPTIMIZED_TABLEGEN=ON \
+            -DLLVM_BUILD_LLVM_DYLIB=ON \
             -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \
             ../llvm
           ninja

@@ -34,6 +34,9 @@ set(ct-code-style-checker_SOURCES
 #    triggered for static libs)
 #  * `libclang-cpp`/`libLLVM` include all Clang/LLVM libraries (i.e. all the
 #    libraries listed below _and more_)
+#
+# TODO: Once LLVM 16 is released, replace `try_compile` with a test for
+# LLVM_ENABLE_LTO, see https://reviews.llvm.org/D134936.
 set(libs "clangTooling")
 
 try_compile(testMinimalCompilation "${CMAKE_BINARY_DIR}/temp" SOURCES
