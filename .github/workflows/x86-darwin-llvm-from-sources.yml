@@ -37,7 +37,7 @@ jobs:
           ninja
       - name: Install lit
         run: |
-          sudo pip3 install lit
+          brew install lit
       - name: Build HelloWorld
         run: |
           cd HelloWorld
