@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         run: |
           brew update
-          brew install llvm@15
+          brew install llvm@16
           brew install lit
       - name: Build HelloWorld
         run: |
