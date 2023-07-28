@@ -7,7 +7,7 @@
   },
   "configurePresets": [
     {
-      "name": "hello",
+      "name": "hello-ubuntu",
       "displayName": "Hello World Config",
       "description": "Hello World build using Ninja generator",
       "generator": "Unix Makefiles",
@@ -25,12 +25,32 @@
         }
       },
       "debug": { "output": true }
+    },
+    {
+      "name": "mamba",
+      "displayName": "Mamba Config",
+      "description": "Mamba build using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+         "CT_Clang_INSTALL_DIR": "$penv{CONDA_PREFIX}/llvm"
+      },
+      "environment": {
+        "Clang_DIR": "$penv{CONDA_PREFIX}/llvm",
+        "CLANG_TUTOR_DIR": "${sourceDir}"
+      },
+      "vendor": {
+        "example.com/ExampleIDE/1.0": {
+          "autoFormat": true
+        }
+      },
+      "debug": { "output": true }
     }
   ],
   "buildPresets": [
     {
       "name": "hello",
-      "configurePreset": "hello",
+      "configurePreset": "mamba",
       "targets": "HelloWorld"
     }
   ]
