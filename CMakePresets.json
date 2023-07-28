@@ -1,0 +1,37 @@
+{
+  "version": 7,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 27,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "hello",
+      "displayName": "Hello World Config",
+      "description": "Hello World build using Ninja generator",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+         "CT_Clang_INSTALL_DIR": "/usr/lib/llvm-16"
+      },
+      "environment": {
+        "Clang_DIR": "/usr/lib/llvm-16",
+        "CLANG_TUTOR_DIR": "${sourceDir}"
+      },
+      "vendor": {
+        "example.com/ExampleIDE/1.0": {
+          "autoFormat": true
+        }
+      },
+      "debug": { "output": true }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "hello",
+      "configurePreset": "hello",
+      "targets": "HelloWorld"
+    }
+  ]
+}
