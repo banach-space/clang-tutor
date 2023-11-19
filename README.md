@@ -1,7 +1,7 @@
 clang-tutor
 =========
-[![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Ubuntu/badge.svg?branch=main)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Ubuntu+branch%3Amain)
-[![Build Status](https://github.com/banach-space/clang-tutor/workflows/x86-Darwin/badge.svg?branch=main)](https://github.com/banach-space/clang-tutor/actions?query=workflow%3Ax86-Darwin+branch%3Amain)
+[![x86-Ubuntu](https://github.com/banach-space/clang-tutor/actions/workflows/x86-ubuntu.yml/badge.svg)](https://github.com/banach-space/clang-tutor/actions/workflows/x86-ubuntu.yml)
+[![x86-Darwin](https://github.com/banach-space/clang-tutor/actions/workflows/x86-darwin.yml/badge.svg)](https://github.com/banach-space/clang-tutor/actions/workflows/x86-darwin.yml)
 
 
 Example Clang plugins for C and C++ - based on **Clang 16**

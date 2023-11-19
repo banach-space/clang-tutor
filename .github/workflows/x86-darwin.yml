@@ -15,7 +15,7 @@ jobs:
       matrix:
         type: [Debug, Release]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Unbreak Python in Github Actions
         # See:
         #   * https://github.com/actions/runner-images/issues/2322
