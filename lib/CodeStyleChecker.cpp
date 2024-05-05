@@ -177,10 +177,10 @@ public:
   bool ParseArgs(const CompilerInstance &CI,
                  const std::vector<std::string> &Args) override {
     for (StringRef Arg : Args) {
-      if (Arg.startswith("-main-tu-only="))
+      if (Arg.starts_with("-main-tu-only="))
         MainTuOnly =
             Arg.substr(strlen("-main-tu-only=")).equals_insensitive("true");
-      else if (Arg.startswith("-help"))
+      else if (Arg.starts_with("-help"))
         PrintHelp(llvm::errs());
       else
         return false;

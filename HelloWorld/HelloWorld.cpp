@@ -57,8 +57,8 @@ bool HelloWorld::VisitCXXRecordDecl(CXXRecordDecl *Declaration) {
     FullLocation = FullLocation.getExpansionLoc();
 
   SourceManager &SrcMgr = Context->getSourceManager();
-  const FileEntry *Entry =
-      SrcMgr.getFileEntryForID(SrcMgr.getFileID(FullLocation));
+  OptionalFileEntryRef Entry =
+      SrcMgr.getFileEntryRefForID(SrcMgr.getFileID(FullLocation));
   DeclMap[Entry->getName()]++;
 
   return true;
