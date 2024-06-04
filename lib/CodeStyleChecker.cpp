@@ -193,6 +193,10 @@ public:
     ros << "Help for CodeStyleChecker plugin goes here\n";
   }
 
+  PluginASTAction::ActionType getActionType() override {
+    return AddAfterMainAction;
+  }
+
 private:
   bool MainTuOnly = true;
 };

@@ -358,6 +358,21 @@ the warnings with correct source code information.
 `-fcolor-diagnostics` above instructs Clang to generate color output
 (unfortunately Markdown doesn't render the colors here).
 
+The **CodeStyleChecker** plugin could be used during the compilation process to 
+detect errors in the code, and get the output file, for example:
+```bash
+$Clang_DIR/bin/clang -fplugin=libCodeStyleChecker.dylib -o file.o -c file.cpp
+file.cpp:2:7: warning: Type and variable names should start with upper-case letter
+class clangTutor_BadName;
+      ^~~~~~~~~~~~~~~~~~~
+      ClangTutor_BadName
+file.cpp:2:17: warning: `_` in names is not allowed
+class clangTutor_BadName;
+      ~~~~~~~~~~^~~~~~~~~
+      clangTutorBadName
+2 warnings generated.
+```
+
 ### Run the plugin through `ct-code-style-checker`
 **ct-code-style-checker** is a standalone tool that will run the **CodeStyleChecker** plugin,
 but without the need of using `clang` and loading the plugin:
