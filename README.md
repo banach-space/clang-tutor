@@ -281,7 +281,7 @@ $Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC
 ```
 
 ### Run the plugin through `ct-la-commenter`
-**locommenter** is a standalone tool that will run the **LACommenter** plugin,
+**lacommenter** is a standalone tool that will run the **LACommenter** plugin,
 but without the need of using `clang` and loading the plugin:
 
 ```bash
