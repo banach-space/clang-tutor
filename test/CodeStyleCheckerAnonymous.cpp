@@ -1,4 +1,6 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC %s 2>&1
+// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -add-plugin CSC %s 2>&1
+// RUN: clang -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -add-plugin -Xclang CSC -c %s 2>&1
+// RUN: clang -fplugin=%shlibdir/libCodeStyleChecker%shlibext -c %s 2>&1
 
 // 1. Verify that anonymous unions are not flagged as invalid (no name ->
 // nothing to check). However, the member variables _are_ verified.

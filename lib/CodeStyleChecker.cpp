@@ -194,7 +194,11 @@ public:
   }
 
   PluginASTAction::ActionType getActionType() override {
-    return AddAfterMainAction;
+#ifndef TARGET_CLANG_TOOL
+    return AddBeforeMainAction;
+#else
+    return CmdlineAfterMainAction;
+#endif
   }
 
 private:

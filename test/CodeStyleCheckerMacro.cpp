@@ -1,4 +1,6 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC %s 2>&1
+// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -add-plugin CSC %s 2>&1
+// RUN: clang -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -add-plugin -Xclang CSC -c %s 2>&1
+// RUN: clang -fplugin=%shlibdir/libCodeStyleChecker%shlibext -c %s 2>&1
 
 #define clang_tutor_class_ok(class_name) class ClangTutor##class_name
 #define clang_tutor_class_underscore(class_name) class Clang_TutorClass##class_name
