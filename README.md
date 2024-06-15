@@ -1,7 +1,7 @@
 clang-tutor
 =========
 [![x86-Ubuntu](https://github.com/banach-space/clang-tutor/actions/workflows/x86-ubuntu.yml/badge.svg)](https://github.com/banach-space/clang-tutor/actions/workflows/x86-ubuntu.yml)
-[![x86-Darwin](https://github.com/banach-space/clang-tutor/actions/workflows/x86-darwin.yml/badge.svg)](https://github.com/banach-space/clang-tutor/actions/workflows/x86-darwin.yml)
+[![Apple Silicon](https://github.com/banach-space/clang-tutor/actions/workflows/x86-darwin.yml/badge.svg)](https://github.com/banach-space/clang-tutor/actions/workflows/x86-darwin.yml)
 
 
 Example Clang plugins for C and C++ - based on **Clang 18**
