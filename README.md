@@ -226,7 +226,7 @@ This table contains a summary of the examples available in **clang-tutor**. The
 _Framework_ column refers to a plugin framework available in Clang that was
 used to implement the corresponding example. This is either
 [RecursiveASTVisitor](https://clang.llvm.org/docs/RAVFrontendAction.html),
-[ASTMatcher](https://clang.llvm.org/docs/LibASTMatchersTutorial.html) or both. 
+[ASTMatcher](https://clang.llvm.org/docs/LibASTMatchersTutorial.html) or both.
 
 | Name      | Description     | Framework |
 |-----------|-----------------|-----------|
@@ -240,7 +240,7 @@ used to implement the corresponding example. This is either
 Once you've [built](#building--testing) this project, you can experiment with
 every plugin separately. All of them accept C and C++ files as input. Below you
 will find more detailed descriptions  (except for **HelloWorld**, which is
-documented [here](#helloworld)). 
+documented [here](#helloworld)).
 
 ## LACommenter
 The **LACommenter** (Literal Argument Commenter) plugin will comment literal
@@ -288,7 +288,7 @@ but without the need of using `clang` and loading the plugin:
 <build_dir>/bin/ct-la-commenter input_file.cpp --
 ```
 
-If you don't append `--` at the end of tools invocation will get the complain 
+If you don't append `--` at the end of tools invocation will get the complain
 from Clang tools about missing compilation database as follow:
 
 ```
@@ -299,11 +299,11 @@ fixed-compilation-database: Error while opening fixed database: No such file or 
 json-compilation-database: Error while opening JSON database: No such file or directory
 Running without flags.
 ```
-Another workaround to solve the issue is to set the 
+Another workaround to solve the issue is to set the
 [CMAKE_EXPORT_COMPILE_COMMANDS flag](https://cmake.org/cmake/help/v3.14/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html)
 during the CMake invocation. It will give you the compilation database into your
-build directory with the filename as compile_commands.json. More detailed 
-explanation about it can be found on [Eli Bendersky's blog](https://eli.thegreenplace.net/2014/05/21/compilation-databases-for-clang-based-tools). 
+build directory with the filename as compile_commands.json. More detailed
+explanation about it can be found on [Eli Bendersky's blog](https://eli.thegreenplace.net/2014/05/21/compilation-databases-for-clang-based-tools).
 
 ## CodeStyleChecker
 This plugin demonstrates how to use Clang's
@@ -419,7 +419,7 @@ This plugin detects unused for-loop variables (more specifically, the variables
 defined inside the
 [traditional](https://en.cppreference.com/w/cpp/language/for) and
 [range-based](https://en.cppreference.com/w/cpp/language/range-for) `for`
-loop statements) and issues a warning when one is found. For example, in 
+loop statements) and issues a warning when one is found. For example, in
 function `foo` the loop variable `j` is not used:
 
 ```c
@@ -541,7 +541,7 @@ this consists of two steps:
 * update the declaration and the definition of `foo` in the base class (i.e.
   `Base`) as well as all in the derived classes (i.e. `Derived`)
 * update all call sites the use static dispatch (e.g. `B1.foo()`) and dynamic
-  dispatch (e.g. `B2->foo()`). 
+  dispatch (e.g. `B2->foo()`).
 
 **CodeRefactor** will do all this refactoring for you! See
 [below](#run-the-plugin-4) how to run it.
