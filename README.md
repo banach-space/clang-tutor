@@ -303,7 +303,7 @@ Another workaround to solve the issue is to set the
 [CMAKE_EXPORT_COMPILE_COMMANDS flag](https://cmake.org/cmake/help/v3.14/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html)
 during the CMake invocation. It will give you the compilation database into your
 build directory with the filename as compile_commands.json. More detailed 
-explaination about it can be found on [Eli Bendersky's blog](https://eli.thegreenplace.net/2014/05/21/compilation-databases-for-clang-based-tools). 
+explanation about it can be found on [Eli Bendersky's blog](https://eli.thegreenplace.net/2014/05/21/compilation-databases-for-clang-based-tools). 
 
 ## CodeStyleChecker
 This plugin demonstrates how to use Clang's
@@ -327,7 +327,7 @@ operators](https://en.cppreference.com/w/cpp/language/cast_operator).
 
 
 ### Run the plugin
-Let's test **CodeStyleCheker** on the following file:
+Let's test **CodeStyleChecker** on the following file:
 
 ```cpp
 // file.cpp
@@ -506,7 +506,7 @@ This plugin will rename a specified member method in a class (or a struct) and
 in all classes derived from it. It will also update all call sites in which the
 method is used so that the code remains semantically correct.
 
-The following example contains all cases supported by **CodeFefactor**.
+The following example contains all cases supported by **CodeRefactor**.
 
 ```cpp
 // file.cpp
@@ -596,7 +596,7 @@ documentation that I have found very helpful.
 * **Projects That Use Clang Plugins**
   * Mozilla: official documentation on [static analysis in Firefox](https://firefox-source-docs.mozilla.org/code-quality/static-analysis.html#build-time-static-analysis), custom [ASTMatchers](https://searchfox.org/mozilla-central/source/build/clang-plugin/CustomMatchers.h)
   * Chromium: official documentation on [using clang plugins](https://chromium.googlesource.com/chromium/src.git/+/master/docs/clang.md#using-plugins), in-tree [source code](https://chromium.googlesource.com/chromium/src/+/master/tools/clang/plugins/)
-  * LibreOffice: official documenation on [developing Clang plugins](https://wiki.documentfoundation.org/Development/Clang_plugins), in-tree [source code](https://github.com/LibreOffice/core/tree/master/compilerplugins/clang)
+  * LibreOffice: official documentation on [developing Clang plugins](https://wiki.documentfoundation.org/Development/Clang_plugins), in-tree [source code](https://github.com/LibreOffice/core/tree/master/compilerplugins/clang)
 * **clang-query**
   * _"Exploring Clang Tooling Part 2: Examining the Clang AST with clang-query"_, Stephen Kelly, [blog post](https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-part-2-examining-the-clang-ast-with-clang-query/)
   * _"The Future of AST-Matcher based Refactoring"_, Stephen Kelly, [video 1](https://www.youtube.com/watch?v=yqi8U8Q0h2g&t=1202s), [video 2](https://www.youtube.com/watch?v=38tYYrnfNrs), [blog post](https://steveire.wordpress.com/2019/04/30/the-future-of-ast-matching-refactoring-tools-eurollvm-and-accu/)
