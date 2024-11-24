@@ -4,7 +4,7 @@ clang-tutor
 [![x86-Ubuntu](https://github.com/banach-space/clang-tutor/actions/workflows/x86-ubuntu.yml/badge.svg)](https://github.com/banach-space/clang-tutor/actions/workflows/x86-ubuntu.yml)
 
 
-Example Clang plugins for C and C++ - based on **Clang 18**
+Example Clang plugins for C and C++ - based on **Clang 19**
 
 **clang-tutor** is a collection of self-contained reference Clang plugins. It's a
 tutorial that targets novice and aspiring Clang developers. Key features:
@@ -52,7 +52,7 @@ implements the minimum set-up for an out-of-tree plugin.
 
 **HelloWorld** extracts some interesting information from the input
 _translation unit_. It visits all [C++ record
-declarations](https://github.com/llvm/llvm-project/blob/release/18.x/clang/include/clang/AST/DeclCXX.h#L253)
+declarations](https://github.com/llvm/llvm-project/blob/release/19.x/clang/include/clang/AST/DeclCXX.h#L253)
 (more specifically class, struct and union declarations) and counts them.
 Recall that translation unit consists of the input source file and all the
 header files that it includes (directly or indirectly).
@@ -66,7 +66,7 @@ You can build and run **HelloWorld** like this:
 
 ```bash
 # Build the plugin
-export Clang_DIR=<installation/dir/of/clang/18>
+export Clang_DIR=<installation/dir/of/clang/19>
 export CLANG_TUTOR_DIR=<source/dir/clang/tutor>
 mkdir build
 cd build
@@ -123,7 +123,7 @@ Development Environment
 **clang-tutor** has been tested on **Ubuntu 20.04** and **Mac OS X 10.14.6**. In
 order to build **clang-tutor** you will need:
 
-  * LLVM 18 and Clang 18
+  * LLVM 19 and Clang 19
   * C++ compiler that supports C++17
   * CMake 3.13.4 or higher
 
@@ -132,14 +132,14 @@ As Clang is a subproject within
 **clang-tutor** requires development packages for both Clang and LLVM).
 
 There are additional requirements for tests (these will be satisfied by
-installing LLVM 18):
+installing LLVM 19):
   * [**lit**](https://llvm.org/docs/CommandGuide/lit.html) (aka **llvm-lit**,
     LLVM tool for executing the tests)
   * [**FileCheck**](https://llvm.org/docs/CommandGuide/FileCheck.html) (LIT
     requirement, it's used to check whether tests generate the expected output)
 
-## Installing Clang 18 On Mac OS X
-On Darwin you can install Clang 18 and LLVM 18 with
+## Installing Clang 19 On Mac OS X
+On Darwin you can install Clang 19 and LLVM 19 with
 [Homebrew](https://brew.sh/):
 
 ```bash
@@ -147,7 +147,7 @@ brew install llvm
 ```
 
 If you already have an older version of Clang and LLVM installed, you can
-upgrade it to Clang 18 and LLVM 18 like this:
+upgrade it to Clang 19 and LLVM 19 like this:
 
 ```bash
 brew upgrade llvm
@@ -156,29 +156,29 @@ brew upgrade llvm
 Once the installation (or upgrade) is complete, all the required header files,
 libraries and tools will be located in `/usr/local/opt/llvm/`.
 
-## Installing Clang 18 On Ubuntu
+## Installing Clang 19 On Ubuntu
 On Ubuntu Jammy Jellyfish, you can [install modern
 LLVM](https://blog.kowalczyk.info/article/k/how-to-install-latest-clang-6.0-on-ubuntu-16.04-xenial-wsl.html)
 from the official [repository](http://apt.llvm.org/):
 
 ```bash
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main"
+sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-19 main"
 sudo apt-get update
-sudo apt-get install -y llvm-18 llvm-18-dev libllvm18 llvm-18-tools clang-18 libclang-common-18-dev libclang-18-dev libmlir-18 libmlir-18-dev
+sudo apt-get install -y llvm-19 llvm-19-dev libllvm19 llvm-19-tools clang-19 libclang-common-19-dev libclang-19-dev libmlir-19 libmlir-19-dev
 ```
 This will install all the required header files, libraries and tools in
-`/usr/lib/llvm-18/`.
+`/usr/lib/llvm-19/`.
 
-## Building Clang 18 From Sources
+## Building Clang 19 From Sources
 Building from sources can be slow and tricky to debug. It is not necessary, but
-might be your preferred way of obtaining LLVM/Clang 18. The following steps
+might be your preferred way of obtaining LLVM/Clang 19. The following steps
 will work on Linux and Mac OS X:
 
 ```bash
 git clone https://github.com/llvm/llvm-project.git
 cd llvm-project
-git checkout release/18.x
+git checkout release/19.x
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=host -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" <llvm-project/root/dir>/llvm/
@@ -199,17 +199,17 @@ Building & Testing
 You can build **clang-tutor** (and all the provided plugins) as follows:
 ```bash
 cd <build/dir>
-cmake -DCT_Clang_INSTALL_DIR=<installation/dir/of/clang/18> <source/dir/clang-tutor>
+cmake -DCT_Clang_INSTALL_DIR=<installation/dir/of/clang/19> <source/dir/clang-tutor>
 make
 ```
 
 The `CT_Clang_INSTALL_DIR` variable should be set to the root of either the
-installation or build directory of Clang 18. It is used to locate the
+installation or build directory of Clang 19. It is used to locate the
 corresponding `LLVMConfig.cmake` script that is used to set the include and
 library paths.
 
 In order to run the tests, you need to install **llvm-lit** (aka **lit**). It's
-not bundled with LLVM 18 packages, but you can install it with **pip**:
+not bundled with LLVM 19 packages, but you can install it with **pip**:
 ```bash
 # Install lit - note that this installs lit globally
 pip install lit
@@ -307,16 +307,16 @@ explanation about it can be found on [Eli Bendersky's blog](https://eli.thegreen
 
 ## CodeStyleChecker
 This plugin demonstrates how to use Clang's
-[DiagnosticEngine](https://github.com/llvm/llvm-project/blob/release/18.x/clang/include/clang/Basic/Diagnostic.h#L191)
+[DiagnosticEngine](https://github.com/llvm/llvm-project/blob/release/19.x/clang/include/clang/Basic/Diagnostic.h#L191)
 to generate custom compiler warnings.  Essentially, **CodeStyleChecker** checks
 whether names of classes, functions and variables in the input translation unit
 adhere to LLVM's [style
 guide](https://llvm.org/docs/CodingStandards.html#name-types-functions-variables-and-enumerators-properly).
 If not, a warning is printed. For every warning, **CodeStyleChecker** generates
 a suggestion that would fix the corresponding issue. This is done with the
-[FixItHint](https://github.com/llvm/llvm-project/blob/release/18.x/clang/include/clang/Basic/Diagnostic.h#L70)
+[FixItHint](https://github.com/llvm/llvm-project/blob/release/19.x/clang/include/clang/Basic/Diagnostic.h#L70)
 API.
-[SourceLocation](https://github.com/llvm/llvm-project/blob/release/18.x/clang/include/clang/Basic/SourceLocation.h#L86)
+[SourceLocation](https://github.com/llvm/llvm-project/blob/release/19.x/clang/include/clang/Basic/SourceLocation.h#L86)
 API is used to generate valid source location.
 
 **CodeStyleChecker** is robust enough to cope with complex examples like

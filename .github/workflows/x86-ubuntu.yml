@@ -22,9 +22,9 @@ jobs:
       - name: Install Dependencies
         run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-18 main"
+          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-19 main"
           sudo apt-get update
-          sudo apt-get install -y llvm-18 llvm-18-dev libllvm18 clang-18 libclang-common-18-dev libclang-18-dev llvm-18-tools
+          sudo apt-get install -y llvm-19 llvm-19-dev libllvm19 clang-19 libclang-common-19-dev libclang-19-dev llvm-19-tools
           sudo apt-get install python3-setuptools
           sudo apt-get install ${{ matrix.compiler.CXX }}
           sudo pip3 install lit
@@ -36,9 +36,9 @@ jobs:
           cd HelloWorld
           mkdir build && cd build
           # HelloWorld only supports CT_Clang_INSTALL_DIR
-          cmake -DCT_Clang_INSTALL_DIR=/usr/lib/llvm-18/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
+          cmake -DCT_Clang_INSTALL_DIR=/usr/lib/llvm-19/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
           make -j2
-          /usr/lib/llvm-18/bin/clang -cc1 -load ./libHelloWorld.so -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
+          /usr/lib/llvm-19/bin/clang -cc1 -load ./libHelloWorld.so -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
       - name: Build clang-tutor + run tests
         env:
           CC: ${{ matrix.compiler.CC }}
@@ -47,6 +47,6 @@ jobs:
           cd $GITHUB_WORKSPACE
           mkdir build && cd build
           # Test with Clang_ROOT
-          cmake -DClang_ROOT=/usr/lib/llvm-18/lib/cmake/clang/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
+          cmake -DClang_ROOT=/usr/lib/llvm-19/lib/cmake/clang/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
           make -j2
           lit test/
