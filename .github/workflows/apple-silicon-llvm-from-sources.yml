@@ -1,4 +1,4 @@
-name: x86-Darwin-llvm-from-sources
+name: Apple Silicon (from sources)
 
 on:
   schedule:
@@ -30,7 +30,7 @@ jobs:
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_PROJECTS="clang" \
             -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
-            -DLLVM_TARGETS_TO_BUILD="X86" \
+            -DLLVM_TARGETS_TO_BUILD="host" \
             -DLLVM_OPTIMIZED_TABLEGEN=ON \
             -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \
             ../llvm
