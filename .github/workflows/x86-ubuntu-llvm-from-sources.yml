@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - name: Download Ninja
@@ -21,7 +21,7 @@ jobs:
           echo "${GITHUB_WORKSPACE}/ninja" >> $GITHUB_PATH
       - name: Clone llvm-project
         run: |
-          git clone --depth 1 --single-branch --branch release/18.x https://github.com/llvm/llvm-project
+          git clone --depth 1 --single-branch --branch release/19.x https://github.com/llvm/llvm-project
       - name: Make ld.gold the default linker
         run: |
           # This a quick and easy hack. Not something I would use on my
@@ -31,12 +31,12 @@ jobs:
       - name: Build LLVM & Clang
         run: |
           cd llvm-project
-          git checkout release/18.x
+          git checkout release/19.x
           mkdir build && cd build
           cmake -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_ENABLE_PROJECTS="clang" \
-            -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi" \
+            -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
             -DLLVM_TARGETS_TO_BUILD="X86" \
             -DLLVM_OPTIMIZED_TABLEGEN=ON \
             ../llvm
