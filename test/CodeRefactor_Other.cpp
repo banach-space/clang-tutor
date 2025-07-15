@@ -1,7 +1,7 @@
-// RUN: clang -cc1 -load %shlibdir/libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name \
+// RUN: %clang_cc -cc1 -load %shlibdir/libCodeRefactor%shlibext -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name \
 // RUN: -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor run \
-// RUN: -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor walk %s 2>&1 | FileCheck %s --match-full-lines
-// RUN:  ../bin/ct-code-refactor --class-name=Base --new-name=walk --old-name=run %s -- | FileCheck %s --match-full-lines
+// RUN: -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor walk %s 2>&1 | %FileCheck %s --match-full-lines
+// RUN:  ../bin/ct-code-refactor --class-name=Base --new-name=walk --old-name=run %s -- | %FileCheck %s --match-full-lines
 
 // Verify that Base::Run() or base::run() are *not* renamed as {B|b}ase::Walk()
 // (because there's no Base::Run())

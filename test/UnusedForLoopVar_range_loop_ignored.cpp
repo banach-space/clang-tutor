@@ -1,4 +1,4 @@
-// RUN: clang++ -Xclang -verify -Xclang -load -Xclang %shlibdir/libUnusedForLoopVar%shlibext -Xclang -plugin -Xclang UFLV -c %s 2>&1
+// RUN: %clang_cxx -Xclang -verify -Xclang -load -Xclang %shlibdir/libUnusedForLoopVar%shlibext -Xclang -plugin -Xclang UFLV -c %s 2>&1
 
 // Unused for loop variables are are not reported by the plugin, because their
 // name match: [U|u][N|n][U|u][S|s][E|e][D|d]

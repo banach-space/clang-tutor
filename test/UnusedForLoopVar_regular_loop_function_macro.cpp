@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libUnusedForLoopVar%shlibext -plugin UFLV %s 2>&1
+// RUN: %clang_cc -cc1 -verify -load %shlibdir/libUnusedForLoopVar%shlibext -plugin UFLV %s 2>&1
 
 #define GENERATE_FUNCTION_WITH_UNUSED_REGULAR_FOR_LOOP_VAR(prefix) \
   int func_##prefix(int arg) {\

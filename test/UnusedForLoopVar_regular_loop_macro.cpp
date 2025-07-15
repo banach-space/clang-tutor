@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libUnusedForLoopVar%shlibext -plugin UFLV %s 2>&1
+// RUN: %clang_cc -cc1 -verify -load %shlibdir/libUnusedForLoopVar%shlibext -plugin UFLV %s 2>&1
 
 #define GENERATE_UNUSED_REGULAR_FOR_LOOP_VAR(size, inc) \
   do {\

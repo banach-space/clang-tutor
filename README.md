@@ -66,14 +66,15 @@ You can build and run **HelloWorld** like this:
 
 ```bash
 # Build the plugin
-export Clang_DIR=<installation/dir/of/clang/19>
+export LLVM_DIR=<installation/dir/of/clang/19>  # (Optional) 
 export CLANG_TUTOR_DIR=<source/dir/clang/tutor>
 mkdir build
 cd build
-cmake -DCT_Clang_INSTALL_DIR=$Clang_DIR $CLANG_TUTOR_DIR/HelloWorld/
+cmake -DLLVM_DIR=${LLVM_DIR} $CLANG_TUTOR_DIR/HelloWorld/
+# or just `cmake $CLANG_TUTOR_DIR/HelloWorld/`, for CMake find_package() can automatically find LLVM_DIR
 make
 # Run the plugin
-$Clang_DIR/bin/clang -cc1 -load ./libHelloWorld.{so|dylib} -plugin hello-world $CLANG_TUTOR_DIR/test/HelloWorld-basic.cpp
+${LLVM_DIR}/bin/clang -cc1 -load ./libHelloWorld.{so|dylib} -plugin hello-world $CLANG_TUTOR_DIR/test/HelloWorld-basic.cpp
 ```
 
 You should see the following output:
@@ -99,7 +100,7 @@ When running a Clang plugin on a C++ file that includes headers from STL, it is
 easier to run it with `clang++` (rather than `clang -cc1`) like this:
 
 ```bash
-$Clang_DIR/bin/clang++ -c -Xclang -load -Xclang libHelloWorld.dylib -Xclang -plugin -Xclang hello-world file.cpp
+${LLVM_DIR}/bin/clang++ -c -Xclang -load -Xclang libHelloWorld.dylib -Xclang -plugin -Xclang hello-world file.cpp
 ```
 
 This way you can be confident that all the necessary include paths (required to
@@ -277,7 +278,7 @@ You can test **LACommenter** on the example presented above. Assuming that it
 was saved in `input_file.c`, you can add comments to it as follows:
 
 ```bash
-$Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC input_file.cpp
+${LLVM_DIR}/bin/clang -cc1 -load <build_dir>/lib/libLACommenter.dylib -plugin LAC input_file.cpp
 ```
 
 ### Run the plugin through `ct-la-commenter`
@@ -338,7 +339,7 @@ The name of the class doesn't follow LLVM's coding guide and
 **CodeStyleChecker** indeed captures that:
 
 ```bash
-$Clang_DIR/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin CSC file.cpp
+${LLVM_DIR}/bin/clang -cc1 -fcolor-diagnostics -load libCodeStyleChecker.dylib -plugin CSC file.cpp
 file.cpp:2:7: warning: Type and variable names should start with upper-case letter
 class clangTutor_BadName;
       ^~~~~~~~~~~~~~~~~~~
@@ -403,7 +404,7 @@ int foo(int a, int b) {
 You can run the plugin like this:
 
 ```bash
-$Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libObfuscator.dylib -plugin Obfuscator input.cpp
+${LLVM_DIR}/bin/clang -cc1 -load <build_dir>/lib/libObfuscator.dylib -plugin Obfuscator input.cpp
 ```
 
 You should see the following output on your screen.
@@ -498,7 +499,7 @@ examples (e.g.
 
 ### Run the plugin
 ```bash
-$Clang_DIR/bin/clang -cc1 -fcolor-diagnostics -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
+${LLVM_DIR}/bin/clang -cc1 -fcolor-diagnostics -load <build_dir>/lib/libUnusedForLoopVar.dylib -plugin UFLV input.cpp
 ```
 
 ## CodeRefactor
@@ -559,7 +560,7 @@ powerful in this respect.
 plugin is  _a bit_ cumbersome and probably best demonstrated with an example:
 
 ```bash
-$Clang_DIR/bin/clang -cc1 -load <build_dir>/lib/libCodeRefactor.dylib -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar file.cpp
+${LLVM_DIR}/bin/clang -cc1 -load <build_dir>/lib/libCodeRefactor.dylib -plugin CodeRefactor -plugin-arg-CodeRefactor -class-name -plugin-arg-CodeRefactor Base  -plugin-arg-CodeRefactor -old-name -plugin-arg-CodeRefactor foo  -plugin-arg-CodeRefactor -new-name -plugin-arg-CodeRefactor bar file.cpp
 ```
 
 It is much easier when you the plugin through a stand-alone tool like
