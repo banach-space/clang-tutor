@@ -358,7 +358,9 @@ the warnings with correct source code information.
 `-fcolor-diagnostics` above instructs Clang to generate color output
 (unfortunately Markdown doesn't render the colors here).
 
-According to [Clang Plugins](https://clang.llvm.org/docs/ClangPlugins.html#using-the-clang-command-line)
+### Run the plugin and compile the input
+
+In the invocation from the previous section, Clang runs only one action - the plugin itself. This means that no output files are generated. In order to run a plugin action _and_ e.g. a compilation action, you need implement `getActionType` method (from [Clang Plugins](https://clang.llvm.org/docs/ClangPlugins.html#using-the-clang-command-line)):
 > If the plugin class implements the `getActionType` method then the plugin is run automatically. 
 ```c
 // Automatically run the plugin after the main AST action
@@ -367,7 +369,7 @@ PluginASTAction::ActionType getActionType() override {
 }
 ```
 
-The **CodeStyleChecker** plugin could be automatically load and be used during the normal compilation 
+The **CodeStyleChecker** plugin does implement `getActionType` and hence can be run automatically and used during the normal compilation 
 process to detect errors in the code, and get the output file, for example:
 ```bash
 $Clang_DIR/bin/clang -fplugin=libCodeStyleChecker.dylib -o file.o -c file.cpp
