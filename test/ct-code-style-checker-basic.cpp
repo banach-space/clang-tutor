@@ -1,5 +1,5 @@
-// RUN:  ../bin/ct-code-style-checker %s 2>&1 -- | FileCheck -implicit-check-not warning: %s
-// RUN:  ../bin/ct-code-style-checker -main-tu-only=true %s 2>&1 -- | FileCheck -implicit-check-not warning: %s
+// RUN:  ../bin/ct-code-style-checker %s 2>&1 -- | %FileCheck -implicit-check-not warning: %s
+// RUN:  ../bin/ct-code-style-checker -main-tu-only=true %s 2>&1 -- | %FileCheck -implicit-check-not warning: %s
 
 // This is a rather simplified test for CodeStyleChecker that focuses on the
 // standalone wrapper tool: ct-code-style-checker. 

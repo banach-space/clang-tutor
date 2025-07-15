@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libUnusedForLoopVar%shlibext -plugin UFLV %s 2>&1
+// RUN: %clang_cc -cc1 -verify -load %shlibdir/libUnusedForLoopVar%shlibext -plugin UFLV %s 2>&1
 
 int foo() {
   int a = 10;

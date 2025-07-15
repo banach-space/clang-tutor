@@ -1,4 +1,4 @@
-// RUN: clang++ -Xclang -load -Xclang %shlibdir/libHelloWorld%shlibext -Xclang -plugin -Xclang hello-world -c %s 2>&1 | FileCheck %s
+// RUN: %clang_cxx -Xclang -load -Xclang %shlibdir/libHelloWorld%shlibext -Xclang -plugin -Xclang hello-world -c %s 2>&1 | %FileCheck %s
 
 #include <vector>
 

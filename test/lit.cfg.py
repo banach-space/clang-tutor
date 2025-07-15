@@ -35,8 +35,8 @@ config.excludes = ['Inputs']
 
 # The list of tools required for testing - prepend them with the path specified
 # during configuration
-config.substitutions.append(('%clang', config.clang_path))
-config.substitutions.append(('%clangxx', config.clangxx_path))
+config.substitutions.append(('%clang_cc', config.clang_path))
+config.substitutions.append(('%clang_cxx', config.clangxx_path))
 config.substitutions.append(('%FileCheck', config.filecheck_path))
 
 # The LIT variable to hold the file extension for shared libraries (this is

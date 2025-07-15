@@ -1,4 +1,4 @@
-// RUN: clang -cc1 -load %shlibdir/libHelloWorld%shlibext -plugin hello-world %s 2>&1 | FileCheck %s
+// RUN: %clang_cc -cc1 -load %shlibdir/libHelloWorld%shlibext -plugin hello-world %s 2>&1 | %FileCheck %s
 
 class Foo {
   int i;
