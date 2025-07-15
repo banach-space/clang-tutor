@@ -8,5 +8,5 @@ clang_tutor_class(Foo) {
 clang_tutor_class(Bar) {
 };
 
-// CHECK: (clang-tutor) file: {{.*}}/clang-tutor/test/HelloWorld-macro.cpp
+// CHECK: (clang-tutor) file: {{.*}}/test/HelloWorld-macro.cpp
 // CHECK-NEXT: (clang-tutor)  count: 2

@@ -2,61 +2,24 @@ cmake_minimum_required(VERSION 3.20)
 project(clang-tutor)
 
 #===============================================================================
-# 0. GET CLANG INSTALLATION DIR
+# 1. FIND CLANG/LLVM INSTALLATION
 #===============================================================================
-# In clang-tutor, `CT_Clang_INSTALL_DIR` is the key CMake variable - it points
-# to a Clang installation directory. For the sake of completeness,
-# <PackageName>_DIR (i.e. `Clang_DIR`) and <PackageName>_ROOT (i.e.
-# `Clang_ROOT`) are also supported. Visit CMake documentation for more details:
-#   https://cmake.org/cmake/help/latest/command/find_package.html
-# Use only _one_ of these variables.
+# Uses CMake's `find_package` to locate a Clang/LLVM installation.
+# To specify a custom installation path, run CMake with:
+#
+#   cmake -D CMAKE_PREFIX_PATH=/path/to/your/llvm/install ..
+#   (or)
+#   cmake -D LLVM_DIR=/path/to/your/llvm/install ..
+#
+# `find_package` will then automatically find the necessary configuration files.
 
-if(DEFINED Clang_ROOT)
-  set(CT_CLANG_PACKAGE_DIR "${Clang_ROOT}/../../..")
-elseif(DEFINED Clang_DIR)
-  set(CT_CLANG_PACKAGE_DIR "${Clang_DIR}/../../..")
-endif()
-mark_as_advanced(CT_CLANG_PACKAGE_DIR)
+find_package(Clang 19.1 REQUIRED CONFIG)
 
-# Set this to a valid Clang installation directory. This is most likely where
-# LLVM is installed on your system.
-set(CT_Clang_INSTALL_DIR "${CT_CLANG_PACKAGE_DIR}" CACHE PATH
-  "Clang installation directory")
+# The `find_package` command with a version number (e.g., 19) makes the
+# manual version check below redundant. It will fail automatically if a
+# compatible version isn't found.
 
-#===============================================================================
-# 1. VERIFY CLANG INSTALLATION DIR
-#===============================================================================
-set(CT_LLVM_INCLUDE_DIR "${CT_Clang_INSTALL_DIR}/include/llvm")
-if(NOT EXISTS "${CT_LLVM_INCLUDE_DIR}")
-message(FATAL_ERROR
-  " CT_Clang_INSTALL_DIR (${CT_LLVM_INCLUDE_DIR}) is invalid.")
-endif()
-
-set(CT_LLVM_CMAKE_FILE
-  "${CT_Clang_INSTALL_DIR}/lib/cmake/clang/ClangConfig.cmake")
-if(NOT EXISTS "${CT_LLVM_CMAKE_FILE}")
-message(FATAL_ERROR
-  " CT_LLVM_CMAKE_FILE (${CT_LLVM_CMAKE_FILE}) is invalid.")
-endif()
-
-#===============================================================================
-# 2. LOAD CLANG CONFIGURATION
-#    Extracted from:
-#    http://llvm.org/docs/CMake.html#embedding-llvm-in-your-project
-#===============================================================================
-list(APPEND CMAKE_PREFIX_PATH "${CT_Clang_INSTALL_DIR}/lib/cmake/clang/")
-
-find_package(Clang REQUIRED CONFIG)
-
-# Sanity check. As Clang does not expose e.g. `CLANG_VERSION_MAJOR` through
-# AddClang.cmake, we have to use LLVM_VERSION_MAJOR instead.
-# TODO: Revisit when next version is released.
-if("${LLVM_VERSION_MAJOR}" VERSION_LESS 19)
-  message(FATAL_ERROR "Found LLVM ${LLVM_VERSION_MAJOR}, but need LLVM 19 or above")
-endif()
-
-message(STATUS "Found Clang ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Using ClangConfig.cmake in: ${CT_Clang_INSTALL_DIR}")
+message(STATUS "Found Clang/LLVM ${LLVM_PACKAGE_VERSION}")
 
 message("CLANG STATUS:
   Includes (clang)    ${CLANG_INCLUDE_DIRS}
@@ -64,10 +27,10 @@ message("CLANG STATUS:
 )
 
 # Set the LLVM and Clang header and library paths
-include_directories(SYSTEM "${LLVM_INCLUDE_DIRS};${CLANG_INCLUDE_DIRS}")
+include_directories(SYSTEM "${LLVM_INCLUDE_DIRS}" "${CLANG_INCLUDE_DIRS}")
 
 #===============================================================================
-# 3. CLANG-TUTOR BUILD CONFIGURATION
+# 2. CLANG-TUTOR BUILD CONFIGURATION
 #===============================================================================
 # Use the same C++ standard as LLVM does
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "")
@@ -102,7 +65,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/lib")
 
 #===============================================================================
-# 4. ADD SUB-TARGETS
+# 3. ADD SUB-TARGETS
 # Doing this at the end so that all definitions and link/include paths are
 # available for the sub-projects.
 #===============================================================================

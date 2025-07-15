@@ -1,3 +1,11 @@
+
+get_target_property(CLANG_EXECUTABLE clang LOCATION)
+get_target_property(CLANGXX_EXECUTABLE clang LOCATION)
+get_target_property(LLVM_FILECHECK_EXECUTABLE FileCheck LOCATION)
+message(STATUS "[lit] Found clang at ${CLANG_EXECUTABLE}")
+message(STATUS "[lit] Found clang++ at ${CLANGXX_EXECUTABLE}")
+message(STATUS "[lit] Found FileCheck at ${LLVM_FILECHECK_EXECUTABLE}")
+
 set(CT_TEST_SHLIBEXT "${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
 set(CT_TEST_SITE_CFG_INPUT "${CMAKE_CURRENT_SOURCE_DIR}/lit.site.cfg.py.in")
