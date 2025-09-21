@@ -51,8 +51,8 @@ find_package(Clang REQUIRED CONFIG)
 # Sanity check. As Clang does not expose e.g. `CLANG_VERSION_MAJOR` through
 # AddClang.cmake, we have to use LLVM_VERSION_MAJOR instead.
 # TODO: Revisit when next version is released.
-if("${LLVM_VERSION_MAJOR}" VERSION_LESS 19)
-  message(FATAL_ERROR "Found LLVM ${LLVM_VERSION_MAJOR}, but need LLVM 19 or above")
+if("${LLVM_VERSION_MAJOR}" VERSION_LESS 21)
+  message(FATAL_ERROR "Found LLVM ${LLVM_VERSION_MAJOR}, but need LLVM 21 or above")
 endif()
 
 message(STATUS "Found Clang ${LLVM_PACKAGE_VERSION}")
