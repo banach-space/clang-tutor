@@ -33,13 +33,25 @@ jobs:
         run: |
           cd HelloWorld
           mkdir build && cd build
-          cmake -DCT_Clang_INSTALL_DIR=/opt/homebrew/opt/llvm/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
+          # Make sure to build _with_ the same version of LLVM as we build
+          # _against_. Otherwise LTO fails:
+          # ld: could not parse bitcode object file /opt/homebrew/Cellar/llvm/23.1.1/lib/libclangDriver.a(AMDGPU.cpp.o): 'Not an int attribute (Producer: 'LLVM23.1.1' Reader: 'LLVM APPLE_1_2100.3.34.2_0')', using libLTO version 'LLVM version 21.0.0' in '/opt/homebrew/Cellar/llvm/23.1.1/lib/libclangDriver.a(AMDGPU.cpp.o)'
+          LLVM_DIR="$(brew --prefix llvm)"
+          CC="$LLVM_DIR/bin/clang" \
+          CXX="$LLVM_DIR/bin/clang++" \
+          cmake -DCT_Clang_INSTALL_DIR=$LLVM_DIR -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
           make -j2
           /opt/homebrew/opt/llvm/bin/clang -cc1 -load ./libHelloWorld.dylib -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
       - name: Build clang-tutor + run tests
         run: |
           cd $GITHUB_WORKSPACE
           mkdir build && cd build
-          cmake  -DCT_Clang_INSTALL_DIR=/opt/homebrew/opt/llvm/ -DCMAKE_BUILD_TYPE=${{ matrix.type }}  ../
+          # Make sure to build _with_ the same version of LLVM as we build
+          # _against_. Otherwise LTO fails:
+          # ld: could not parse bitcode object file /opt/homebrew/Cellar/llvm/23.1.1/lib/libclangDriver.a(AMDGPU.cpp.o): 'Not an int attribute (Producer: 'LLVM23.1.1' Reader: 'LLVM APPLE_1_2100.3.34.2_0')', using libLTO version 'LLVM version 21.0.0' in '/opt/homebrew/Cellar/llvm/23.1.1/lib/libclangDriver.a(AMDGPU.cpp.o)'
+          LLVM_DIR="$(brew --prefix llvm)"
+          CC="$LLVM_DIR/bin/clang" \
+          CXX="$LLVM_DIR/bin/clang++" \
+          cmake  -DCT_Clang_INSTALL_DIR=$LLVM_DIR -DCMAKE_BUILD_TYPE=${{ matrix.type }}  ../
           make -j2
           lit test/

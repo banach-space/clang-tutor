@@ -22,9 +22,9 @@ jobs:
       - name: Install Dependencies
         run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-22 main"
+          sudo apt-add-repository "deb http://apt.llvm.org/noble/ llvm-toolchain-noble-23 main"
           sudo apt-get update
-          sudo apt-get install -y llvm-22 llvm-22-dev libllvm22 clang-22 libclang-common-22-dev libclang-22-dev llvm-22-tools
+          sudo apt-get install -y llvm-23 llvm-23-dev libllvm23 clang-23 libclang-common-23-dev libclang-23-dev llvm-23-tools
           sudo apt-get install python3-setuptools
           sudo apt-get install ${{ matrix.compiler.CXX }}
           sudo pip3 install lit
@@ -36,9 +36,9 @@ jobs:
           cd HelloWorld
           mkdir build && cd build
           # HelloWorld only supports CT_Clang_INSTALL_DIR
-          cmake -DCT_Clang_INSTALL_DIR=/usr/lib/llvm-22/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
+          cmake -DCT_Clang_INSTALL_DIR=/usr/lib/llvm-23/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
           make -j2
-          /usr/lib/llvm-22/bin/clang -cc1 -load ./libHelloWorld.so -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
+          /usr/lib/llvm-23/bin/clang -cc1 -load ./libHelloWorld.so -plugin hello-world $GITHUB_WORKSPACE/test/HelloWorld-basic.cpp
       - name: Build clang-tutor + run tests
         env:
           CC: ${{ matrix.compiler.CC }}
@@ -47,6 +47,6 @@ jobs:
           cd $GITHUB_WORKSPACE
           mkdir build && cd build
           # Test with Clang_ROOT
-          cmake -DClang_ROOT=/usr/lib/llvm-22/lib/cmake/clang/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
+          cmake -DClang_ROOT=/usr/lib/llvm-23/lib/cmake/clang/ -DCMAKE_BUILD_TYPE=${{ matrix.type }} ../
           make -j2
           lit test/

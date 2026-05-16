@@ -19,7 +19,7 @@ config.name = 'CLANG-TUTOR'
 #   regression tests (...)
 # I couldn't find any more documentation on this, but it seems to be exactly
 # what we want here.
-config.test_format = lit.formats.ShTest(not llvm_config.use_lit_shell)
+config.test_format = lit.formats.ShTest()
 
 # suffixes: A list of file extensions to treat as test files. This is overriden
 # by individual lit.local.cfg files in the test subdirectories.
