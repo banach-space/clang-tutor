@@ -1,0 +1,57 @@
+{
+  "version": 7,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 27,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "hello-ubuntu",
+      "displayName": "Hello World Config",
+      "description": "Hello World build using Ninja generator",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+         "CT_Clang_INSTALL_DIR": "/usr/lib/llvm-16"
+      },
+      "environment": {
+        "Clang_DIR": "/usr/lib/llvm-16",
+        "CLANG_TUTOR_DIR": "${sourceDir}"
+      },
+      "vendor": {
+        "example.com/ExampleIDE/1.0": {
+          "autoFormat": true
+        }
+      },
+      "debug": { "output": true }
+    },
+    {
+      "name": "mamba",
+      "displayName": "Mamba Config",
+      "description": "Mamba build using Ninja generator",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+         "CT_Clang_INSTALL_DIR": "$penv{CONDA_PREFIX}/llvm"
+      },
+      "environment": {
+        "Clang_DIR": "$penv{CONDA_PREFIX}/llvm",
+        "CLANG_TUTOR_DIR": "${sourceDir}"
+      },
+      "vendor": {
+        "example.com/ExampleIDE/1.0": {
+          "autoFormat": true
+        }
+      },
+      "debug": { "output": true }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "hello",
+      "configurePreset": "mamba",
+      "targets": "HelloWorld"
+    }
+  ]
+}
