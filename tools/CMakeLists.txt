@@ -40,4 +40,9 @@ foreach( tool ${CLANG_TUTOR_TOOLS} )
       ${tool}
       "clangTooling"
     )
+
+    # ct action type should be CmdlineAfterMainAction
+    if(${tool} STREQUAL "ct-code-style-checker")
+      target_compile_definitions(${tool} PRIVATE TARGET_CLANG_TOOL=1)
+    endif()
 endforeach()

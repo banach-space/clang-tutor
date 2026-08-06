@@ -193,6 +193,14 @@ public:
     ros << "Help for CodeStyleChecker plugin goes here\n";
   }
 
+  PluginASTAction::ActionType getActionType() override {
+#ifndef TARGET_CLANG_TOOL
+    return AddBeforeMainAction;
+#else
+    return CmdlineAfterMainAction;
+#endif
+  }
+
 private:
   bool MainTuOnly = true;
 };

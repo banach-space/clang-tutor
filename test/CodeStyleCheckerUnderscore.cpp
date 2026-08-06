@@ -1,4 +1,12 @@
-// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -plugin CSC %s 2>&1
+// RUN: clang -cc1 -verify -load %shlibdir/libCodeStyleChecker%shlibext -add-plugin CSC %s 2>&1
+
+// RUN: clang -Xclang -load -Xclang %shlibdir/libCodeStyleChecker%shlibext -Xclang -add-plugin -Xclang CSC -c %s -o %t.o
+// RUN: test -f %t.o
+// RUN: rm %t.o
+
+// RUN: clang -fplugin=%shlibdir/libCodeStyleChecker%shlibext -c %s -o %t.o
+// RUN: test -f %t.o
+// RUN: rm %t.o
 
 // Verify that underscare in types, variables and function names are reported
 // as invalid
